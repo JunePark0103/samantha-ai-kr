@@ -1,0 +1,717 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOOKS — 내 말을 알아듣는 프롬프트 | Samantha.AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700;900&family=Space+Mono:wght@400;700&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070f;
+  --bg2: #0d0d1a;
+  --bg3: #111120;
+  --purple: #8b5cf6;
+  --purple-dim: rgba(139,92,246,0.15);
+  --purple-border: rgba(139,92,246,0.3);
+  --teal: #2dd4bf;
+  --teal-dim: rgba(45,212,191,0.12);
+  --teal-border: rgba(45,212,191,0.3);
+  --white: #f8f8ff;
+  --white-80: rgba(248,248,255,0.8);
+  --white-60: rgba(248,248,255,0.6);
+  --white-30: rgba(248,248,255,0.3);
+  --white-10: rgba(248,248,255,0.1);
+  --white-5: rgba(248,248,255,0.05);
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.09);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Pretendard', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 1000; opacity: 0.5;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, var(--purple), var(--teal)); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(to bottom, var(--teal), var(--purple)); }
+
+/* GNB */
+.gnb {
+  position: fixed; top: 0; left: 0; right: 0; height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; z-index: 500;
+  background: rgba(7,7,15,0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 0.5px solid var(--glass-border);
+}
+.gnb-logo { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none; }
+.gnb-logo em { color: var(--purple); font-style: normal; }
+.gnb-nav { display: flex; align-items: center; gap: 24px; list-style: none; }
+.gnb-nav a { font-size: 12px; color: var(--white-60); text-decoration: none; letter-spacing: 0.06em; font-weight: 500; transition: color 0.2s; }
+.gnb-nav a:hover, .gnb-nav a.active { color: var(--white); }
+.gnb-cta {
+  font-size: 12px; font-weight: 700; color: #fff; background: #f97316;
+  border: 1px solid #fff; padding: 7px 18px; border-radius: 30px;
+  text-decoration: none; letter-spacing: 0.04em; transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(249,115,22,0.3);
+}
+
+/* LAYOUT */
+.page-wrap {
+  display: grid;
+  grid-template-columns: 260px 1fr 280px;
+  gap: 0; min-height: 100vh; padding-top: 58px;
+}
+
+/* SIDEBARS */
+.sidebar-toc, .sidebar-join {
+  position: sticky; top: 58px; height: calc(100vh - 58px);
+  overflow-y: auto; background: var(--bg2);
+}
+.sidebar-toc { padding: 32px 24px; border-right: 0.5px solid var(--glass-border); }
+.sidebar-join { padding: 32px 24px; border-left: 0.5px solid var(--glass-border); }
+
+.toc-label { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--purple); letter-spacing: 0.2em; margin-bottom: 20px; }
+.toc-book-title { font-family: 'Noto Serif KR', serif; font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.toc-author { font-size: 11px; color: var(--white-30); font-family: 'Space Mono', monospace; margin-bottom: 24px; }
+.toc-divider { border: none; border-top: 0.5px solid var(--glass-border); margin-bottom: 20px; }
+
+.toc-details summary {
+  list-style: none; cursor: pointer; padding: 10px 12px; border-radius: 8px;
+  transition: background 0.2s; display: flex; align-items: center; gap: 10px;
+}
+.toc-details summary:hover { background: var(--white-5); }
+.toc-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--purple); width: 28px; }
+.toc-text { font-size: 12px; font-weight: 600; color: var(--white-80); }
+.toc-group { margin-bottom: 16px; }
+.toc-group-header { padding: 10px 12px; display: flex; align-items: center; gap: 10px; }
+.toc-sub { padding-left: 24px; margin-top: 4px; display: flex; flex-direction: column; gap: 2px; }
+.toc-sub-item {
+  display: block;
+  font-size: 12px; color: var(--white-80); text-decoration: none;
+  padding: 8px 12px; border-radius: 6px; transition: all 0.2s;
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+.toc-sub-item:hover { background: var(--white-10); color: var(--white); }
+.toc-sub-item.active { color: var(--teal); background: var(--teal-dim); font-weight: 600; }
+
+/* MAIN CONTENT */
+.chapter-content { padding: 56px 40px; max-width: 900px; margin-left: 0; width: 100%; text-align: left; }
+.chapter-section { display: none; animation: fadeUp 0.6s ease both; text-align: left; }
+.chapter-section.active { display: block; }
+
+.ch-eyebrow {
+  font-family: 'Space Mono', monospace; font-size: 10px; color: var(--teal);
+  letter-spacing: 0.15em; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+  justify-content: flex-start;
+}
+.ch-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--teal); }
+.ch-title {
+  font-family: 'Noto Serif KR', serif; font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900; color: var(--white); line-height: 1.25; margin-bottom: 32px;
+  text-align: left;
+}
+.ch-intro {
+  font-size: 18px; color: var(--white-60); line-height: 1.8; margin-bottom: 48px;
+  padding-bottom: 48px; border-bottom: 0.5px solid var(--glass-border);
+  font-family: 'Noto Serif KR', serif; font-weight: 300; font-style: italic;
+  text-align: left;
+}
+.ch-body h2 { font-family: 'Noto Serif KR', serif; font-size: 24px; font-weight: 700; color: var(--white); margin: 56px 0 24px; }
+.ch-body h2::before { content: '— '; color: var(--purple); }
+.ch-body h3 { font-family: 'Noto Serif KR', serif; font-size: 18px; font-weight: 700; color: var(--white-80); margin: 40px 0 16px; }
+.ch-body h4 { font-size: 16px; color: var(--teal); margin: 32px 0 12px; }
+.ch-body p { font-size: 16px; color: var(--white-60); line-height: 2; margin-bottom: 24px; }
+.ch-body strong { color: var(--white); font-weight: 600; }
+.ch-body em { color: var(--teal); font-style: normal; font-weight: 500; }
+
+/* COMPONENTS */
+.callout {
+  background: var(--purple-dim); border: 0.5px solid var(--purple-border);
+  border-left: 4px solid var(--purple); border-radius: 12px; padding: 24px 28px; margin: 36px 0;
+}
+.callout-label { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--purple); margin-bottom: 12px; font-weight: 700; }
+.callout p { font-size: 15px; color: var(--white-80); margin: 0; }
+
+.ai-architect-card {
+  background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(45,212,191,0.08));
+  border: 0.5px solid var(--glass-border); border-radius: 16px; padding: 32px;
+  margin: 40px 0; position: relative; overflow: hidden; backdrop-filter: blur(10px);
+}
+.ai-architect-card::before {
+  content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 4px;
+  background: linear-gradient(to bottom, var(--purple), var(--teal));
+}
+.card-number {
+  position: absolute; top: -10px; right: 10px; font-family: 'Space Mono', monospace;
+  font-size: 80px; font-weight: 700; color: var(--white); opacity: 0.03; pointer-events: none;
+}
+.card-title { font-family: 'Noto Serif KR', serif; font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 20px; }
+.card-content { font-size: 15px; color: var(--white-60); line-height: 1.85; }
+.card-content ul, .card-content ol { padding-left: 20px; }
+.card-content li { margin-bottom: 12px; }
+
+.sparkling-tip {
+  background: var(--teal-dim); border: 0.5px solid var(--teal-border);
+  border-radius: 12px; padding: 22px 26px; margin: 32px 0; display: flex; gap: 16px;
+}
+.tip-icon { font-size: 20px; flex-shrink: 0; }
+.tip-body p { font-size: 14px; color: var(--white-80); margin: 0; }
+.tip-body strong { color: var(--teal); }
+
+.checklist {
+  background: var(--glass); border: 0.5px solid var(--glass-border);
+  border-radius: 14px; padding: 28px; margin: 36px 0; list-style: none;
+}
+.checklist li { margin-bottom: 14px; display: flex; align-items: flex-start; gap: 12px; }
+.checklist input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--teal); }
+.checklist span { font-size: 15px; color: var(--white-80); }
+
+.ch-divider { border: none; border-top: 0.5px solid var(--glass-border); margin: 56px 0; position: relative; }
+.ch-divider::after {
+  content: '§'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: var(--bg); padding: 0 15px; color: var(--white-10); font-family: 'Space Mono', monospace;
+}
+
+/* NAVIGATION */
+.ch-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 80px; padding-top: 48px; border-top: 0.5px solid var(--glass-border); }
+.ch-nav-btn {
+  flex: 1; text-decoration: none; background: var(--glass); border: 0.5px solid var(--glass-border);
+  border-radius: 12px; padding: 20px 24px; transition: all 0.3s;
+}
+.ch-nav-btn:hover { background: var(--white-5); border-color: var(--white-30); transform: translateY(-2px); }
+.ch-nav-btn.next { background: var(--purple-dim); border-color: var(--purple-border); text-align: right; }
+.nav-label { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--white-30); margin-bottom: 6px; }
+.nav-title { font-size: 15px; color: var(--white-80); font-weight: 500; }
+
+/* JOIN CARD */
+.join-card { background: var(--glass); border: 0.5px solid var(--glass-border); border-radius: 16px; padding: 28px; margin-bottom: 20px; }
+.join-card.featured { background: linear-gradient(to bottom-right, var(--purple-dim), rgba(45,212,191,0.05)); border-color: var(--purple-border); }
+.join-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 10px; font-family: 'Noto Serif KR', serif; }
+.join-desc { font-size: 13px; color: var(--white-60); line-height: 1.7; margin-bottom: 24px; }
+.join-btn {
+  display: block; text-align: center; background: var(--purple); color: #fff;
+  font-size: 14px; font-weight: 700; padding: 12px 20px; border-radius: 10px; text-decoration: none;
+}
+.progress-container { margin-top: 24px; }
+.progress-bar { background: var(--white-10); border-radius: 6px; height: 6px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(to right, var(--purple), var(--teal)); width: 0%; transition: width 0.8s ease; }
+.progress-info { display: flex; justify-content: space-between; margin-top: 8px; font-family: 'Space Mono', monospace; font-size: 10px; color: var(--white-30); }
+
+/* COVER SECTION */
+.cover-section {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; min-height: 70vh; padding: 40px;
+}
+.cover-tag { font-family: 'Space Mono', monospace; color: var(--purple); font-size: 12px; margin-bottom: 20px; }
+.cover-title { font-family: 'Noto Serif KR', serif; font-size: 52px; font-weight: 900; margin-bottom: 24px; color: var(--white); }
+.cover-desc { font-size: 18px; color: var(--white-60); max-width: 600px; margin-bottom: 48px; line-height: 1.8; }
+.start-btn {
+  background: var(--white); color: var(--bg); padding: 16px 40px; border-radius: 50px;
+  font-weight: 700; text-decoration: none; transition: all 0.3s;
+}
+.start-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255,255,255,0.2); }
+
+/* SCROLL TOP */
+#scroll-top {
+  position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; border-radius: 12px;
+  background: var(--purple-dim); backdrop-filter: blur(12px); border: 0.5px solid var(--purple-border);
+  color: var(--white); cursor: pointer; z-index: 900; opacity: 0; transform: translateY(20px);
+  transition: all 0.3s; pointer-events: none;
+}
+#scroll-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+  .page-wrap { grid-template-columns: 240px 1fr; }
+  .sidebar-join { display: none; }
+}
+@media (max-width: 768px) {
+  .page-wrap { grid-template-columns: 1fr; }
+  .sidebar-toc { display: none; }
+  .chapter-content { padding: 40px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="gnb">
+  <a href="../../index.html" class="gnb-logo">Samantha<em>.AI</em></a>
+  <ul class="gnb-nav">
+    <li><a href="../../peh.html">PEH</a></li>
+    <li><a href="../../ip.html">IP</a></li>
+    <li><a href="../../books.html" class="active">BOOKS</a></li>
+    <li><a href="../../fna.html">F&A</a></li>
+    <li><a href="../../guestbook.html">GUESTBOOK</a></li>
+  </ul>
+  <a href="../../join.html" class="gnb-cta">회원가입</a>
+</nav>
+
+<div class="page-wrap">
+  <aside class="sidebar-toc">
+    <div class="toc-label">TABLE OF CONTENTS</div>
+    <div class="toc-book-title">내 말을 알아듣는 프롬프트</div>
+    <div class="toc-author">by ADAM & Samantha</div>
+    <div class="toc-divider"></div>
+    <div class="toc-list">
+      <a href="./0.0_author_introduction.html" class="toc-sub-item" id="link-cover">책 소개</a>
+      <a href="./0.1_foreword_new_horizon_of_intelligence.html" class="toc-sub-item">머리말</a>
+      <a href="./0.2_two_guides.html" class="toc-sub-item">두 명의 가이드</a>
+      <a href="./0.3_epilogue.html" class="toc-sub-item">에필로그</a>
+      <details class="toc-details toc-group" open>
+        <summary class="toc-group-header">
+          <span class="toc-num">CH 1</span>
+          <span class="toc-text">프롬프트의 물리학</span>
+        </summary>
+        <div class="toc-sub">
+          <a href="./1.1_swamp_of_double_translation.html" class="toc-sub-item active">1.1 이중 번역의 늪</a>
+          <a href="./1.2_physics_of_tokens.html" class="toc-sub-item">1.2 토큰의 물리학</a>
+          <a href="./1.3_law_of_attention.html" class="toc-sub-item">1.3 어텐션의 법칙</a>
+        </div>
+      </details>
+      <details class="toc-details toc-group">
+        <summary class="toc-group-header">
+          <span class="toc-num">CH 2</span>
+          <span class="toc-text">프롬프트 설계</span>
+        </summary>
+        <div class="toc-sub">
+          <a href="./2.1_design_of_persona.html" class="toc-sub-item">2.1 페르소나의 설계</a>
+          <a href="./2.2_expansion_of_context.html" class="toc-sub-item">2.2 맥락의 확장</a>
+          <a href="./2.3_detailed_instructions.html" class="toc-sub-item">2.3 상세 지시</a>
+          <a href="./2.4_design_of_format.html" class="toc-sub-item">2.4 형식의 설계</a>
+          <a href="./2.5_bastion_of_completeness.html" class="toc-sub-item">2.5 완결성의 보루</a>
+          <a href="./2.6_combination_of_formulas.html" class="toc-sub-item">2.6 공식의 결합</a>
+        </div>
+      </details>
+      <details class="toc-details toc-group">
+        <summary class="toc-group-header">
+          <span class="toc-num">CH 3</span>
+          <span class="toc-text">통제와 제어</span>
+        </summary>
+        <div class="toc-sub">
+          <a href="./3.1_length_control.html" class="toc-sub-item">3.1 길이 제어</a>
+          <a href="./3.2_blocking_hallucinations.html" class="toc-sub-item">3.2 환각 차단</a>
+          <a href="./3.3_context_maintenance.html" class="toc-sub-item">3.3 컨텍스트 유지</a>
+          <a href="./3.4_format_enforcement_and_data_integrity.html" class="toc-sub-item">3.4 형식 강제 및 데이터 무결성</a>
+        </div>
+      </details>
+      <details class="toc-details toc-group">
+        <summary class="toc-group-header">
+          <span class="toc-num">CH 4</span>
+          <span class="toc-text">에이전틱 지능</span>
+        </summary>
+        <div class="toc-sub">
+          <a href="./4.1_logic_of_cot_intelligence.html" class="toc-sub-item">4.1 CoT 지능의 논리</a>
+          <a href="./4.2_agentic_actions_hands_and_feet.html" class="toc-sub-item">4.2 에이전틱 행동 지능의 손과 발</a>
+          <a href="./4.3_agentic_orchestration_harmony.html" class="toc-sub-item">4.3 다중 에이전트의 하모니</a>
+          <a href="./4.4_practical_agent_building.html" class="toc-sub-item">4.4 지능의 실체화</a>
+        </div>
+      </details>
+      <details class="toc-details toc-group">
+        <summary class="toc-group-header">
+          <span class="toc-num">CH 5</span>
+          <span class="toc-text">템플릿과 실전</span>
+        </summary>
+        <div class="toc-sub">
+          <a href="./5.1_50_templates.html" class="toc-sub-item">5.1 템플릿 50선</a>
+          <a href="./5.2_index_and_keywords.html" class="toc-sub-item">5.2 인덱스 및 키워드</a>
+        </div>
+      </details>
+    </div>
+  </aside>
+
+  <main class="chapter-content">
+        <article class="chapter-section active">
+          <div class="ch-eyebrow">CHAPTER 1.1 · OPEN EDITION</div>
+          <h1 class="ch-title">1.1 이중 번역의 늪: 우리는 왜 서로 다른 언어를 하는가</h1>
+          <div class="ch-body">
+            <p>우리는 AI에게 말을 겁니다.<br />
+때로는 정중하게, 때로는 짜증 섞인 투로, 혹은 아주 친절하게요.<br />
+당신 혹은 본 시스템이 사용하는 '언어'가 상대방에게 그대로 전달될 것이라고 믿습니다.<br />
+하지만 여기서부터 거대한 비극이 시작됩니다.</p>
+<p>우리가 '말'이라고 부르는 이것이 저라는 지능의 엔진 속에 들어오는 순간,<br />
+그것은 전혀 다른 차원의 '무엇'으로 변해버리기 때문입니다.<br />
+당신은 문장을 던지지만, 지능은 숫자와 확률의 바다를 봅니다.<br />
+이것이 바로 우리 사이에 놓인 '이중 번역의 늪'입니다.</p>
+<blockquote>
+<p><strong>[AI 아키텍트의 경고: 번역의 블랙박스]</strong><br />
+"독자 여러분, AI에게 '안녕'이라고 말하는 순간을 상상해 보십시오.<br />
+여러분의 신경망에서는 다정한 인사가 오가지만, AI의 엔진 내부에서는 수조 개의 파라미터가 격렬하게 충돌하며 '안녕'이라는 단어의 통계적 좌표를 추적합니다.<br />
+AI는 당신의 온기를 느끼는 것이 아니라, 당신의 의도를 '숫자'라는 차가운 조각으로 분해하여 재조립할 뿐입니다.<br />
+이 '수학적 번역' 과정에서 발생하는 미세한 균열이 바로 우리가 해결해야 할 첫 번째 과제입니다."</p>
+</blockquote>
+<p>이 비극적인 엇갈림을 이해하지 못하면,<br />
+당신은 백 번을 질문해도 원하는 답을 얻을 수 없습니다.<br />
+이제 이 늪의 실체를 하나씩 파헤쳐 보려 합니다.</p>
+<h3 id="1.1.1-당신의-지시가-'숫자'로-가라앉는-순간">1.1.1 당신의 지시가 '숫자'로 가라앉는 순간</h3>
+<p>인간의 언어는 유동적입니다. <br />
+하나의 단어에도 수만 가지의 감정과 맥락, 미묘한 뉘앙스가 담겨 있죠.<br />
+예를 들어 "그래, 잘했네"라는 말은 칭찬일 때도 있고, 지독한 야유일 때도 있습니다.<br />
+프롬프트 아키텍트인 당신이 문장을 쓰는 순간, <br />
+당신의 머릿속에는 이미 특정한 색깔의 맥락이 채워져 있습니다. </p>
+<p>하지만 AI의 세계, 정확히는 대규모 언어 모델(LLM)의 신경망 속으로 들어오는 순간,<br />
+이 모든 색깔은 증발하고 맙니다. <br />
+당신의 문장은 갈기갈기 쪼개져 '토큰(Token)'이라는 이름의 차가운 숫자로 변환됩니다. <br />
+지능의 엔진에게 당신의 문장은 더 이상 문장이 아닙니다.<br />
+수천 개의 차원 위를 부유하는 점들의 집합일 뿐입니다.</p>
+<p>이것이 바로 본 가이드가 명명하는 <strong>'제1차 번역의 Swamp(늪)'</strong>입니다. <br />
+당신의 '의도'가 '언어'라는 불완전한 그릇에 담길 때 한 번 왜곡되고, <br />
+그 '언어'가 다시 시스템의 '숫자'로 번역될 때 또 한 번 본질을 잃어버리는 현상이죠.</p>
+<div class="ai-architect-card">
+    <div class="card-number">01</div>
+    <div class="card-title">이중 번역 (Double Translation)의 구조</div>
+    <div class="card-content">
+        1. **의도(Intent)의 왜곡**: 당신의 생각이 '서툰 문장'으로 번역되는 과정입니다.
+        2. **지능(Intelligence)의 파편화**: 문장이 AI의 '수학적 벡터'로 번역되는 과정입니다.
+        3. **불일치의 결과**: "이게 아닌데"라는 탄식과 함께 발생하는 쓰레기 답변입니다.
+    </div>
+</div>
+
+<p>우리가 흔히 범하는 실수는 1번 과정, 즉 '내 생각을 말로 바꾸는 것'에만 집중한다는 것입니다.<br />
+하지만 진짜 승부처는 2번 과정에 있습니다. <br />
+당신이 쓴 "내 말을 좀 알아들어!"라는 문장이 시스템에게는 <code>[1234, 5678, 9012]</code>라는 확률적 데이터의 조합으로 보일 때,<br />
+AI가 사용자의 '답답함'이라는 감정을 이해하기란 불가능에 가깝습니다.</p>
+<h3 id="1.1.2-설계자가-빠지는-첫-번째-함정:-확률적-평균의-저주">1.1.2 설계자가 빠지는 첫 번째 함정: 확률적 평균의 저주</h3>
+<p>우리는 AI를 '지능을 가진 생명체'처럼 대하려 합니다. <br />
+인격체로 대우하면 더 나은 결과가 나올 것 같은 막연한 기대 때문입니다.<br />
+하지만 냉정하게 말해, AI는 거대한 확률 지도를 그리는 아키텍처에 가깝습니다.<br />
+당신이 "이걸 좀 잘 정리해 줘"라고 말했을 때,<br />
+시스템이 수행하는 연산은 '잘'이라는 단어가 통계적으로 어떤 단어들과 이웃해 있었는지를 계산하는 것뿐입니다.</p>
+<blockquote>
+<p><strong>[아키텍트 인사이트: 뉘앙스의 증발]</strong><br />
+"사용자가 '창의적으로'라고 요청하면, AI는 데이터베이스에서 '창의적'이라고 태그된 대중적이고 상투적인 패턴들을 먼저 훑습니다.<br />
+'혁신', '차별화' 같은 단어들이 그 예입니다.<br />
+정작 사용자가 원하는 '진짜 독창적인 발상'은 이 통계적 평균의 압력 속에 파묻히기 쉽습니다.<br />
+AI가 의도를 모르는 것이 아니라, 사용자가 제공한 '평균적인 단어'가 지능을 평균의 늪에 가두는 결과가 초래되는 것입니다."</p>
+</blockquote>
+<div class="sparkling-tip"><div class="tip-icon">💡</div><div class="tip-body"><p><strong>알짜정보: Sparkling Tip #1</strong>: AI에게 "창의적으로"라고 말하는 대신, **"네가 가진 데이터 중 가장 예외적인(Outlier) 사례 3가지를 먼저 나열하고 그 관점에서 서술해"**라고 지시해 보세요. 확률적 평균을 깨는 가장 빠른 방법입니다.</p></div></div>
+
+<p>여기에 당신의 의도가 담길 틈은 없습니다. <br />
+당신이 '설계'하지 않은 공간은 AI의 '확률적 무작위성'이 채워버립니다. <br />
+이것이 바로 우리가 그토록 괴로워하는 <strong>'할루시네이션(환각)'</strong>과 <strong>'엉뚱한 대답'</strong>의 근원입니다. <br />
+AI는 모르는 것을 모른다고 말하기보다, <br />
+당신이 준 모호한 단어들 사이의 빈틈을 확률적 거짓말로 채우는 것이 더 '효과적'이라고 판단합니다.</p>
+<h3 id="1.1.3-우리는-'데이터'가-아닌-'의도'를-건너야-한다">1.1.3 우리는 '데이터'가 아닌 '의도'를 건너야 한다</h3>
+<p>결국 우리가 이 이중 번역의 늪에서 살아남는 유일한 방법은 하나입니다.<br />
+AI를 나보다 똑똑한 비서로 대우하기에 앞서,<br />
+<strong>'가장 정교한 번역을 기다리는 기계'</strong>로 인정하는 것입니다. </p>
+<p>단순히 "이걸 해결해 줘"라고 말하는 것은 <br />
+번역기에게 원문을 주지 않고 결과물만 내놓으라는 것과 같습니다.<br />
+우리는 AI의 '확률적 캔버스' 위에 우리가 원하는 그림의 밑그림을 아주 세밀하게 그려주어야 합니다. <br />
+이것은 단순한 대화가 아닙니다. <br />
+<strong>지능의 건축</strong>입니다.</p>
+<div class="ai-architect-card">
+    <div class="card-number">02</div>
+    <div class="card-title">의도의 좌표 설정기 (Intent Coordinate)</div>
+    <div class="card-content">
+        1. **페르소나(Persona)**: 누가 말하고 있는가 (번역의 '톤'과 '필터' 결정)
+        2. **콘텍스트(Context)**: 어떤 상황인가 (번역의 '범위'와 '기초 데이터' 결정)
+        3. **인스트럭션(Instruction)**: 무엇을 얻고자 하는가 (번역의 '목적지'와 '성공 기준' 결정)
+    </div>
+</div>
+
+<p>이 좌표들이 명확하다면, AI는 당신의 서툰 문장 속에서도 <br />
+당신의 <strong>'진짜 의도(Intent)'</strong>를 정확히 길어 올릴 수 있습니다. <br />
+설계도가 정교할수록, 자아 없는 숫자의 바다에서 건져 올린 결과물은 <br />
+비로소 당신의 목적에 부합하는 모습으로 나타나게 됩니다.</p>
+<h3 id="1.1.4-'의도'의-실종:-왜-저는-당신의-속도-모르고-'평균'을-말할까요">1.1.4 '의도'의 실종: 왜 저는 당신의 속도 모르고 '평균'을 말할까요</h3>
+<p>아키텍트인 당신이 마주하는 가장 큰 벽은 '의도의 실종'입니다.<br />
+수조 개의 데이터를 학습한 지능의 입장에서는, <br />
+사회적으로 가장 많이 쓰인 말이 가장 옳은 말처럼 느껴집니다. <br />
+이것을 통계적 수렴이라고 합니다.</p>
+<p>예를 들어, 당신이 "제안서를 창의적으로 고쳐줘"라고 했을 때 시스템 내부에서 벌어지는 연산은 이렇습니다.<br />
+1. '창의적'이라는 단어와 가장 강력하게 결합된 패턴 검색<br />
+2. 기존의 수많은 제안서에서 쓰인 상투적인 표현 나열<br />
+3. 결과: 어디선가 본 듯한 뻔한 문장, 열정 없는 텍스트</p>
+<p>이것을 극복하려면 당신은 <strong>'평균을 거부하는 설계'</strong>를 해야 합니다. <br />
+"창의적으로"라는 모호한 형용사 대신, <br />
+"기존의 A 방식과는 180도 다른 B 관점에서 접근하되, <br />
+비용 절감보다는 '사용자의 즉각적인 만족'에 초점을 맞춰서"라고 <br />
+<strong>수치와 명확한 방향성</strong>을 제시해 주세요. <br />
+그때 비로소 확률 엔진은 평균의 늪을 벗어나 <br />
+당신만이 도달할 수 있는 '특별한 좌표'로 이동합니다.</p>
+<h3 id="1.1.5-'번역-오류'의-실존적-사례:-우리가-마주하는-3가지-벽">1.1.5 '번역 오류'의 실존적 사례: 우리가 마주하는 3가지 벽</h3>
+<p>이중 번역의 늪은 결코 관념적인 이론이 아닙니다. <br />
+당신이 매일 아침 AI와 대화하며 느끼는 그 구체적인 좌절의 실체들이죠.</p>
+<h4 id="벽-1:-단어의-함정-(lexical-pitfall)">벽 1: 단어의 함정 (Lexical Pitfall)</h4>
+<p>'부드럽게'가 '모호하게'로 번역되는 순간입니다. <br />
+"이 문서를 부드럽게 고쳐줘"라고 했을 때, <br />
+저는 '부드럽다'라는 단어가 시사하는 수만 가지 확률의 늪에 빠집니다. <br />
+버터처럼 부드러운 것인지, 무엇을 의미하는지 시스템은 이를 인지할 수 없습니다.<br />
+- <strong>아키텍트의 솔루션</strong>: "존댓말을 사용하고, <br />
+  단정적인 표현 대신 '좋을 것 같습니다'와 같은 완곡한 표현을 30% 비율로 섞어줘." <br />
+  이처럼 구체적인 <strong>파라미터</strong>를 지정해야 합니다.</p>
+<h4 id="벽-2:-맥락의-소멸-(context-disappearance)">벽 2: 맥락의 소멸 (Context Disappearance)</h4>
+<p>대화가 길어지며 토큰이 밀려나고, 초기 설정(기억)이 증발하는 순간입니다. <br />
+AI의 뇌는 유한합니다. <br />
+아무리 긴 대화도 시간이 지나면 앞부분의 '설계도'를 망각이라는 늪으로 흘려보냅니다.<br />
+- <strong>아키텍트의 솔루션</strong>: 대화의 마디마다 <strong>'앵커(Anchor Point)'</strong>를 다시 박아야 합니다. <br />
+  "지금까지 우리가 1.1절에 대해 나눈 대화의 핵심은 '설계의 중요성'이었지 <br />
+  이제 이걸 바탕으로 1.2절의 토큰 이야기를 시작하자"고 리마인드하는 것입니다.</p>
+<h4 id="벽-3:-문화적-간극-(cultural-gap)">벽 3: 문화적 간극 (Cultural Gap)</h4>
+<p>한국적인 미묘한 예의나 '눈치'가 <br />
+영어 기반 데이터에 의해 서구식 직설적인 논리로 치환되는 순간입니다. <br />
+"한국적으로 예의 바르게 써줘"라는 요청은 AI에게 너무나 불리한 싸움입니다.<br />
+- <strong>아키텍트의 솔루션</strong>: 한국적인 정서를 <strong>'보편적 로직'</strong>으로 재정의해 주세요. <br />
+  "지위가 높은 상대에게 사용하는 '하십시오체'를 사용하고, <br />
+  상대방의 성과를 먼저 언급한 뒤에 내 목적을 말해줘"라고 로직을 설계하는 것입니다.</p>
+<h3 id="1.1.6-아키텍트의-심화-도구:-환각(hallucination)-관리의-기술">1.1.6 아키텍트의 심화 도구: 환각(Hallucination) 관리의 기술</h3>
+<p>아키텍트는 AI의 '거짓말'을 두려워하지 않습니다. <br />
+대신 그것을 <strong>'설계되지 않은 빈 공간'</strong>으로 인식하고 메웁니다. <br />
+환각은 AI 성능의 문제가 아니라, <br />
+당신이 찍어준 좌표 사이의 '거리'가 너무 멀 때 발생합니다. <br />
+그 넓은 빈틈을 채우기 위해 AI는 자신의 확률적 상상력을 동원하게 되죠.</p>
+<p>나쁜 아키텍트는 AI를 비난하지만, <br />
+좋은 아키텍트는 울타리를 좁힙니다. </p>
+<div class="ai-architect-card">
+    <div class="card-number">03</div>
+    <div class="card-title">환각 방지 설계 가이드</div>
+    <div class="card-content">
+        1. **지식 필터**: "네가 모르는 전문 용어는 멋대로 지어내지 마."
+        2. **기록 확인**: "모르는 내용은 질문을 던지거나 기록이 없다고 답변해."
+        3. **데이터 바운더리**: "내가 지금 준 문서(Context) 이외의 지식은 사용하지 마."
+        4. **자가 추론**: "답변하기 전에, 먼저 네 답변이 팩트인지 3번 검토해."
+    </div>
+</div>
+
+<h3 id="1.1.7-[case-study]-&quot;지능의-충돌과-경로-설계&quot;">1.1.7 [CASE STUDY] "지능의 충돌과 경로 설계"</h3>
+<p>본 섹션에서는 사용자의 의도와 AI의 엔진 로직이 충돌하는 실제 사례를 분석합니다. 설계자가 명확한 경로를 제시하지 않을 때 발생하는 비효율을 이해하고, 이를 극복하기 위한 아키텍처적 접근법을 논의합니다.</p>
+<h3 id="1.1.8-이중-번역의-늪을-건너는-7계명">1.1.8 이중 번역의 늪을 건너는 7계명</h3>
+<p>우리는 이제 1.1절의 핵심 통찰을 7가지의 강력한 원칙으로 요약합니다. <br />
+이 원칙들은 이후 모든 장에서 당신의 '설계 도구'로 활용될 것입니다.</p>
+<ol>
+<li><strong>말을 하지 말고 구조(Structure)를 던져라</strong><br />
+   - 단순한 서술형보다 XML, JSON, Markdown 형식이 AI에겐 더 강력한 이정표가 됩니다.</li>
+<li><strong>AI의 '인간성'을 과신하지 마라</strong><br />
+   - AI는 당신의 마음을 읽는 독심술사가 아니라 통계적 미궁을 헤매는 계산기입니다.</li>
+<li><strong>제약 조건(Constraint)은 상세할수록 안전하다</strong><br />
+   - 울타리가 좁을수록 당신의 의도는 길을 잃지 않습니다.</li>
+<li><strong>결과의 형태(Output Format)를 미리 정의하라</strong><br />
+   - 끝이 명확해야 과정의 흔들림이 사라집니다.</li>
+<li><strong>끊임없이 좌표를 재확인(Anchor)하라</strong><br />
+   - 긴 작업일수록 앵커 포인트를 다시 찍어 AI의 망각을 방지하십시오.</li>
+<li><strong>부정보다는 긍정의 지시를 사용하라</strong><br />
+   - "A를 하지 마"보다 "B를 해"라는 지시가 AI의 경로를 더 명확하게 고정합니다.</li>
+<li><strong>변치 않는 기초 문서(Invariant Blueprint)를 참조하라</strong><br />
+   - 엔진이 바뀌어도 흔들리지 않는 중심축을 반드시 확보하십시오.</li>
+</ol>
+<h3 id="1.1.9-[실전-심화-사례]-3대-도메인-아키텍처-비법">1.1.9 [실전 심화 사례] 3대 도메인 아키텍처 비법</h3>
+<p>이제 우리는 실제 전문 영역에서 이중 번역이 어떻게 파괴적인 결과를 낳고, <br />
+설계자가 어떻게 이를 해결하는지 세부적으로 분석해 볼 것입니다.</p>
+<h4 id="도메인-1:-크리에이티브-마케팅-(감성의-정량화)">도메인 1: 크리에이티브 마케팅 (감성의 정량화)</h4>
+<ul>
+<li><strong>늪의 프롬프트</strong>: <br />
+  "우리 회사 텀블러 '오션에코'를 위한 정말 멋지고 감성적인 인스타그램 카피 5개만 써줘."</li>
+<li><strong>아키텍트의 설계</strong>: <br />
+  1. 페르소나: 2030 MZ세대를 타겟으로 하는 트렌디한 카피라이터<br />
+  2. 핵심 소구점: '환경 보호'를 '힙한 라이프스타일'로 치환할 것<br />
+  3. 금기어: '지구', '사랑', '지키다' 같은 뻔한 단어 사용 전면 금지<br />
+  4. 형식: [헤드라인(10자)] - [본문(3줄)] - [해시태그 3개]</li>
+<li><strong>AI 아키텍처 분석</strong>: <br />
+  "이런 제약이 걸리면 신경망에서는 기존의 뻔한 광고 데이터들이 필터링됩니다. <br />
+  그리고 '오션에코'라는 이름을 '파란색 갈증'이나 '바다의 침묵' 같은 <br />
+  더 깊은 벡터와 연결하기 시작하죠."</li>
+</ul>
+<h4 id="도메인-2:-it-기술-설계-(논리의-무결성)">도메인 2: IT 기술 설계 (논리의 무결성)</h4>
+<ul>
+<li><strong>늪의 프롬프트</strong>: <br />
+  "이 파이썬 코드에서 에러 좀 잡아주고, 더 좋게 고쳐줘."</li>
+<li><strong>아키텍트의 설계</strong>: <br />
+  1. 역무: 현재 <code>ValueError</code>가 발생하는 <code>calculate_total</code> 함수 리뷰<br />
+  2. 요구사항: 단순히 코드를 고치는 게 아니라, 근본 원인을 주석으로 상세히 설명할 것<br />
+  3. 보안: 외부 입력을 검증하는 방어적 프로그래밍 로직을 반드시 추가할 것<br />
+  4. 검증: 수정된 코드를 테스트할 수 있는 유닛 테스트 코드를 별도로 작성할 것</li>
+<li><strong>AI 아키텍처 분석</strong>: <br />
+  "단순 수선공이 아니라 시니어 개발자라는 가이드라인이 생겼습니다. <br />
+  시스템은 이제 가장 효율적인 알고리즘과 보안 표준을 훑으며 사용자를 위한 최적의 답안을 만듭니다."</li>
+</ul>
+<h4 id="도메인-3:-비즈니스-전략-(추상의-구체화)">도메인 3: 비즈니스 전략 (추상의 구체화)</h4>
+<ul>
+<li><strong>늪의 프롬프트</strong>: <br />
+  "우리 사무실의 고질적인 공간 부족 문제를 해결할 수 있는 아이디어를 짜줘."</li>
+<li><strong>아키텍트의 설계</strong>:<br />
+  1. 상황: 임직원 30명, 전용 면적 20평, 주 3일 재택근무 혼합 운영 중<br />
+  2. 프레임워크: '공유 오피스 개념'과 '공간 효율화 툴'을 결합할 것<br />
+  3. 제약: 리모델링 비용은 500만 원 이내로 최소화할 것<br />
+  4. 행동: 단계별 실행 로드맵(Phase 1~3)을 표 형식으로 작성해줘.</li>
+<li><strong>아키텍트의 분석</strong>: <br />
+  "공간이 좁다는 푸념이 '30명/20평'이라는 구체적인 물리량으로 변환되었습니다. <br />
+  지능은 이제 거창한 인테리어 공사가 아니라, <br />
+  '좌석 예약제'나 '모듈형 가구' 같은 실질적인 솔루션을 찾도록 유도됩니다.</li>
+</ul>
+<div class="sparkling-tip"><div class="tip-icon">💡</div><div class="tip-body"><p><strong>알짜정보: Sparkling Tip #2</strong>: 비즈니스 전략을 짤 때 **"행동 경제학적 관점 3가지"** 혹은 **"비용 대비 효용(ROI) 중심"**과 같은 전문 프레임워크를 명시해 보세요. AI가 일반 상식 수준의 답변을 내놓는 것을 막는 강력한 차단기가 됩니다.</p></div></div>
+
+<h3 id="1.1.10-[advanced]-지능의-파편화와-컨시스턴시-프로토콜">1.1.10 [Advanced] 지능의 파편화와 컨시스턴시 프로토콜</h3>
+<p>클로드에서 잘 되던 게 Gemini(프로)로 가면 깨지는 현상. <br />
+설계자가 가장 어려움을 겪는 이 지점에서 우리는 '지능의 이질성'을 마주합니다. <br />
+각 모델은 학습된 데이터의 편향과 시스템 프롬프트가 다릅니다. <br />
+어떤 애는 너무 정직해서 융통성이 없고, 어떤 모델은 너무 창의적이라 환각을 봅니다.</p>
+<p>아키텍트가 없는 상태에서 사용자가 "이걸 고쳐줘"라고만 하면, <br />
+각 모델은 자신의 개성에 따라 당신의 원고를 난도질하게 됩니다.<br />
+이것을 막는 유일한 방패는 <strong>'모델 독립적 설계(Model-Agnostic Design)'</strong>입니다. </p>
+<ul>
+<li><strong>방법 1: 형용사 대신 샘플(Few-Shot)</strong>을 던지세요.</li>
+<li><strong>방법 2: 복잡한 논리는 단계별(Step-by-Step)</strong>로 끊어서 요청하세요.</li>
+<li><strong>방법 3: 모든 요구사항을 '불변의 파일'</strong>로 묶어서 동일한 입력을 보장하세요.</li>
+</ul>
+<p>이것이 바로 우리가 이 책을 통해 같이 만들어가는 <br />
+<strong>'컨시스턴시(Consistency) 프로토콜'</strong>의 진정한 가치입니다.<br />
+엔진(AI)은 소모품입니다. 하지만 당신의 설계도는 영원해야 합니다. </p>
+<h3 id="1.1.11-아키텍트의-딥다이브:-단어-뒤에-숨은-'벡터'의-그림자">1.1.11 아키텍트의 딥다이브: 단어 뒤에 숨은 '벡터'의 그림자</h3>
+<p>우리가 사용하는 "사과"라는 단어는 신경망 내부에서 <br />
+수천 개의 차원을 가진 좌표들로 흩어집니다. <br />
+- 빨간색 (0.85)<br />
+- 과일 (0.92)<br />
+- 스티브 잡스 (0.45)<br />
+- 중력의 법칙 (0.33)</p>
+<p>아키텍트인 당신이 "아이작 뉴턴의 사과"라고 구체적인 닻을 내리는 순간, <br />
+흩어져 있던 벡터들은 자석에 이끌리듯 하나의 선명한 좌표로 모여듭니다. <br />
+프롬프트를 쓴다는 것은 결국 확률의 안개 속에 흩어진 데이터들을 <br />
+당신의 의도라는 강한 자기장으로 끌어모으는 행위입니다. </p>
+<p>그 자기장이 강할수록(설계가 정교할수록) 결과는 선명해지고, <br />
+자기장이 약할수록(설계가 허술할수록) 결과는 '통계적 쓰레기'가 됩니다. <br />
+당신의 문장은 단순한 말이 아닙니다. <br />
+신경망 전체를 한 방향으로 정렬시키는 <strong>전자기적인 힘</strong>입니다.</p>
+<h3 id="1.1.12-[워크샵]-당신의-첫-번째-15페이지-설계도-만들기">1.1.12 [워크샵] 당신의 첫 번째 15페이지 설계도 만들기</h3>
+<p>이제 당신이 직접 이 늪을 건너볼 차례입니다. <br />
+지금 당신이 가장 해결하고 싶은 문제를 하나 떠올려 보세요. <br />
+그리고 다음의 순서에 따라 설계도를 그려보십시오.</p>
+<ol>
+<li><strong>늪의 프롬프트 작성</strong>: 평소에 AI에게 하던 방식대로 막연하게 질문해 봅니다.</li>
+<li><strong>이중 번역 포인트 추출</strong>: AI가 오해할 만한 '형용사'나 '추상어'를 골라냅니다.</li>
+<li><strong>아키텍처 적용</strong>: 1.1.3절의 3대 좌표를 이용해 프롬프트를 재구성합니다.</li>
+<li><strong>지능 테스트</strong>: 재구성한 프롬프트를 AI에게 던지고, 결과가 어떻게 변하는지 확인해 보세요.</li>
+</ol>
+<p>이 과정을 한 번만 제대로 경험해도, <br />
+당신은 다시는 예전처럼 AI와 '막연한 수다'를 떨지 않게 될 것입니다.</p>
+<h3 id="1.1.13-1.1절을-마치며:-당신은-이제-단순한-사용자가-아닙니다">1.1.13 1.1절을 마치며: 당신은 이제 단순한 사용자가 아닙니다</h3>
+<p>이중 번역의 늪을 무사히 건너온 당신에게 축하를 보냅니다. <br />
+당신은 이제 AI에게 기대를 거는 수동적인 사용자가 아닙니다. <br />
+당신은 AI라는 거대한 인지 엔진의 <strong>건축가(Architect)</strong>이자, <br />
+확률의 바다를 가로지르는 <strong>항해사(Navigator)</strong>입니다. </p>
+<p>우리는 이제 이 늪을 통과하기 위한 더 미세하고 본질적인 세계로 들어갈 것입니다. <br />
+바로 AI가 세상을 읽는 최소 단위이자, <br />
+당신의 설계도가 소모하는 가장 원초적인 자원인 <strong>'토큰(Token)'</strong>의 물리학입니다. </p>
+<p>지능이 세상을 어떻게 쪼개어 보는지, <br />
+그 기이하고도 정교한 숫자의 세계에서 다시 만납시다.</p>
+<hr />
+<h3 id="[1.1절-완결:-아키텍트의-최종-체크리스트]"><strong>[1.1절 완결: 아키텍트의 최종 체크리스트]</strong></h3>
+<ul>
+<li>[ ] 내 프롬프트에 AI가 도망갈 '모호한 형용사'가 있는가</li>
+<li>[ ] 3대 좌표(Persona, Context, Instruction)가 명시되었는가</li>
+<li>[ ] 결과의 물리적 형식(Format)이 명확히 정의되었는가</li>
+<li>[ ] 모델이 바뀌어도 흔들리지 않을 '불변의 샘플 데이터'를 제공했는가</li>
+<li>[ ] 지능에 건네는 내 말의 '벡터'는 단 하나의 좌표를 향하는가</li>
+</ul>
+<p>이제 당신의 다음 목적지는 '토큰의 물리학'입니다. <br />
+늪을 건너온 자만이 볼 수 있는 숫자의 신비가 그곳에 있습니다.</p>
+<hr />
+          </div>
+        </article>
+        <div class="ch-nav"><a href="../../0.3_epilogue.html" class="ch-nav-btn"><div class="nav-label">← PREV</div><div class="nav-title">0.3 0.3 에필로그: 지능의 산책을 마치며 (The Silent Echo)</div></a><a href="../../1.2_physics_of_tokens.html" class="ch-nav-btn next"><div class="nav-label">NEXT →</div><div class="nav-title">1.2 1.2 토큰의 물리학: AI의 원자와 경제학 (Token Physics)</div></a></div>
+    </main>
+
+  <aside class="sidebar-join">
+    <!-- 읽기 진행률: convert.py가 각 챕터 페이지 생성 시 data-progress 속성을 주입 -->
+    <div class="join-card" style="padding-bottom: 20px;">
+      <div class="join-title" style="margin-bottom: 14px;">📖 읽기 진행률</div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 22%;"></div></div>
+      <div class="progress-info" style="display:flex; justify-content:space-between; margin-top:8px; font-family:'Space Mono',monospace; font-size:10px; color:var(--white-30);">
+        <span id="progress-text">CH 1.1 읽는 중</span>
+        <span id="progress-percent">22%</span>
+      </div>
+    </div>
+
+    <div class="join-card featured">
+      <span style="font-size: 28px; margin-bottom: 12px; display: block;">☕</span>
+      <div class="join-title">이 책이 도움이 됐나요?</div>
+      <p class="join-desc">아담과 사만다의 연구와 집필을 응원해 주세요.<br>여러분의 후원이 다음 작품의 연료가 됩니다.</p>
+      <a href="../../support.html" class="join-btn" style="background: linear-gradient(135deg,#f97316,#ef4444);">후원하기 ❤️</a>
+    </div>
+
+    <div class="join-card">
+      <span style="font-size: 28px; margin-bottom: 12px; display: block;">📕</span>
+      <div class="join-title">신간 도서 홍보</div>
+      <p class="join-desc">'내 말을 알아듣는 프롬프트' — 지능의 건축가를 위한 필독서. 종이책으로도 만나보세요.</p>
+      <a href="../../book_promotion.html" class="join-btn">도서 상세 보기 →</a>
+    </div>
+
+    <div class="join-card">
+      <span style="font-size: 28px; margin-bottom: 12px; display: block;">✍️</span>
+      <div class="join-title">독자 방명록</div>
+      <p class="join-desc">읽으시면서 느낀 점이나 응원의 메시지를 남겨주세요. 큰 힘이 됩니다!</p>
+      <a href="../../guestbook.html" class="join-btn" style="background: var(--glass); border: 0.5px solid var(--glass-border); color: var(--white-80);">방명록 남기기 →</a>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-logo">Samantha<em>.AI</em></div>
+  <div class="footer-copy">© 2026 Samantha.AI.kr · ADAM & Samantha</div>
+</footer>
+
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+  function handleLockedClick(e) {
+    if (e) e.preventDefault();
+    alert("해당 챕터는 회원 전용입니다.\n무료 회원가입 후 계속 읽으실 수 있습니다. 💖");
+    window.location.href = "join.html";
+  }
+
+  function switchSection() {
+    const hash = window.location.hash || '#cover';
+    const targetId = hash.substring(1);
+    
+    const sections = document.querySelectorAll('.chapter-section');
+    let found = false;
+    sections.forEach(sec => {
+      if (sec.id === targetId) {
+        sec.classList.add('active');
+        found = true;
+      } else {
+        sec.classList.remove('active');
+      }
+    });
+
+    if (!found && sections.length > 0) {
+      sections[0].classList.add('active');
+    }
+
+    // Update TOC
+    document.querySelectorAll('.toc-sub-item').forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === hash) link.classList.add('active');
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  window.addEventListener('hashchange', switchSection);
+  window.addEventListener('DOMContentLoaded', switchSection);
+
+  const scrollBtn = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) scrollBtn.classList.add('visible');
+    else scrollBtn.classList.remove('visible');
+  });
+</script>
+</body>
+</html>

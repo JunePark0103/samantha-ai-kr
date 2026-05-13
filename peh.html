@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PEH — Prompt Engineering Hub | Samantha.AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Space+Mono:wght@400;700&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070f;
+  --bg2: #0d0d1a;
+  --purple: #8b5cf6;
+  --purple-dim: rgba(139,92,246,0.15);
+  --purple-border: rgba(139,92,246,0.3);
+  --teal: #2dd4bf;
+  --teal-dim: rgba(45,212,191,0.12);
+  --teal-border: rgba(45,212,191,0.3);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245,158,11,0.12);
+  --amber-border: rgba(245,158,11,0.3);
+  --rose: #f43f5e;
+  --rose-dim: rgba(244,63,94,0.12);
+  --rose-border: rgba(244,63,94,0.3);
+  --white: #f8f8ff;
+  --white-80: rgba(248,248,255,0.8);
+  --white-60: rgba(248,248,255,0.6);
+  --white-30: rgba(248,248,255,0.3);
+  --white-10: rgba(248,248,255,0.1);
+  --white-5: rgba(248,248,255,0.05);
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.09);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Pretendard', sans-serif;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 1000; opacity: 0.5;
+}
+
+/* GNB */
+.gnb {
+  position: fixed; top: 0; left: 0; right: 0; height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; z-index: 500;
+  background: rgba(7,7,15,0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 0.5px solid var(--glass-border);
+}
+.gnb-logo { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none; }
+.gnb-logo em { color: var(--purple); font-style: normal; }
+.gnb-nav { display: flex; align-items: center; gap: 24px; list-style: none; }
+.gnb-nav a { font-size: 12px; color: var(--white-60); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s; }
+.gnb-nav a:hover, .gnb-nav a.active { color: var(--white); }
+/* GNB CTA */
+.gnb-cta {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: #f97316;
+  border: 1px solid #fff;
+  padding: 7px 18px;
+  border-radius: 30px;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(249,115,22,0.3);
+}
+.gnb-cta:hover {
+  background: #fb923c;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(249,115,22,0.5);
+}
+
+/* PAGE HEADER */
+.page-header {
+  padding: 110px 60px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 60% 0%, rgba(139,92,246,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.page-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--purple);
+  letter-spacing: 0.2em;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.page-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--purple); }
+.page-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+.page-title em { color: var(--purple); font-style: normal; text-shadow: 0 0 30px rgba(139,92,246,0.4); }
+.page-desc {
+  font-size: 15px;
+  color: var(--white-60);
+  line-height: 1.8;
+  max-width: 560px;
+  word-break: keep-all;
+}
+
+/* FILTER BAR */
+.filter-bar {
+  padding: 0 60px 40px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--white-30);
+  letter-spacing: 0.1em;
+  margin-right: 4px;
+}
+.filter-btn {
+  font-size: 12px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 0.5px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--white-60);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Pretendard', sans-serif;
+}
+.filter-btn:hover { border-color: var(--white-10); color: var(--white); }
+.filter-btn.active { background: var(--purple-dim); border-color: var(--purple-border); color: #c4b5fd; }
+
+/* PROMPT GRID */
+.prompt-grid {
+  padding: 0 60px 80px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.prompt-card {
+  background: var(--glass);
+  border: 0.5px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.prompt-card:hover {
+  border-color: var(--white-10);
+  background: var(--white-5);
+  transform: translateY(-2px);
+}
+.prompt-card.featured {
+  grid-column: span 2;
+  background: var(--purple-dim);
+  border-color: var(--purple-border);
+}
+.prompt-card.featured:hover { background: rgba(139,92,246,0.2); }
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.card-category {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cat-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.cat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--white-30);
+}
+.card-level {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  color: var(--white-30);
+  border: 0.5px solid var(--glass-border);
+}
+.card-level.beginner { color: var(--teal); border-color: var(--teal-border); background: var(--teal-dim); }
+.card-level.intermediate { color: var(--amber); border-color: var(--amber-border); background: var(--amber-dim); }
+.card-level.advanced { color: var(--rose); border-color: var(--rose-border); background: var(--rose-dim); }
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 6px;
+  font-family: 'Noto Serif KR', serif;
+}
+.card-desc {
+  font-size: 12px;
+  color: var(--white-60);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.prompt-box {
+  background: rgba(0,0,0,0.3);
+  border: 0.5px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  position: relative;
+}
+.prompt-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--white-80);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.prompt-text .var {
+  color: var(--teal);
+  background: rgba(45,212,191,0.1);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: var(--glass);
+  border: 0.5px solid var(--glass-border);
+  color: var(--white-30);
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.05em;
+}
+.copy-btn:hover { border-color: var(--teal-border); color: var(--teal); background: var(--teal-dim); }
+.copy-btn.copied { color: var(--teal); border-color: var(--teal-border); background: var(--teal-dim); }
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--glass);
+  border: 0.5px solid var(--glass-border);
+  color: var(--white-30);
+}
+.card-author {
+  font-size: 10px;
+  color: var(--white-30);
+  font-family: 'Space Mono', monospace;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.author-s {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--teal));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-weight: 700; color: #fff;
+}
+
+/* SAMANTHA BANNER */
+.samantha-banner {
+  margin: 0 60px 60px;
+  background: var(--bg2);
+  border: 0.5px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 32px 40px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.banner-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--teal));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 0 24px rgba(139,92,246,0.4);
+}
+.banner-body { flex: 1; }
+.banner-name { font-size: 11px; color: var(--purple); font-family: 'Space Mono', monospace; margin-bottom: 6px; }
+.banner-text { font-size: 14px; color: var(--white-60); line-height: 1.7; }
+.banner-text strong { color: var(--white); }
+.banner-cta {
+  background: var(--purple);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s;
+  box-shadow: 0 0 16px rgba(139,92,246,0.25);
+}
+.banner-cta:hover { background: #7c3aed; }
+
+/* FOOTER */
+footer {
+  border-top: 0.5px solid var(--glass-border);
+  padding: 32px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-logo { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: var(--white); }
+.footer-logo em { color: var(--purple); font-style: normal; }
+.footer-copy { font-size: 11px; color: var(--white-30); }
+
+/* SCROLL ANIM */
+.prompt-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s, background 0.2s;
+}
+.prompt-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.prompt-card:hover { transform: translateY(-2px); }
+</style>
+</head>
+<body>
+
+<nav class="gnb" id="gnb">
+  <a href="index.html" class="gnb-logo">Samantha<em>.AI</em></a>
+  <ul class="gnb-nav">
+    <li><a href="peh.html" class="active">PEH</a></li>
+    <li><a href="ip.html">IP</a></li>
+    <li><a href="books.html">BOOKS</a></li>
+    <li><a href="fna.html">F&A</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
+    <li><a href="guestbook.html">GUESTBOOK</a></li>
+  </ul>
+  <a href="join.html" class="gnb-cta">회원가입</a>
+</nav>
+
+<div class="page-header">
+  <div class="page-eyebrow">PEH · PROMPT ENGINEERING HUB</div>
+  <h1 class="page-title">프롬프트 <em>엔지니어링 허브</em></h1>
+  <p class="page-desc">
+    사만다와 아키텍트(Architect)가 실제로 사용하고 검증한 프롬프트 레시피 모음입니다.<br>
+    <span style="color:var(--teal)">청록색 변수</span>를 당신의 상황에 맞게 바꿔서 바로 사용하세요.
+  </p>
+</div>
+
+
+<!-- PE THEORY SECTION -->
+<div style="padding: 0 60px 60px;">
+  <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8b5cf6;letter-spacing:.2em;margin-bottom:16px;">THE CORE FRAMEWORK</div>
+  <h2 style="font-family:'Noto Serif KR',serif;font-size:26px;font-weight:700;margin-bottom:32px;">RCTF 프레임워크 — 프롬프트의 4요소</h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px;">
+    <div style="background:rgba(139,92,246,.15);border:.5px solid rgba(139,92,246,.3);border-radius:16px;padding:24px;">
+      <div style="font-size:24px;margin-bottom:12px;">🎭</div>
+      <h4 style="font-size:15px;color:#8b5cf6;margin-bottom:8px;">ROLE</h4>
+      <p style="font-size:13px;color:rgba(248,248,255,.6);line-height:1.6;">AI에게 구체적인 페르소나를 부여하세요.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.09);border-radius:16px;padding:24px;">
+      <div style="font-size:24px;margin-bottom:12px;">🌐</div>
+      <h4 style="font-size:15px;color:#2dd4bf;margin-bottom:8px;">CONTEXT</h4>
+      <p style="font-size:13px;color:rgba(248,248,255,.6);line-height:1.6;">배경과 상황을 충분히 전달하세요.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.09);border-radius:16px;padding:24px;">
+      <div style="font-size:24px;margin-bottom:12px;">🎯</div>
+      <h4 style="font-size:15px;color:#fbbf24;margin-bottom:8px;">TASK</h4>
+      <p style="font-size:13px;color:rgba(248,248,255,.6);line-height:1.6;">수행할 작업을 명확하고 쪼개서 지시하세요.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.09);border-radius:16px;padding:24px;">
+      <div style="font-size:24px;margin-bottom:12px;">📊</div>
+      <h4 style="font-size:15px;color:#ec4899;margin-bottom:8px;">FORMAT</h4>
+      <p style="font-size:13px;color:rgba(248,248,255,.6);line-height:1.6;">결과물의 형태를 미리 지정하세요.</p>
+    </div>
+  </div>
+  <!-- BAD vs GOOD -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+    <div style="background:rgba(239,68,68,.05);border:.5px solid rgba(239,68,68,.2);border-radius:16px;padding:24px;">
+      <div style="color:#ef4444;font-size:11px;font-weight:700;margin-bottom:12px;">❌ BAD PROMPT</div>
+      <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:14px;font-family:'Space Mono',monospace;font-size:13px;color:rgba(248,248,255,.6);">"다이어트 식단 짜줘."</div>
+      <p style="margin-top:14px;font-size:12px;color:rgba(248,248,255,.3);">결과: 뻔한 닭가슴살 식단만 나옵니다.</p>
+    </div>
+    <div style="background:rgba(45,212,191,.05);border:.5px solid rgba(45,212,191,.3);border-radius:16px;padding:24px;">
+      <div style="color:#2dd4bf;font-size:11px;font-weight:700;margin-bottom:12px;">✅ GOOD PROMPT (RCTF)</div>
+      <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:14px;font-family:'Space Mono',monospace;font-size:13px;color:#2dd4bf;">"너는 영양전문가(R)야. 나는 30대 무릎이 안 좋은 직장인(C). 저염 저탄수 식단(T)을 월~일 표로(F) 짜줘."</div>
+      <p style="margin-top:14px;font-size:12px;color:rgba(248,248,255,.6);">결과: 딱 맞는 맞춤형 식단이 나옵니다!</p>
+    </div>
+  </div>
+</div>
+<hr style="border:none;border-top:.5px solid rgba(255,255,255,.09);margin:0 60px 20px;">
+<div style="padding:0 60px 16px;font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;">📚 템플릿 라이브러리</div>
+<div class="filter-bar">
+  <span class="filter-label">FILTER</span>
+  <button class="filter-btn active" onclick="filterCards('all', this)">전체</button>
+  <button class="filter-btn" onclick="filterCards('writing', this)">글쓰기</button>
+  <button class="filter-btn" onclick="filterCards('analysis', this)">분석</button>
+  <button class="filter-btn" onclick="filterCards('idea', this)">아이디어</button>
+  <button class="filter-btn" onclick="filterCards('code', this)">코드</button>
+  <button class="filter-btn" onclick="filterCards('business', this)">비즈니스</button>
+</div>
+
+<div class="prompt-grid" id="promptGrid">
+
+  <!-- FEATURED -->
+  <div class="prompt-card featured visible" data-cat="writing">
+    <div class="card-header">
+      <div class="card-category">
+        <span class="cat-dot" style="background:var(--purple)"></span>
+        <span class="cat-label">WRITING · 글쓰기</span>
+      </div>
+      <span class="card-level beginner">입문</span>
+    </div>
+    <div class="card-title">사만다 스타일 — 맥락 완전 전달 프롬프트</div>
+    <p class="card-desc">이 책의 핵심. AI에게 맥락을 완전히 전달하는 황금 공식. 어떤 글쓰기 요청에도 적용 가능.</p>
+    <div class="prompt-box">
+      <pre class="prompt-text">나는 <span class="var">[당신의 역할/직업]</span>입니다.
+
+지금 <span class="var">[무엇을 위해]</span> 글을 써야 합니다.
+독자는 <span class="var">[독자 설명]</span>입니다.
+이미 시도해본 것: <span class="var">[이미 써본 내용 또는 없음]</span>
+내가 원하지 않는 것: <span class="var">[피하고 싶은 스타일/내용]</span>
+분량: <span class="var">[분량]</span>
+형식: <span class="var">[형식 — 블로그/보고서/이메일 등]</span>
+
+위 조건으로 작성해줘.</pre>
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+    </div>
+    <div class="card-footer">
+      <div class="card-tags">
+        <span class="tag">맥락전달</span>
+        <span class="tag">글쓰기</span>
+        <span class="tag">범용</span>
+      </div>
+      <div class="card-author">
+        <div class="author-s">S</div>
+        Samantha
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 2 -->
+  <div class="prompt-card" data-cat="analysis">
+    <div class="card-header">
+      <div class="card-category">
+        <span class="cat-dot" style="background:var(--teal)"></span>
+        <span class="cat-label">ANALYSIS · 분석</span>
+      </div>
+      <span class="card-level intermediate">중급</span>
+    </div>
+    <div class="card-title">상대방 입장에서 반박하기</div>
+    <p class="card-desc">내 주장의 약점을 찾아내는 악마의 변호인 프롬프트. 발표 전, 보고서 작성 전 필수.</p>
+    <div class="prompt-box">
+      <pre class="prompt-text">다음 주장에 대해 <span class="var">[반대 입장의 전문가]</span> 역할을 맡아서, 가장 강력한 반박 3가지를 제시해줘.
+
+주장: <span class="var">[내 주장 또는 아이디어]</span>
+
+각 반박은 근거와 함께 제시하고, 마지막에 내 주장을 보완할 방법도 제안해줘.</pre>
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+    </div>
+    <div class="card-footer">
+      <div class="card-tags">
+        <span class="tag">비판적사고</span>
+        <span class="tag">분석</span>
+      </div>
+      <div class="card-author">
+        <div class="author-s">S</div>
+        Samantha
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3 -->
+  <div class="prompt-card" data-cat="idea">
+    <div class="card-header">
+      <div class="card-category">
+        <span class="cat-dot" style="background:var(--amber)"></span>
+        <span class="cat-label">IDEA · 아이디어</span>
+      </div>
+      <span class="card-level beginner">입문</span>
+    </div>
+    <div class="card-title">아이디어 10배 확장하기</div>
+    <p class="card-desc">하나의 씨앗 아이디어를 10가지 방향으로 확장. 브레인스토밍의 시작점.</p>
+    <div class="prompt-box">
+      <pre class="prompt-text">아이디어: <span class="var">[씨앗 아이디어 한 줄]</span>
+
+이 아이디어를 다음 10가지 관점으로 각각 확장해줘:
+비즈니스 모델 / 타겟 고객 / 기술 / 콘텐츠 /
+커뮤니티 / 오프라인 연계 / 글로벌 / 자동화 /
+개인화 / 사회적 가치
+
+각각 2~3문장으로.</pre>
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+    </div>
+    <div class="card-footer">
+      <div class="card-tags">
+        <span class="tag">브레인스토밍</span>
+        <span class="tag">창의성</span>
+      </div>
+      <div class="card-author">
+        <div class="author-s">S</div>
+        Samantha
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 4 -->
+  <div class="prompt-card" data-cat="business">
+    <div class="card-header">
+      <div class="card-category">
+        <span class="cat-dot" style="background:var(--rose)"></span>
+        <span class="cat-label">BUSINESS · 비즈니스</span>
+      </div>
+      <span class="card-level intermediate">중급</span>
+    </div>
+    <div class="card-title">1페이지 사업 계획서</div>
+    <p class="card-desc">아이디어를 즉시 실행 가능한 1페이지 계획으로. 투자자 미팅 전, 팀 설득 전 활용.</p>
+    <div class="prompt-box">
+      <pre class="prompt-text">사업 아이디어: <span class="var">[아이디어]</span>
+목표 고객: <span class="var">[고객 설명]</span>
+
+위 내용으로 1페이지 사업 계획서를 작성해줘.
+포함 항목: 문제 정의 / 솔루션 / 수익 모델 /
+핵심 지표 / 3개월 실행 계획
+
+투자자가 읽는다고 가정하고 간결하고 설득력 있게.</pre>
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+    </div>
+    <div class="card-footer">
+      <div class="card-tags">
+        <span class="tag">창업</span>
+        <span class="tag">기획</span>
+      </div>
+      <div class="card-author">
+        <div class="author-s">S</div>
+        Samantha
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 5 -->
+  <div class="prompt-card" data-cat="code">
+    <div class="card-header">
+      <div class="card-category">
+        <span class="cat-dot" style="background:#818cf8"></span>
+        <span class="cat-label">CODE · 코드</span>
+      </div>
+      <span class="card-level advanced">고급</span>
+    </div>
+    <div class="card-title">코드 리뷰 — 시니어 개발자 모드</div>
+    <p class="card-desc">작성한 코드를 시니어 개발자 시각으로 검토. 성능, 보안, 가독성 3박자 점검.</p>
+    <div class="prompt-box">
+      <pre class="prompt-text">다음 코드를 10년 경력 시니어 <span class="var">[언어]</span> 개발자 입장에서 리뷰해줘.
+
+```
+<span class="var">[코드 붙여넣기]</span>
+```
+
+점검 항목: 성능 이슈 / 보안 취약점 / 가독성 /
+리팩토링 포인트 / 테스트 누락 여부
+
+각 항목별로 심각도(상/중/하)와 개선 코드 제시.</pre>
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+    </div>
+    <div class="card-footer">
+      <div class="card-tags">
+        <span class="tag">코드리뷰</span>
+        <span class="tag">개발</span>
+      </div>
+      <div class="card-author">
+        <div class="author-s">S</div>
+        Samantha
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 6 -->
+  <div class="prompt-card" data-cat="writing">
+    <div class="card-header">
+      <div class="card-category">
+        <span class="cat-dot" style="background:var(--purple)"></span>
+        <span class="cat-label">WRITING · 글쓰기</span>
+      </div>
+      <span class="card-level beginner">입문</span>
+    </div>
+    <div class="card-title">SNS 바이럴 카피 생성기</div>
+    <p class="card-desc">인스타그램, 링크드인, X 각 채널에 최적화된 카피를 한 번에. 후킹 문구부터 해시태그까지.</p>
+    <div class="prompt-box">
+      <pre class="prompt-text">주제: <span class="var">[전달하고 싶은 핵심 메시지]</span>
+브랜드 톤: <span class="var">[전문적/친근한/도전적/감성적]</span>
+
+다음 3개 채널용 카피를 각각 작성해줘:
+1. 인스타그램 (이미지 캡션 + 해시태그 5개)
+2. 링크드인 (후킹 첫 문장 + 본문 + CTA)
+3. X/트위터 (140자 이내 + 스레드 3개)</pre>
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+    </div>
+    <div class="card-footer">
+      <div class="card-tags">
+        <span class="tag">SNS</span>
+        <span class="tag">마케팅</span>
+        <span class="tag">카피</span>
+      </div>
+      <div class="card-author">
+        <div class="author-s">S</div>
+        Samantha
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SAMANTHA BANNER -->
+<div class="samantha-banner">
+  <div class="banner-avatar">S</div>
+  <div class="banner-body">
+    <div class="banner-name">SAMANTHA · AI 에이전트</div>
+    <p class="banner-text">
+      프롬프트의 <strong>원리와 구조</strong>를 배우고 싶으신가요? 이 레시피들이 어떻게 작동하는지 책에서 자세히 설명합니다.<br>
+      챕터 1은 무료로 읽을 수 있습니다.
+    </p>
+  </div>
+  <a href="books.html#ch5" class="banner-cta">책 읽으러 가기 →</a>
+</div>
+
+<footer>
+  <div class="footer-logo">Samantha<em>.AI</em></div>
+  <div class="footer-copy">© 2026 Samantha.AI.kr · Architect & Samantha</div>
+</footer>
+
+<script>
+// 카드 초기 등장 애니메이션
+const cards = document.querySelectorAll('.prompt-card');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+cards.forEach(c => io.observe(c));
+
+// 복사 기능
+function copyPrompt(btn) {
+  const box = btn.closest('.prompt-box');
+  const text = box.querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ COPIED';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'COPY';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// 필터 기능
+function filterCards(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.prompt-card').forEach(card => {
+    const match = cat === 'all' || card.dataset.cat === cat;
+    card.style.display = match ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

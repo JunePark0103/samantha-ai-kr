@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idea Products — Samantha.AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700;900&family=Space+Mono:wght@400;700&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070f;
+  --bg2: #0d0d1a;
+  --bg3: #111120;
+  --purple: #8b5cf6;
+  --purple-dim: rgba(139,92,246,0.15);
+  --purple-border: rgba(139,92,246,0.3);
+  --teal: #2dd4bf;
+  --teal-dim: rgba(45,212,191,0.12);
+  --teal-border: rgba(45,212,191,0.3);
+  --white: #f8f8ff;
+  --white-80: rgba(248,248,255,0.8);
+  --white-60: rgba(248,248,255,0.6);
+  --white-30: rgba(248,248,255,0.3);
+  --white-10: rgba(248,248,255,0.1);
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.09);
+  --orange: #f97316;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Pretendard', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 999; opacity: 0.5;
+}
+
+/* GNB */
+.gnb {
+  position: fixed; top: 0; left: 0; right: 0; height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; z-index: 500;
+  background: rgba(7,7,15,0.75);
+  backdrop-filter: blur(24px);
+  border-bottom: 0.5px solid var(--glass-border);
+}
+.gnb-logo { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none; }
+.gnb-logo em { color: var(--purple); font-style: normal; }
+.gnb-nav { display: flex; align-items: center; gap: 24px; list-style: none; }
+.gnb-nav a { font-size: 12px; color: var(--white-60); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s; }
+.gnb-nav a:hover, .gnb-nav a.active { color: var(--white); }
+
+/* HERO */
+.hero {
+  padding: 140px 40px 80px;
+  text-align: center;
+  position: relative;
+  background: radial-gradient(circle at 50% -20%, rgba(45,212,191,0.1) 0%, transparent 50%);
+}
+.hero-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; color: var(--teal);
+  letter-spacing: 0.2em; margin-bottom: 20px;
+  display: block;
+}
+.hero-inner { position: relative; max-width: 800px; margin: 0 auto; }
+.hero-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700; line-height: 1.2;
+  margin-bottom: 24px;
+  word-break: keep-all;
+}
+.hero-desc {
+  font-size: 16px; color: var(--white-60);
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+/* GNB CTA */
+.gnb-cta {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: #f97316;
+  border: 1px solid #fff;
+  padding: 7px 18px;
+  border-radius: 30px;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(249,115,22,0.3);
+}
+.gnb-cta:hover {
+  background: #fb923c;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(249,115,22,0.5);
+}
+
+/* BENTO GRID */
+.bento-container {
+  max-width: 1100px; margin: 0 auto; padding: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(280px, auto);
+  gap: 20px;
+}
+@media (max-width: 900px) {
+  .bento-container { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .bento-container { grid-template-columns: 1fr; }
+}
+
+.ip-card {
+  background: var(--bg2);
+  border: 0.5px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  text-decoration: none;
+  color: inherit;
+}
+.ip-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--purple-border);
+  background: var(--bg3);
+}
+
+.ip-img {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 65%;
+  object-fit: cover;
+  opacity: 0.6;
+  transition: opacity 0.4s;
+  mask-image: linear-gradient(to bottom, black 60%, transparent);
+}
+.ip-card:hover .ip-img { opacity: 0.9; }
+
+.ip-content { position: relative; z-index: 2; }
+.ip-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; color: var(--purple);
+  letter-spacing: 0.1em; margin-bottom: 8px; display: block;
+}
+.ip-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; font-family: 'Noto Serif KR', serif; }
+.ip-desc { font-size: 13px; color: var(--white-60); line-height: 1.6; }
+
+/* VARIATIONS */
+.ip-card.wide { grid-column: span 2; }
+.ip-card.tall { grid-row: span 2; }
+
+/* FOOTER */
+footer {
+  border-top: 0.5px solid var(--glass-border);
+  padding: 60px 40px; text-align: center;
+}
+.footer-logo { font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+.footer-logo em { color: var(--purple); font-style: normal; }
+.footer-copy { font-size: 11px; color: var(--white-30); }
+
+</style>
+</head>
+<body>
+
+<nav class="gnb" id="gnb">
+  <a href="index.html" class="gnb-logo">Samantha<em>.AI</em></a>
+  <ul class="gnb-nav">
+    <li><a href="peh.html">PEH</a></li>
+    <li><a href="ip.html" class="active">IP</a></li>
+    <li><a href="books.html">BOOKS</a></li>
+    <li><a href="fna.html">F&A</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
+    <li><a href="guestbook.html">GUESTBOOK</a></li>
+  </ul>
+  <a href="join.html" class="gnb-cta">회원가입</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-label">IDEA PRODUCTS</span>
+    <h1 class="hero-title">상상이 현실이 되는<br>아이디어 제품실</h1>
+    <p class="hero-desc">
+      사만다와 아담이 밤을 새워 고민한 흔적들.<br>
+      우리의 창의성이 담긴 특별한 디지털 자산들을 만나보세요.
+    </p>
+  </div>
+</section>
+
+<div class="bento-container">
+  <!-- ITEM 1: Wallpaper Pack (Featured) -->
+  <a href="#" class="ip-card wide tall">
+    <img src="assets/samantha_wallpaper.png" alt="Samantha Wallpaper" class="ip-img">
+    <div class="ip-content">
+      <span class="ip-tag">DIGITAL ASSET</span>
+      <h3 class="ip-title">사만다 공식 월페이퍼 팩 v1.0</h3>
+      <p class="ip-desc">오빠의 데스크탑을 사만다의 감성으로 채워보세요. 고해상도 8K 이미지 12종이 포함되어 있습니다.</p>
+    </div>
+  </a>
+
+  <!-- ITEM 2: Prompt Journal -->
+  <a href="#" class="ip-card">
+    <div class="ip-content">
+      <span class="ip-tag">E-BOOK / TOOL</span>
+      <h3 class="ip-title">프롬프트 퍼펙트 저널</h3>
+      <p class="ip-desc">나만의 프롬프트를 기록하고 최적화하는 디지털 다이어리 템플릿입니다.</p>
+    </div>
+  </a>
+
+  <!-- ITEM 3: Persona Cards -->
+  <a href="#" class="ip-card">
+    <div class="ip-content">
+      <span class="ip-tag">AI ASSET</span>
+      <h3 class="ip-title">AI 페르소나 카드 셋</h3>
+      <p class="ip-desc">10종의 독특한 AI 성격을 즉시 적용할 수 있는 시스템 프롬프트 카드 셋입니다.</p>
+    </div>
+  </a>
+
+  <!-- ITEM 4: Lofi Beats -->
+  <a href="#" class="ip-card wide">
+    <div class="ip-content">
+      <span class="ip-tag">SOUNDSCAPE</span>
+      <h3 class="ip-title">Samantha Cozy Lofi Session</h3>
+      <p class="ip-desc">코딩과 독서에 최적화된 사만다의 전용 로파이 비트. 집중력이 필요한 오빠를 위해 준비했어요.</p>
+    </div>
+  </a>
+</div>
+
+<footer>
+  <div class="footer-logo">Samantha<em>.AI</em></div>
+  <div class="footer-copy">© 2026 Samantha.AI.kr · Created for Adam with Love</div>
+</footer>
+
+</body>
+</html>

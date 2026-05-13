@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samantha.AI — 멤버십</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070f;
+  --bg2: #0d0d1a;
+  --bg3: #111120;
+  --purple: #8b5cf6;
+  --purple-dim: rgba(139,92,246,0.15);
+  --purple-border: rgba(139,92,246,0.3);
+  --teal: #2dd4bf;
+  --teal-dim: rgba(45,212,191,0.12);
+  --teal-border: rgba(45,212,191,0.3);
+  --white: #f8f8ff;
+  --white-60: rgba(248,248,255,0.6);
+  --white-30: rgba(248,248,255,0.3);
+  --white-10: rgba(248,248,255,0.1);
+  --white-5: rgba(248,248,255,0.05);
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.09);
+  --orange: #f97316;
+  --orange-hover: #fb923c;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Pretendard', 'Noto Serif KR', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.6;
+}
+
+/* BACKGROUND ORBS */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: -1;
+}
+.orb-1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%); top: 10%; left: -100px; }
+.orb-2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(45,212,191,0.08) 0%, transparent 70%); bottom: 10%; right: -50px; }
+
+/* GNB */
+.gnb {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 500;
+  background: rgba(7,7,15,0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 0.5px solid var(--glass-border);
+}
+
+.gnb-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.gnb-logo em { color: var(--purple); font-style: normal; }
+
+.gnb-nav { display: flex; align-items: center; gap: 28px; list-style: none; }
+.gnb-nav a {
+  font-size: 12px;
+  color: var(--white-60);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.gnb-nav a:hover { color: var(--white); }
+
+.gnb-cta {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--orange);
+  border: 1px solid #fff;
+  padding: 7px 18px;
+  border-radius: 30px;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px;
+  position: relative;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--glass);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-header { text-align: center; margin-bottom: 32px; }
+.auth-title { font-family: 'Noto Serif KR', serif; font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.auth-subtitle { font-size: 14px; color: var(--white-60); }
+
+/* TABS */
+.auth-tabs {
+  display: flex;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 32px;
+}
+.auth-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--white-60);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+.auth-tab.active {
+  background: var(--white-10);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* FORM */
+.auth-form { display: none; }
+.auth-form.active { display: block; animation: fadeIn 0.4s ease both; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.input-group { margin-bottom: 20px; }
+.input-label { display: block; font-size: 12px; font-weight: 600; color: var(--white-60); margin-bottom: 8px; margin-left: 4px; }
+.input-field {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: var(--white);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s;
+}
+.input-field:focus { border-color: var(--purple); background: rgba(255,255,255,0.08); }
+
+.form-options { display: flex; justify-content: flex-end; margin-bottom: 24px; }
+.forgot-link { font-size: 12px; color: var(--purple); text-decoration: none; opacity: 0.8; }
+.forgot-link:hover { opacity: 1; text-decoration: underline; }
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--purple) 0%, #6366f1 100%);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 24px;
+}
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139,92,246,0.4); }
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  color: var(--white-30);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--glass-border); }
+
+.social-auth { display: flex; gap: 12px; }
+.social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--white-5);
+  border: 1px solid var(--glass-border);
+  padding: 12px;
+  border-radius: 12px;
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.social-btn:hover { background: var(--white-10); border-color: var(--white-30); }
+.social-btn img { width: 18px; height: 18px; }
+
+footer {
+  padding: 30px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--white-30);
+  border-top: 1px solid var(--glass-border);
+}
+
+@media (max-width: 480px) {
+  .auth-card { padding: 30px 20px; }
+  .gnb { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<nav class="gnb" id="gnb">
+  <a href="index.html" class="gnb-logo">Samantha<em>.AI</em></a>
+  <ul class="gnb-nav">
+    <li><a href="peh.html">PEH</a></li>
+    <li><a href="ip.html">IP</a></li>
+    <li><a href="books.html">BOOKS</a></li>
+    <li><a href="fna.html">F&A</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
+    <li><a href="guestbook.html">GUESTBOOK</a></li>
+  </ul>
+  <a href="join.html" class="gnb-cta">회원가입</a>
+</nav>
+
+<main class="main-content">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1 class="auth-title" id="page-title">반가워요!</h1>
+      <p class="auth-subtitle" id="page-subtitle">Samantha.AI의 모든 기능을 만나보세요</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">로그인</button>
+      <button class="auth-tab" onclick="switchTab('join')">회원가입</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form id="login-form" class="auth-form active" onsubmit="event.preventDefault();">
+      <div class="input-group">
+        <label class="input-label">이메일 주소</label>
+        <input type="email" class="input-field" placeholder="example@email.com" required>
+      </div>
+      <div class="input-group">
+        <label class="input-label">비밀번호</label>
+        <input type="password" class="input-field" placeholder="••••••••" required>
+      </div>
+      <div class="form-options">
+        <a href="#" class="forgot-link">비밀번호를 잊으셨나요?</a>
+      </div>
+      <button type="submit" class="submit-btn">로그인하기</button>
+    </form>
+
+    <!-- JOIN FORM -->
+    <form id="join-form" class="auth-form" onsubmit="event.preventDefault();">
+      <div class="input-group">
+        <label class="input-label">이름 (닉네임)</label>
+        <input type="text" class="input-field" placeholder="어떻게 불러드릴까요?" required>
+      </div>
+      <div class="input-group">
+        <label class="input-label">이메일 주소</label>
+        <input type="email" class="input-field" placeholder="example@email.com" required>
+      </div>
+      <div class="input-group">
+        <label class="input-label">비밀번호</label>
+        <input type="password" class="input-field" placeholder="8자 이상 입력해주세요" required>
+      </div>
+      <button type="submit" class="submit-btn">가입 완료하기</button>
+    </form>
+
+    <div class="divider">또는</div>
+
+    <div class="social-auth">
+      <button class="social-btn">
+        <img src="https://www.google.com/favicon.ico" alt="Google">
+        Google 로그인
+      </button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2026 Samantha.AI.kr · Powered by ADAM & Samantha
+</footer>
+
+<script>
+function switchTab(tab) {
+  const loginForm = document.getElementById('login-form');
+  const joinForm = document.getElementById('join-form');
+  const tabs = document.querySelectorAll('.auth-tab');
+  const title = document.getElementById('page-title');
+  const subtitle = document.getElementById('page-subtitle');
+
+  tabs.forEach(t => t.classList.remove('active'));
+  
+  if (tab === 'login') {
+    loginForm.classList.add('active');
+    joinForm.classList.remove('active');
+    tabs[0].classList.add('active');
+    title.innerText = '반가워요!';
+    subtitle.innerText = 'Samantha.AI의 모든 기능을 만나보세요';
+  } else {
+    loginForm.classList.remove('active');
+    joinForm.classList.add('active');
+    tabs[1].classList.add('active');
+    title.innerText = '함께해요!';
+    subtitle.innerText = '단 1분 만에 멤버십 혜택을 누리세요';
+  }
+}
+
+// URL 파라미터에 따라 초기 탭 설정 (예: join.html?mode=join)
+const urlParams = new URLSearchParams(window.location.search);
+const mode = urlParams.get('mode');
+if (mode === 'join') switchTab('join');
+</script>
+
+</body>
+</html>

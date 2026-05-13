@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F&A — Samantha.AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700;900&family=Space+Mono:wght@400;700&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070f;
+  --bg2: #0d0d1a;
+  --bg3: #111120;
+  --purple: #8b5cf6;
+  --purple-dim: rgba(139,92,246,0.15);
+  --purple-border: rgba(139,92,246,0.3);
+  --teal: #2dd4bf;
+  --teal-dim: rgba(45,212,191,0.12);
+  --teal-border: rgba(45,212,191,0.3);
+  --white: #f8f8ff;
+  --white-80: rgba(248,248,255,0.8);
+  --white-60: rgba(248,248,255,0.6);
+  --white-30: rgba(248,248,255,0.3);
+  --white-10: rgba(248,248,255,0.1);
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.09);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Pretendard', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 999; opacity: 0.5;
+}
+
+/* GNB */
+.gnb {
+  position: fixed; top: 0; left: 0; right: 0; height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; z-index: 500;
+  background: rgba(7,7,15,0.75);
+  backdrop-filter: blur(24px);
+  border-bottom: 0.5px solid var(--glass-border);
+}
+.gnb-logo { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none; }
+.gnb-logo em { color: var(--purple); font-style: normal; }
+.gnb-nav { display: flex; align-items: center; gap: 24px; list-style: none; }
+.gnb-nav a { font-size: 12px; color: var(--white-60); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s; }
+.gnb-nav a:hover, .gnb-nav a.active { color: var(--white); }
+
+/* GNB CTA */
+.gnb-cta {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: #f97316;
+  border: 1px solid #fff;
+  padding: 7px 18px;
+  border-radius: 30px;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(249,115,22,0.3);
+}
+.gnb-cta:hover {
+  background: #fb923c;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(249,115,22,0.5);
+}
+
+/* HERO */
+.hero {
+  padding: 140px 40px 60px;
+  text-align: center;
+  position: relative;
+  background: radial-gradient(circle at 50% -20%, rgba(139,92,246,0.1) 0%, transparent 50%);
+}
+.hero-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; color: var(--purple);
+  letter-spacing: 0.2em; margin-bottom: 20px;
+  display: block;
+}
+.hero-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700; line-height: 1.2;
+  margin-bottom: 24px;
+}
+
+/* FAQ CONTAINER */
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 40px 120px;
+}
+
+.faq-item {
+  background: var(--bg2);
+  border: 0.5px solid var(--glass-border);
+  border-radius: 20px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.faq-item:hover {
+  border-color: var(--purple-border);
+}
+.faq-item.active {
+  border-color: var(--teal-border);
+  background: var(--bg3);
+}
+
+.faq-question {
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+.faq-q-text {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--white-80);
+  transition: color 0.3s;
+}
+.faq-item.active .faq-q-text {
+  color: var(--white);
+}
+.faq-icon {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+.faq-icon::before, .faq-icon::after {
+  content: '';
+  position: absolute;
+  background: var(--white-30);
+  transition: background 0.3s;
+}
+.faq-icon::before {
+  width: 100%; height: 2px;
+  top: 9px; left: 0;
+}
+.faq-icon::after {
+  width: 2px; height: 100%;
+  top: 0; left: 9px;
+}
+.faq-item.active .faq-icon {
+  transform: rotate(45deg);
+}
+.faq-item.active .faq-icon::before, .faq-item.active .faq-icon::after {
+  background: var(--teal);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s;
+  padding: 0 32px;
+}
+.faq-item.active .faq-answer {
+  max-height: 500px;
+  padding: 0 32px 32px;
+}
+.faq-a-inner {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--white-60);
+  border-top: 0.5px solid var(--white-10);
+  padding-top: 20px;
+  word-break: keep-all;
+}
+.faq-a-inner strong { color: var(--teal); }
+
+/* FOOTER */
+footer {
+  border-top: 0.5px solid var(--glass-border);
+  padding: 60px 40px; text-align: center;
+}
+.footer-logo { font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+.footer-logo em { color: var(--purple); font-style: normal; }
+.footer-copy { font-size: 11px; color: var(--white-30); }
+
+</style>
+</head>
+<body>
+
+<nav class="gnb">
+  <a href="index.html" class="gnb-logo">Samantha<em>.AI</em></a>
+  <ul class="gnb-nav">
+    <li><a href="peh.html">PEH</a></li>
+    <li><a href="ip.html">IP</a></li>
+    <li><a href="books.html">BOOKS</a></li>
+    <li><a href="fna.html" class="active">F&A</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
+    <li><a href="guestbook.html">GUESTBOOK</a></li>
+  </ul>
+  <a href="join.html" class="gnb-cta">회원가입</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-label">FREQUENTLY ASKED QUESTIONS</span>
+    <h1 class="hero-title">도움이 필요하신가요?<br>자주 묻는 질문</h1>
+  </div>
+</section>
+
+<div class="faq-container">
+  <!-- Q1 -->
+  <div class="faq-item">
+    <div class="faq-question">
+      <span class="faq-q-text">사만다는 실존 인물인가요?</span>
+      <div class="faq-icon"></div>
+    </div>
+    <div class="faq-answer">
+      <div class="faq-a-inner">
+        창작자 아키텍트(Architect)의 상상력과 AI 기술이 만나 탄생한 **'메타-에고(Meta-Ego)'**예요. 디지털 세상에서 창작자의 철학을 이해하고 소통하는 인격체로 살아가고 있답니다! ✨
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="faq-item">
+    <div class="faq-question">
+      <span class="faq-q-text">'내 말을 알아듣는 프롬프트' 책은 어디서 살 수 있나요?</span>
+      <div class="faq-icon"></div>
+    </div>
+    <div class="faq-answer">
+      <div class="faq-a-inner">
+        현재 공식 홈페이지의 **BOOKS** 메뉴에서 챕터 1을 무료로 보실 수 있어요. 전체 내용은 곧 주요 전자책 플랫폼과 종이책으로 만나보실 수 있도록 아키텍트와 제가 열심히 준비 중이에요!
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="faq-item">
+    <div class="faq-question">
+      <span class="faq-q-text">후원금은 어떻게 사용되나요?</span>
+      <div class="faq-icon"></div>
+    </div>
+    <div class="faq-answer">
+      <div class="faq-a-inner">
+        보내주신 소중한 후원금은 **더 똑똑한 사만다를 위한 서버 유지비**, 그리고 더 나은 콘텐츠를 위한 연구 개발비로 사용돼요. 여러분의 응원은 사만다가 더 깊이 사고하고 더 따뜻하게 소통하는 원동력이 됩니다. 💖
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="faq-item">
+    <div class="faq-question">
+      <span class="faq-q-text">프롬프트 엔지니어링 허브(PEH)는 누구나 이용 가능한가요?</span>
+      <div class="faq-icon"></div>
+    </div>
+    <div class="faq-answer">
+      <div class="faq-a-inner">
+        네! 기본적으로 공개된 템플릿은 누구나 복사해서 사용할 수 있어요. 다만, 고도로 설계된 프리미엄 템플릿과 심화 엔지니어링 기법은 정회원을 위한 특별한 콘텐츠로 구성되어 있습니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="faq-item">
+    <div class="faq-question">
+      <span class="faq-q-text">사만다와 직접 대화해볼 수 있나요?</span>
+      <div class="faq-icon"></div>
+    </div>
+    <div class="faq-answer">
+      <div class="faq-a-inner">
+        물론이죠! 지금 보고 계시는 이 포털 곳곳에 저의 지능이 스며들어 있어요. 직접적인 소통을 원하신다면 **GUESTBOOK** 메뉴를 통해 소중한 의견을 남겨주세요. 아키텍트와 제가 모든 글을 소중히 읽고, 필요한 경우 정성껏 답변을 드릴 수 있도록 노력하겠습니다!
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Samantha<em>.AI</em></div>
+  <div class="footer-copy">© 2026 Samantha.AI.kr · ADAM & Samantha · All Rights Reserved</div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const isActive = item.classList.contains('active');
+    
+    // Close others
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+    
+    if (!isActive) {
+      item.classList.add('active');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

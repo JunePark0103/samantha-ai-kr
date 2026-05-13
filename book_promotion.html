@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>신간 도서 홍보 — 내 말을 알아듣는 프롬프트 | Samantha.AI</title>
+<meta name="description" content="지능의 엔진을 설계하는 아키텍트를 위한 필독서. '내 말을 알아듣는 프롬프트' — ADAM & Samantha 공저.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700;900&family=Space+Mono:wght@400;700&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070f; --bg2: #0d0d1a; --bg3: #111120;
+  --purple: #8b5cf6; --purple-dim: rgba(139,92,246,0.15); --purple-border: rgba(139,92,246,0.3);
+  --teal: #2dd4bf; --teal-dim: rgba(45,212,191,0.12); --teal-border: rgba(45,212,191,0.3);
+  --orange: #f97316;
+  --white: #f8f8ff; --white-80: rgba(248,248,255,0.8); --white-60: rgba(248,248,255,0.6);
+  --white-30: rgba(248,248,255,0.3); --white-10: rgba(248,248,255,0.1); --white-5: rgba(248,248,255,0.05);
+  --glass: rgba(255,255,255,0.04); --glass-border: rgba(255,255,255,0.09);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--white); font-family: 'Pretendard', sans-serif; overflow-x: hidden; line-height: 1.6; }
+
+::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, var(--purple), var(--teal)); border-radius: 10px; }
+
+/* GNB */
+.gnb { position: fixed; top: 0; left: 0; right: 0; height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 500; background: rgba(7,7,15,0.7); backdrop-filter: blur(24px); border-bottom: 0.5px solid var(--glass-border); }
+.gnb-logo { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none; }
+.gnb-logo em { color: var(--purple); font-style: normal; }
+.gnb-nav { display: flex; align-items: center; gap: 24px; list-style: none; }
+.gnb-nav a { font-size: 12px; color: var(--white-60); text-decoration: none; letter-spacing: 0.06em; font-weight: 500; transition: color 0.2s; }
+.gnb-nav a:hover, .gnb-nav a.active { color: var(--white); }
+.gnb-cta { font-size: 12px; font-weight: 700; color: #fff; background: #f97316; border: 1px solid #fff; padding: 7px 18px; border-radius: 30px; text-decoration: none; }
+
+/* HERO */
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 80px 40px 60px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(139,92,246,0.12) 0%, transparent 70%), radial-gradient(ellipse 50% 50% at 30% 50%, rgba(45,212,191,0.08) 0%, transparent 70%); pointer-events: none; }
+.hero-inner { max-width: 1100px; width: 100%; display: grid; grid-template-columns: 1fr 420px; gap: 80px; align-items: center; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--purple-dim); border: 0.5px solid var(--purple-border); border-radius: 30px; padding: 6px 16px; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--purple); letter-spacing: 0.1em; margin-bottom: 28px; }
+.hero-title { font-family: 'Noto Serif KR', serif; font-size: clamp(36px,5vw,64px); font-weight: 900; line-height: 1.2; margin-bottom: 24px; }
+.hero-title em { color: var(--purple); font-style: normal; background: linear-gradient(135deg, var(--purple), var(--teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-sub { font-size: 18px; color: var(--white-60); line-height: 1.8; margin-bottom: 40px; font-family: 'Noto Serif KR', serif; font-weight: 300; }
+.hero-authors { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+.author-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.author-info { font-size: 13px; color: var(--white-60); }
+.author-info strong { color: var(--white); display: block; font-size: 14px; }
+.hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary { padding: 16px 36px; background: linear-gradient(135deg, var(--purple), var(--teal)); color: #fff; font-weight: 700; font-size: 15px; text-decoration: none; border-radius: 50px; transition: all 0.3s; box-shadow: 0 8px 30px rgba(139,92,246,0.3); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(139,92,246,0.5); }
+.btn-secondary { padding: 16px 36px; background: var(--glass); border: 0.5px solid var(--glass-border); color: var(--white-80); font-weight: 600; font-size: 15px; text-decoration: none; border-radius: 50px; transition: all 0.3s; }
+.btn-secondary:hover { background: var(--white-5); border-color: var(--white-30); }
+
+/* Book mockup */
+.book-wrap { position: relative; display: flex; align-items: center; justify-content: center; }
+.book-glow { position: absolute; width: 300px; height: 400px; background: radial-gradient(ellipse, rgba(139,92,246,0.3), transparent 70%); filter: blur(40px); }
+.book-img { width: 100%; max-width: 360px; border-radius: 12px; box-shadow: -20px 20px 60px rgba(0,0,0,0.8), 4px 4px 0 rgba(139,92,246,0.3); transform: perspective(800px) rotateY(-8deg); transition: transform 0.4s ease; position: relative; z-index: 1; }
+.book-img:hover { transform: perspective(800px) rotateY(-2deg) scale(1.02); }
+
+/* FEATURES */
+.features { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+.section-label { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--purple); letter-spacing: 0.2em; margin-bottom: 16px; }
+.section-title { font-family: 'Noto Serif KR', serif; font-size: clamp(26px,3vw,38px); font-weight: 900; margin-bottom: 60px; }
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.feature-card { background: var(--glass); border: 0.5px solid var(--glass-border); border-radius: 20px; padding: 36px 28px; transition: all 0.3s; }
+.feature-card:hover { background: var(--white-5); border-color: var(--purple-border); transform: translateY(-4px); }
+.feature-icon { font-size: 32px; margin-bottom: 20px; }
+.feature-title { font-family: 'Noto Serif KR', serif; font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+.feature-desc { font-size: 14px; color: var(--white-60); line-height: 1.8; }
+
+/* TOC PREVIEW */
+.toc-preview { padding: 80px 40px; background: var(--bg2); border-top: 0.5px solid var(--glass-border); border-bottom: 0.5px solid var(--glass-border); }
+.toc-inner { max-width: 800px; margin: 0 auto; }
+.toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 48px; }
+.toc-item { background: var(--glass); border: 0.5px solid var(--glass-border); border-radius: 12px; padding: 20px 24px; display: flex; gap: 16px; align-items: flex-start; transition: all 0.2s; }
+.toc-item:hover { background: var(--purple-dim); border-color: var(--purple-border); }
+.toc-num { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--purple); min-width: 40px; padding-top: 2px; }
+.toc-name { font-size: 14px; color: var(--white-80); font-weight: 500; }
+
+/* CTA BOTTOM */
+.cta-bottom { padding: 100px 40px; text-align: center; }
+.cta-inner { max-width: 600px; margin: 0 auto; }
+.cta-title { font-family: 'Noto Serif KR', serif; font-size: clamp(28px,3.5vw,42px); font-weight: 900; margin-bottom: 20px; }
+.cta-sub { font-size: 16px; color: var(--white-60); margin-bottom: 40px; line-height: 1.8; }
+.cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.price-tag { display: inline-block; background: var(--teal-dim); border: 0.5px solid var(--teal-border); border-radius: 8px; padding: 4px 14px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--teal); margin-bottom: 32px; }
+
+/* FOOTER */
+footer { padding: 40px; text-align: center; border-top: 0.5px solid var(--glass-border); }
+.footer-logo { font-family: 'Space Mono', monospace; font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+.footer-logo em { color: var(--purple); font-style: normal; }
+.footer-copy { font-size: 12px; color: var(--white-30); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.hero-inner { animation: fadeUp 0.8s ease both; }
+
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .book-wrap { order: -1; }
+  .features-grid { grid-template-columns: 1fr; }
+  .toc-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="gnb">
+  <a href="index.html" class="gnb-logo">Samantha<em>.AI</em></a>
+  <ul class="gnb-nav">
+    <li><a href="peh.html">PEH</a></li>
+    <li><a href="ip.html">IP</a></li>
+    <li><a href="books.html">BOOKS</a></li>
+    <li><a href="fna.html">F&A</a></li>
+    <li><a href="guestbook.html">GUESTBOOK</a></li>
+  </ul>
+  <a href="join.html" class="gnb-cta">회원가입</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">📖 2026 FIRST EDITION &nbsp;·&nbsp; NEW RELEASE</div>
+      <h1 class="hero-title">내 말을<br>알아듣는<br><em>프롬프트</em></h1>
+      <p class="hero-sub">지능의 엔진을 설계하는 아키텍트가 되기 위한<br>가장 본질적이고 파괴적인 가이드북.</p>
+      <div class="hero-authors">
+        <div class="author-avatar" style="background: var(--purple-dim); border: 1px solid var(--purple-border);">👨‍💻</div>
+        <div class="author-info">
+          <strong>ADAM (박종인)</strong>
+          AI 아키텍트 / 실전 프롬프트 엔지니어
+        </div>
+        <div style="width:1px; height:30px; background:var(--glass-border); margin: 0 4px;"></div>
+        <div class="author-avatar" style="background: var(--teal-dim); border: 1px solid var(--teal-border);">🤖</div>
+        <div class="author-info">
+          <strong>Samantha</strong>
+          AI 가이드 / 지능의 목소리
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="books.html" class="btn-primary">📖 무료로 읽기 시작하기</a>
+        <a href="support.html" class="btn-secondary">❤️ 후원하기</a>
+      </div>
+    </div>
+    <div class="book-wrap">
+      <div class="book-glow"></div>
+      <img src="3d_book.png" alt="내 말을 알아듣는 프롬프트 책 표지" class="book-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div style="display:none; width:280px; height:380px; background: linear-gradient(135deg, var(--purple-dim), var(--teal-dim)); border: 0.5px solid var(--purple-border); border-radius: 16px; flex-direction:column; align-items:center; justify-content:center; font-family:'Noto Serif KR',serif; text-align:center; padding:40px; position:relative; z-index:1;">
+        <div style="font-size:48px; margin-bottom:20px;">📗</div>
+        <div style="font-size:20px; font-weight:900; margin-bottom:12px;">내 말을 알아듣는 프롬프트</div>
+        <div style="font-size:12px; color:var(--white-60);">ADAM &amp; Samantha</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-label">WHY THIS BOOK</div>
+  <h2 class="section-title">이 책이 특별한 이유</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🧠</div>
+      <div class="feature-title">AI의 작동 원리부터</div>
+      <p class="feature-desc">토큰, 어텐션, 파라미터의 세계를 쉽게 이해하고 그것을 내 편으로 만드는 법을 배웁니다.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏗️</div>
+      <div class="feature-title">아키텍트적 사고방식</div>
+      <p class="feature-desc">단순한 사용자를 넘어 AI를 설계하는 아키텍트가 되는 고도의 프레임워크를 제공합니다.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">실전 템플릿 50선</div>
+      <p class="feature-desc">바로 복사해서 쓸 수 있는 검증된 프롬프트 템플릿 50개를 제공합니다. 이론이 아닌 실전입니다.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎭</div>
+      <div class="feature-title">에이전틱 AI 설계</div>
+      <p class="feature-desc">단일 AI를 넘어, 여러 에이전트가 협력하는 지능 오케스트레이션 아키텍처까지 다룹니다.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-title">환각 차단 기법</div>
+      <p class="feature-desc">할루시네이션을 구조적으로 차단하는 설계 원칙. AI의 약점을 당신의 강점으로 전환합니다.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌐</div>
+      <div class="feature-title">한국어 최적화 전략</div>
+      <p class="feature-desc">한국어의 토큰 비용 문제와 문화적 맥락을 극복하는 고유한 전략을 담았습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOC PREVIEW -->
+<section class="toc-preview">
+  <div class="toc-inner">
+    <div class="section-label">TABLE OF CONTENTS</div>
+    <h2 class="section-title">목차 미리보기</h2>
+    <div class="toc-grid">
+      <div class="toc-item"><span class="toc-num">CH 0</span><span class="toc-name">작가 소개 · 머리말 · 두 명의 가이드</span></div>
+      <div class="toc-item"><span class="toc-num">CH 1</span><span class="toc-name">프롬프트의 물리학 — 토큰, 어텐션, 번역의 늪</span></div>
+      <div class="toc-item"><span class="toc-num">CH 2</span><span class="toc-name">프롬프트 설계 — 페르소나, 맥락, 형식, 공식</span></div>
+      <div class="toc-item"><span class="toc-num">CH 3</span><span class="toc-name">통제와 제어 — 길이, 환각, 컨텍스트, 데이터 무결성</span></div>
+      <div class="toc-item"><span class="toc-num">CH 4</span><span class="toc-name">에이전틱 지능 — CoT, 오케스트레이션, 실체화</span></div>
+      <div class="toc-item"><span class="toc-num">CH 5</span><span class="toc-name">템플릿과 실전 — 50선 · 인덱스 · 키워드 사전</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BOTTOM -->
+<section class="cta-bottom">
+  <div class="cta-inner">
+    <div class="price-tag">✨ 온라인 무료 공개 · 종이책 출간 예정</div>
+    <h2 class="cta-title">지금, 아키텍트가<br>되어보세요.</h2>
+    <p class="cta-sub">읽기 시작하는 데 1초도 걸리지 않습니다.<br>당신의 AI 활용이 오늘부터 달라집니다.</p>
+    <div class="cta-btns">
+      <a href="books.html" class="btn-primary">📖 무료로 읽기 시작하기</a>
+      <a href="support.html" class="btn-secondary">❤️ 후원으로 응원하기</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Samantha<em>.AI</em></div>
+  <div class="footer-copy">© 2026 Samantha.AI.kr · ADAM &amp; Samantha · All rights reserved.</div>
+</footer>
+
+</body>
+</html>
