@@ -364,6 +364,91 @@ footer {
   transform: translateY(0);
 }
 .prompt-card:hover { transform: translateY(-2px); }
+
+/* ─── MOBILE MENU & OVERLAY ─── */
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 600; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px 0; transition: 0.3s; border-radius: 2px; }
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 400; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
+.mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
+.mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; transform: translateY(20px); transition: transform 0.4s ease; }
+.mobile-menu-overlay.active .mobile-menu-inner { transform: translateY(0); }
+.mobile-menu-inner a { color: var(--white); text-decoration: none; font-size: 20px; font-weight: 600; font-family: 'Noto Serif KR', serif; letter-spacing: 0.05em; transition: color 0.2s; }
+.mobile-menu-inner a:hover { color: var(--purple); }
+.mobile-cta { margin-top: 10px; background: #f97316 !important; padding: 12px 32px; border-radius: 30px; border: 1px solid #fff; font-size: 16px; font-weight: 700; color: #fff !important; }
+
+/* ─── PE THEORY CLASSES ─── */
+.pe-theory-section { padding: 0 60px 60px; }
+.pe-theory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 48px; }
+.pe-theory-badgood { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.pe-theory-hr { border: none; border-top: 0.5px solid rgba(255,255,255,0.09); margin: 0 60px 20px; }
+.pe-theory-title { padding: 0 60px 16px; font-family: 'Noto Serif KR', serif; font-size: 22px; font-weight: 700; }
+
+/* ─── RESPONSIVE GRIDS ─── */
+@media (max-width: 768px) {
+  .gnb { padding: 0 20px; }
+  .gnb-nav, .gnb-cta { display: none; }
+  .hamburger { display: block; }
+  
+  .page-header { padding: 90px 20px 40px; }
+  .page-title { font-size: 28px; }
+  
+  .pe-theory-section { padding: 0 20px 40px; }
+  .pe-theory-grid { grid-template-columns: 1fr 1fr; }
+  .pe-theory-badgood { grid-template-columns: 1fr; }
+  .pe-theory-hr { margin: 0 20px 20px; }
+  .pe-theory-title { padding: 0 20px 16px; }
+
+  .filter-bar { padding: 0 20px 30px; }
+  .prompt-grid { padding: 0 20px 40px; grid-template-columns: 1fr; }
+  .prompt-card.featured { grid-column: auto; }
+  
+  .samantha-banner { margin: 0 20px 40px; flex-direction: column; text-align: center; }
+  footer { flex-direction: column; gap: 16px; padding: 32px 20px; text-align: center; }
+}
+
+/* SCROLL BUTTONS */
+#scroll-buttons {
+  position: fixed; bottom: 30px; right: 30px;
+  display: flex; flex-direction: column; gap: 8px;
+  z-index: 900; opacity: 0; transform: translateY(20px);
+  transition: all 0.3s; pointer-events: none;
+}
+#scroll-buttons.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+#scroll-buttons button {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--purple-dim, rgba(139,92,246,0.15));
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 0.5px solid var(--purple-border, rgba(139,92,246,0.3));
+  color: var(--white, #f8f8ff); cursor: pointer;
+  font-size: 16px; display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s, transform 0.2s;
+}
+#scroll-buttons button:hover { background: var(--purple, #8b5cf6); transform: scale(1.05); }
+
+/* MOBILE MENU & OVERLAY */
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 600; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--white, #f8f8ff); margin: 5px 0; transition: 0.3s; border-radius: 2px; }
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 400; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
+.mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
+.mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; transform: translateY(20px); transition: transform 0.4s ease; }
+.mobile-menu-overlay.active .mobile-menu-inner { transform: translateY(0); }
+.mobile-menu-inner a { color: var(--white, #f8f8ff); text-decoration: none; font-size: 20px; font-weight: 600; font-family: 'Noto Serif KR', serif; letter-spacing: 0.05em; transition: color 0.2s; }
+.mobile-menu-inner a:hover { color: var(--purple, #8b5cf6); }
+.mobile-cta { margin-top: 10px; background: #f97316 !important; padding: 12px 32px; border-radius: 30px; border: 1px solid #fff; font-size: 16px; font-weight: 700; color: #fff !important; }
+
+@media (max-width: 768px) {
+  .gnb-nav, .gnb-cta { display: none !important; }
+  .hamburger { display: block !important; }
+}
+
 </style>
 </head>
 <body>
@@ -379,7 +464,23 @@ footer {
     <li><a href="guestbook.html">GUESTBOOK</a></li>
   </ul>
   <a href="join.html" class="gnb-cta">회원가입</a>
+  <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu-overlay" id="mobile-menu">
+  <div class="mobile-menu-inner">
+    <a href="peh.html" class="active">PEH</a>
+    <a href="ip.html">IP</a>
+    <a href="books.html">BOOKS</a>
+    <a href="fna.html">F&A</a>
+    <a href="support.html">SUPPORT</a>
+    <a href="guestbook.html">GUESTBOOK</a>
+    <a href="join.html" class="mobile-cta">회원가입</a>
+  </div>
+</div>
 
 <div class="page-header">
   <div class="page-eyebrow">PEH · PROMPT ENGINEERING HUB</div>
@@ -392,10 +493,10 @@ footer {
 
 
 <!-- PE THEORY SECTION -->
-<div style="padding: 0 60px 60px;">
+<div class="pe-theory-section">
   <div style="font-family:'Space Mono',monospace;font-size:10px;color:#8b5cf6;letter-spacing:.2em;margin-bottom:16px;">THE CORE FRAMEWORK</div>
   <h2 style="font-family:'Noto Serif KR',serif;font-size:26px;font-weight:700;margin-bottom:32px;">RCTF 프레임워크 — 프롬프트의 4요소</h2>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px;">
+  <div class="pe-theory-grid">
     <div style="background:rgba(139,92,246,.15);border:.5px solid rgba(139,92,246,.3);border-radius:16px;padding:24px;">
       <div style="font-size:24px;margin-bottom:12px;">🎭</div>
       <h4 style="font-size:15px;color:#8b5cf6;margin-bottom:8px;">ROLE</h4>
@@ -418,7 +519,7 @@ footer {
     </div>
   </div>
   <!-- BAD vs GOOD -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+  <div class="pe-theory-badgood">
     <div style="background:rgba(239,68,68,.05);border:.5px solid rgba(239,68,68,.2);border-radius:16px;padding:24px;">
       <div style="color:#ef4444;font-size:11px;font-weight:700;margin-bottom:12px;">❌ BAD PROMPT</div>
       <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:14px;font-family:'Space Mono',monospace;font-size:13px;color:rgba(248,248,255,.6);">"다이어트 식단 짜줘."</div>
@@ -431,8 +532,8 @@ footer {
     </div>
   </div>
 </div>
-<hr style="border:none;border-top:.5px solid rgba(255,255,255,.09);margin:0 60px 20px;">
-<div style="padding:0 60px 16px;font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;">📚 템플릿 라이브러리</div>
+<hr class="pe-theory-hr">
+<div class="pe-theory-title">📚 템플릿 라이브러리</div>
 <div class="filter-bar">
   <span class="filter-label">FILTER</span>
   <button class="filter-btn active" onclick="filterCards('all', this)">전체</button>
@@ -667,7 +768,7 @@ footer {
 </div>
 
 <footer>
-  <div class="footer-logo">Samantha<em>.AI</em></div>
+  <a href="index.html" class="footer-logo" style="text-decoration: none;">Samantha<em>.AI</em></a>
   <div class="footer-copy">© 2026 Samantha.AI.kr · Architect & Samantha</div>
 </footer>
 
@@ -683,6 +784,18 @@ const io = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 cards.forEach(c => io.observe(c));
+
+// 모바일 메뉴 기능
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+  });
+}
 
 // 복사 기능
 function copyPrompt(btn) {
@@ -707,6 +820,34 @@ function filterCards(cat, btn) {
     card.style.display = match ? '' : 'none';
   });
 }
+
+// UI Logic for Scroll & Menu
+document.addEventListener('DOMContentLoaded', () => {
+  const scrollBtns = document.getElementById('scroll-buttons');
+  if (scrollBtns) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) scrollBtns.classList.add('visible');
+      else scrollBtns.classList.remove('visible');
+    });
+  }
+
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    });
+  }
+});
+
 </script>
+
+<div id="scroll-buttons">
+  <button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">▲</button>
+  <button id="scroll-bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="맨 아래로">▼</button>
+</div>
+
 </body>
 </html>

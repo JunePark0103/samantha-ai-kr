@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -238,34 +238,94 @@ body::before {
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-/* RESPONSIVE */
+/* MOBILE MENU & OVERLAY */
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 600; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px 0; transition: 0.3s; border-radius: 2px; }
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 400; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
+.mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
+.mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; transform: translateY(20px); transition: transform 0.4s ease; }
+.mobile-menu-overlay.active .mobile-menu-inner { transform: translateY(0); }
+.mobile-menu-inner a { color: var(--white); text-decoration: none; font-size: 20px; font-weight: 600; font-family: 'Noto Serif KR', serif; letter-spacing: 0.05em; transition: color 0.2s; }
+.mobile-menu-inner a:hover { color: var(--purple); }
+.mobile-cta { margin-top: 10px; background: #f97316 !important; padding: 12px 32px; border-radius: 30px; border: 1px solid #fff; font-size: 16px; font-weight: 700; color: #fff !important; }
+
+/* MOBILE TOC BUTTON */
+#mobile-toc-btn {
+  display: none; position: fixed; bottom: 30px; left: 30px; z-index: 900;
+  background: var(--teal); color: var(--bg); border: none; border-radius: 30px;
+  padding: 12px 20px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(45,212,191,0.4);
+  align-items: center; gap: 8px; cursor: pointer; transition: transform 0.2s;
+}
+#mobile-toc-btn:active { transform: scale(0.95); }
+.mobile-toc-close {
+  display: none; position: absolute; top: 20px; right: 20px;
+  background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer;
+}
+
 @media (max-width: 1100px) {
   .page-wrap { grid-template-columns: 240px 1fr; }
   .sidebar-join { display: none; }
 }
 @media (max-width: 768px) {
+  .gnb-nav, .gnb-cta { display: none; }
+  .hamburger { display: block; }
+  
   .page-wrap { grid-template-columns: 1fr; }
-  .sidebar-toc { display: none; }
-  .chapter-content { padding: 40px 24px; }
+  
+  /* Sidebar TOC Off-canvas for mobile */
+  .sidebar-toc {
+    position: fixed; top: 0; left: -100%; width: 85%; max-width: 320px; height: 100vh;
+    background: var(--bg2); z-index: 800; transition: left 0.4s ease;
+    box-shadow: 5px 0 30px rgba(0,0,0,0.5); padding-top: 80px;
+    display: block !important;
+  }
+  .sidebar-toc.active { left: 0; }
+  .mobile-toc-close { display: block; }
+  
+  .chapter-content { padding: 40px 24px; margin-bottom: 80px; }
+  #mobile-toc-btn { display: flex; }
+  .sidebar-join { display: block; padding: 24px; border: none; border-top: 0.5px solid var(--glass-border); }
 }
 </style>
 </head>
 <body>
 
-<nav class="gnb">
+<nav class="gnb" id="gnb">
   <a href="../../index.html" class="gnb-logo">Samantha<em>.AI</em></a>
   <ul class="gnb-nav">
     <li><a href="../../peh.html">PEH</a></li>
     <li><a href="../../ip.html">IP</a></li>
     <li><a href="../../books.html" class="active">BOOKS</a></li>
     <li><a href="../../fna.html">F&A</a></li>
+    <li><a href="../../support.html">SUPPORT</a></li>
     <li><a href="../../guestbook.html">GUESTBOOK</a></li>
   </ul>
   <a href="../../join.html" class="gnb-cta">회원가입</a>
+  <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu-overlay" id="mobile-menu">
+  <div class="mobile-menu-inner">
+    <a href="../../peh.html">PEH</a>
+    <a href="../../ip.html">IP</a>
+    <a href="../../books.html">BOOKS</a>
+    <a href="../../fna.html">F&A</a>
+    <a href="../../support.html">SUPPORT</a>
+    <a href="../../guestbook.html">GUESTBOOK</a>
+    <a href="../../join.html" class="mobile-cta">회원가입</a>
+  </div>
+</div>
+
 <div class="page-wrap">
-  <aside class="sidebar-toc">
+  <aside class="sidebar-toc" id="sidebar-toc">
+    <button class="mobile-toc-close" id="mobile-toc-close" aria-label="목차 닫기">&times;</button>
     <div class="toc-label">TABLE OF CONTENTS</div>
     <div class="toc-book-title">내 말을 알아듣는 프롬프트</div>
     <div class="toc-author">by ADAM & Samantha</div>
@@ -779,6 +839,7 @@ body::before {
 </footer>
 
 <button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+<button id="mobile-toc-btn">📖 목차 보기</button>
 
 <script>
   function handleLockedClick(e) {
@@ -823,6 +884,45 @@ body::before {
     if (window.scrollY > 300) scrollBtn.classList.add('visible');
     else scrollBtn.classList.remove('visible');
   });
+
+  // Mobile Menu Logic
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    });
+  }
+
+  // Mobile TOC Logic
+  const mobileTocBtn = document.getElementById('mobile-toc-btn');
+  const sidebarToc = document.getElementById('sidebar-toc');
+  const mobileTocClose = document.getElementById('mobile-toc-close');
+  
+  if (mobileTocBtn && sidebarToc && mobileTocClose) {
+    mobileTocBtn.addEventListener('click', () => {
+      sidebarToc.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    mobileTocClose.addEventListener('click', () => {
+      sidebarToc.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+    
+    // Close TOC when clicking a link
+    const tocLinks = sidebarToc.querySelectorAll('a.toc-sub-item');
+    tocLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          sidebarToc.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+  }
 </script>
 </body>
 </html>
