@@ -245,7 +245,7 @@ body::before {
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 400; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
+.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 700; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
 .mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
 .mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; transform: translateY(20px); transition: transform 0.4s ease; }
 .mobile-menu-overlay.active .mobile-menu-inner { transform: translateY(0); }
@@ -290,6 +290,26 @@ body::before {
   #mobile-toc-btn { display: flex; }
   .sidebar-join { display: block; padding: 24px; border: none; border-top: 0.5px solid var(--glass-border); }
 }
+
+/* SCROLL BUTTONS PAIR */
+#scroll-buttons {
+  position: fixed; bottom: 30px; right: 20px;
+  display: flex; flex-direction: column; gap: 8px;
+  z-index: 900; opacity: 0; transform: translateY(20px);
+  transition: all 0.3s; pointer-events: none;
+}
+#scroll-buttons.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+#scroll-buttons button {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--purple-dim, rgba(139,92,246,0.15));
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 0.5px solid var(--purple-border, rgba(139,92,246,0.3));
+  color: var(--white, #f8f8ff); cursor: pointer;
+  font-size: 16px; display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s, transform 0.2s;
+}
+#scroll-buttons button:hover { background: var(--purple, #8b5cf6); transform: scale(1.05); }
+
 </style>
 </head>
 <body>
@@ -942,7 +962,7 @@ body::before {
 - <strong>Final Metrics</strong>: 25,000+ Pure Characters / 90+ Pages / 2702 Cases / 10,000 Checklist Items.</p>
           </div>
         </article>
-        <div class="ch-nav"><a href="../../4.1_logic_of_cot_intelligence.html" class="ch-nav-btn"><div class="nav-label">← PREV</div><div class="nav-title">4.1 Book Manuscript: 4.1 Chain of Thought (CoT) Logic</div></a><a href="../../4.3_agentic_orchestration_harmony.html" class="ch-nav-btn next"><div class="nav-label">NEXT →</div><div class="nav-title">4.3 4.3 다중 에이전트의 하모니: 에이전틱 오케스트레이션(Agentic Orchestration)</div></a></div>
+        <div class="ch-nav"><a href="./4.1_logic_of_cot_intelligence.html" class="ch-nav-btn"><div class="nav-label">← PREV</div><div class="nav-title">4.1 Book Manuscript: 4.1 Chain of Thought (CoT) Logic</div></a><a href="../../4.3_agentic_orchestration_harmony.html" class="ch-nav-btn next"><div class="nav-label">NEXT →</div><div class="nav-title">4.3 4.3 다중 에이전트의 하모니: 에이전틱 오케스트레이션(Agentic Orchestration)</div></a></div>
     </main>
 
   <aside class="sidebar-join">
@@ -984,7 +1004,6 @@ body::before {
   <div class="footer-copy">© 2026 Samantha.AI.kr · ADAM & Samantha</div>
 </footer>
 
-<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
 <button id="mobile-toc-btn">📖 목차 보기</button>
 
 <script>
@@ -1069,6 +1088,41 @@ body::before {
       });
     });
   }
+// === SAMANTHA UI v2 ===
+
+// Scroll Buttons Visibility
+const _scrollBtns = document.getElementById('scroll-buttons');
+if (_scrollBtns) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) _scrollBtns.classList.add('visible');
+    else _scrollBtns.classList.remove('visible');
+  });
+}
+
+
+// Hamburger Menu
+const _hamburger = document.getElementById('hamburger');
+const _mobileMenu = document.getElementById('mobile-menu');
+if (_hamburger && _mobileMenu) {
+  _hamburger.addEventListener('click', () => {
+    _hamburger.classList.toggle('active');
+    _mobileMenu.classList.toggle('active');
+    document.body.style.overflow = _mobileMenu.classList.contains('active') ? 'hidden' : '';
+  });
+  // Close on overlay click
+  _mobileMenu.addEventListener('click', (e) => {
+    if (e.target === _mobileMenu) {
+      _hamburger.classList.remove('active');
+      _mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+}
+
 </script>
+<div id="scroll-buttons">
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">▲</button>
+  <button onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="맨 아래로">▼</button>
+</div>
 </body>
 </html>

@@ -573,7 +573,7 @@ footer {
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 400; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
+.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 700; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
 .mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
 .mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; transform: translateY(20px); transition: transform 0.4s ease; }
 .mobile-menu-overlay.active .mobile-menu-inner { transform: translateY(0); }
@@ -601,13 +601,6 @@ footer {
     <li><a href="guestbook.html">GUESTBOOK</a></li>
   </ul>
   <a href="join.html" class="gnb-cta" style="font-size: 12px; color: var(--white-60); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s;">회원가입</a>
-  <button class="hamburger" onclick="toggleMobileMenu()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
-  </button>
   <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
     <span></span><span></span><span></span>
   </button>
@@ -626,27 +619,6 @@ footer {
   </div>
 </div>
 
-
-<!-- MOBILE MENU -->
-<div class="mobile-overlay" id="mobileMenu">
-  <div class="mobile-menu-inner">
-    <button class="mobile-close" onclick="toggleMobileMenu()">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    </button>
-    <ul class="mobile-nav">
-      <li><a href="peh.html">Prompt Engineering Hub</a></li>
-      <li><a href="ip.html">Information Processing</a></li>
-      <li><a href="books.html">Books</a></li>
-      <li><a href="fna.html">F&A</a></li>
-      <li><a href="guestbook.html">Guestbook</a></li>
-      <li><a href="support.html">Support</a></li>
-      <li style="margin-top: 20px;"><a href="join.html" style="color: var(--purple);">회원가입</a></li>
-    </ul>
-  </div>
-</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -918,7 +890,7 @@ function handleCustom() {
 }
 
 // 모바일 메뉴
-function toggleMobileMenu() {
+
   const overlay = document.getElementById('mobileMenu');
   overlay.classList.toggle('active');
   if(overlay.classList.contains('active')) {
@@ -928,15 +900,7 @@ function toggleMobileMenu() {
   }
 }
 
-// UI Logic for Scroll & Menu
-document.addEventListener('DOMContentLoaded', () => {
-  const scrollBtns = document.getElementById('scroll-buttons');
-  if (scrollBtns) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) scrollBtns.classList.add('visible');
-      else scrollBtns.classList.remove('visible');
-    });
-  }
+
 
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobile-menu');
@@ -948,6 +912,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// === SAMANTHA UI v2 ===
+
+// Scroll Buttons Visibility
+const _scrollBtns = document.getElementById('scroll-buttons');
+if (_scrollBtns) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) _scrollBtns.classList.add('visible');
+    else _scrollBtns.classList.remove('visible');
+  });
+}
+
+
+// Hamburger Menu
+const _hamburger = document.getElementById('hamburger');
+const _mobileMenu = document.getElementById('mobile-menu');
+if (_hamburger && _mobileMenu) {
+  _hamburger.addEventListener('click', () => {
+    _hamburger.classList.toggle('active');
+    _mobileMenu.classList.toggle('active');
+    document.body.style.overflow = _mobileMenu.classList.contains('active') ? 'hidden' : '';
+  });
+  // Close on overlay click
+  _mobileMenu.addEventListener('click', (e) => {
+    if (e.target === _mobileMenu) {
+      _hamburger.classList.remove('active');
+      _mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+}
 
 </script>
 
