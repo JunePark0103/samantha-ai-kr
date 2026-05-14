@@ -291,18 +291,6 @@ footer { padding: 40px; text-align: center; border-top: 0.5px solid var(--glass-
 <script>
 
 
-
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      mobileMenu.classList.toggle('active');
-      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-    });
-  }
-});
-
 // === SAMANTHA UI v2 ===
 
 // Scroll Buttons Visibility
