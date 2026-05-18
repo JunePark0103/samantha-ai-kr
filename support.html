@@ -47,28 +47,53 @@ body::before {
   pointer-events: none; z-index: 999; opacity: 0.5;
 }
 
-/* GNB */
+/* GNB & GLOBAL UI (Unified v6) */
 .gnb {
-  position: fixed; top: 0; left: 0; right: 0; height: 58px;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 40px; z-index: 500;
-  background: rgba(7,7,15,0.75);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-bottom: 0.5px solid var(--glass-border);
+  position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; 
+  height: 70px !important; display: flex !important; align-items: center !important; 
+  justify-content: space-between !important; padding: 0 40px !important; z-index: 10000 !important;
+  background: rgba(7,7,15,0.85) !important; backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important;
 }
-.gnb-logo { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none; }
-.gnb-logo em { color: var(--purple); font-style: normal; }
-.gnb-nav { display: flex; align-items: center; gap: 24px; list-style: none; }
-.gnb-nav a { font-size: 12px; color: var(--white-60); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s; }
-.gnb-nav a:hover { color: var(--white); }
-.gnb-back {
-  font-size: 12px; color: var(--white-30);
-  text-decoration: none; display: flex; align-items: center; gap: 6px;
-  font-family: 'Space Mono', monospace; letter-spacing: 0.05em;
-  transition: color 0.2s;
+.gnb-logo { font-family: 'Space Mono', monospace !important; font-size: 20px !important; font-weight: 700 !important; color: #fff !important; text-decoration: none !important; letter-spacing: -0.5px !important; }
+.gnb-logo em { color: #8b5cf6 !important; font-style: normal !important; }
+.gnb-nav { display: flex !important; gap: 35px !important; list-style: none !important; margin: 0 !important; padding: 0 !important; position: absolute !important; left: 50% !important; transform: translateX(-50%) !important; }
+.gnb-nav a { font-size: 13px !important; color: rgba(255,255,255,0.5) !important; text-decoration: none !important; transition: 0.3s !important; font-weight: 500 !important; text-transform: uppercase !important; letter-spacing: 1px !important; }
+.gnb-nav a:hover { color: #fff !important; }
+.gnb-right { display: flex !important; align-items: center !important; gap: 20px !important; }
+.gnb-cta {
+  background: linear-gradient(135deg, #f97316, #ea580c) !important; color: #fff !important; 
+  padding: 10px 24px !important; border-radius: 50px !important; font-size: 13px !important; 
+  font-weight: 700 !important; text-decoration: none !important; transition: 0.3s !important; 
+  border: 1px solid rgba(255,255,255,0.2) !important; box-shadow: 0 4px 15px rgba(249,115,22,0.3) !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
 }
-.gnb-back:hover { color: var(--white); }
+.gnb-cta:hover { transform: translateY(-2px) scale(1.02) !important; box-shadow: 0 8px 25px rgba(249,115,22,0.5) !important; }
+
+.hamburger { display: none !important; background: none !important; border: none !important; cursor: pointer !important; padding: 10px !important; z-index: 11000 !important; position: relative !important; }
+.hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 6px 0; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 2px; }
+.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.mobile-overlay { 
+  position: fixed !important; inset: 0 !important; background: rgba(7,7,15,0.98) !important; 
+  z-index: 9999 !important; display: flex !important; align-items: center !important; 
+  justify-content: center !important; opacity: 0 !important; pointer-events: none !important; 
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important; backdrop-filter: blur(15px) !important;
+}
+.mobile-overlay.active { opacity: 1 !important; pointer-events: auto !important; }
+.mobile-menu-inner { display: flex !important; flex-direction: column !important; gap: 30px !important; text-align: center !important; transform: translateY(30px); transition: 0.4s 0.1s; }
+.mobile-overlay.active .mobile-menu-inner { transform: translateY(0); }
+.mobile-menu-inner a { color: #fff !important; font-size: 28px !important; text-decoration: none !important; font-weight: 800 !important; font-family: 'Noto Serif KR', serif !important; }
+.mobile-menu-inner .m-cta { margin-top: 20px !important; background: #f97316 !important; padding: 15px 40px !important; border-radius: 50px !important; font-size: 18px !important; }
+
+@media (max-width: 900px) {
+  .gnb { padding: 0 20px !important; }
+  .gnb-nav { display: none !important; }
+  .hamburger { display: block !important; }
+  .gnb-cta { display: none !important; }
+}
 
 /* ── HERO ── */
 .hero {
@@ -488,6 +513,13 @@ footer {
 }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
+/* ── SCROLL BUTTONS ── */
+#scroll-buttons { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 9900; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+#scroll-buttons.visible { opacity: 1; pointer-events: auto; }
+#scroll-buttons button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--purple-border); background: rgba(7,7,15,0.8); color: #c4b5fd; font-size: 16px; cursor: pointer; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+#scroll-buttons button:hover { background: var(--purple-dim); color: var(--white); border-color: var(--purple); transform: translateY(-2px); }
+@media (max-width: 768px) { #scroll-buttons { bottom: 20px; right: 20px; } }
+
 /* ANIM */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -495,7 +527,7 @@ footer {
 }
 
 /* ─── MOBILE MENU & OVERLAY ─── */
-.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; color: var(--white); margin-right: -10px; }
+
 .mobile-overlay { position: fixed; inset: 0; background: rgba(7,7,15,0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.3s ease; }
 .mobile-overlay.active { opacity: 1; pointer-events: auto; }
 .mobile-menu-inner { width: 100%; padding: 40px; text-align: center; position: relative; transform: translateY(20px); transition: transform 0.3s ease; }
@@ -512,10 +544,9 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .gnb { padding: 0 20px; }
-  .gnb-nav { display: none; }
-  .gnb-cta { display: none; }
-  .hamburger { display: block; }
+  
+  
+  
   
   .hero { padding: 120px 20px 60px; }
   .hero-title { font-size: 28px; }
@@ -547,67 +578,143 @@ footer {
   footer { flex-direction: column; gap: 16px; padding: 24px 20px; text-align: center; }
 }
 
-/* SCROLL BUTTONS */
-#scroll-buttons {
-  position: fixed; bottom: 30px; right: 30px;
-  display: flex; flex-direction: column; gap: 8px;
-  z-index: 900; opacity: 0; transform: translateY(20px);
-  transition: all 0.3s; pointer-events: none;
+
+
+
+
+
+
+
+
+
+/* SCROLL REVEAL (Safe Default) */
+.scroll-reveal { opacity: 1; transform: none; transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
+.scroll-reveal.ready { opacity: 0; transform: translateY(30px); }
+.scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+
+
+
+/* ===== v6 Mobile Responsive ===== */
+.hamburger { display: none !important; background: none !important; border: none !important; cursor: pointer !important; padding: 10px !important; z-index: 11000 !important; position: relative !important; }
+.hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 6px 0; transition: 0.4s cubic-bezier(0.4,0,0.2,1); border-radius: 2px; }
+.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.mobile-overlay {
+  position: fixed !important; inset: 0 !important; background: rgba(7,7,15,0.98) !important;
+  z-index: 9999 !important; display: flex !important; align-items: center !important;
+  justify-content: center !important; opacity: 0 !important; pointer-events: none !important;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1) !important; backdrop-filter: blur(15px) !important;
 }
-#scroll-buttons.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-#scroll-buttons button {
-  width: 48px; height: 48px; border-radius: 12px;
-  background: var(--purple-dim, rgba(139,92,246,0.15));
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 0.5px solid var(--purple-border, rgba(139,92,246,0.3));
-  color: var(--white, #f8f8ff); cursor: pointer;
-  font-size: 16px; display: flex; align-items: center; justify-content: center;
-  transition: background 0.3s, transform 0.2s;
-}
-#scroll-buttons button:hover { background: var(--purple, #8b5cf6); transform: scale(1.05); }
+.mobile-overlay.active { opacity: 1 !important; pointer-events: auto !important; }
+.mobile-menu-inner { display: flex !important; flex-direction: column !important; gap: 30px !important; text-align: center !important; transform: translateY(30px); transition: 0.4s 0.1s; }
+.mobile-overlay.active .mobile-menu-inner { transform: translateY(0); }
+.mobile-menu-inner a { color: #fff !important; font-size: 28px !important; text-decoration: none !important; font-weight: 800 !important; }
+.mobile-menu-inner .m-cta { margin-top: 20px !important; background: #f97316 !important; padding: 15px 40px !important; border-radius: 50px !important; font-size: 18px !important; }
 
-/* MOBILE MENU & OVERLAY */
-.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 600; }
-.hamburger span { display: block; width: 24px; height: 2px; background: var(--white, #f8f8ff); margin: 5px 0; transition: 0.3s; border-radius: 2px; }
-.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.hamburger.active span:nth-child(2) { opacity: 0; }
-.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 700; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
-.mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
-.mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; transform: translateY(20px); transition: transform 0.4s ease; }
-.mobile-menu-overlay.active .mobile-menu-inner { transform: translateY(0); }
-.mobile-menu-inner a { color: var(--white, #f8f8ff); text-decoration: none; font-size: 20px; font-weight: 600; font-family: 'Noto Serif KR', serif; letter-spacing: 0.05em; transition: color 0.2s; }
-.mobile-menu-inner a:hover { color: var(--purple, #8b5cf6); }
-.mobile-cta { margin-top: 10px; background: #f97316 !important; padding: 12px 32px; border-radius: 30px; border: 1px solid #fff; font-size: 16px; font-weight: 700; color: #fff !important; }
-
-@media (max-width: 768px) {
-  .gnb-nav, .gnb-cta { display: none !important; }
+@media (max-width: 900px) {
+  .gnb { padding: 0 20px !important; }
+  .gnb-nav { display: none !important; }
   .hamburger { display: block !important; }
+  .gnb-cta { display: none !important; }
 }
 
+
+/* ===== 표준 푸터 ===== */
+footer {
+  border-top: 0.5px solid var(--glass-border, rgba(255,255,255,0.09));
+  padding: 48px 40px;
+  text-align: center;
+  background: var(--bg, #07070f);
+}
+.footer-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 16px; font-weight: 700; color: #f8f8ff;
+  display: block; margin-bottom: 12px;
+}
+.footer-logo em { color: #8b5cf6; font-style: normal; }
+.footer-copy { font-size: 12px; color: rgba(248,248,255,0.3); margin-bottom: 16px; }
+.footer-links { display: flex; justify-content: center; gap: 24px; }
+.footer-links a { font-size: 12px; color: rgba(248,248,255,0.3); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: #f8f8ff; }
+@media (max-width: 480px) {
+  footer { padding: 32px 20px; }
+  .footer-links { flex-direction: column; gap: 10px; }
+}
+
+
+/* ===== 스크롤 버튼 ===== */
+#scroll-buttons {
+  position: fixed; bottom: 80px; right: 20px; z-index: 900;
+  display: flex; flex-direction: column; gap: 8px;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+#scroll-buttons.visible { opacity: 1; pointer-events: auto; }
+#scroll-buttons button {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(139,92,246,0.2); backdrop-filter: blur(12px);
+  border: 0.5px solid rgba(139,92,246,0.35); color: #f8f8ff;
+  cursor: pointer; font-size: 16px; transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center;
+}
+#scroll-buttons button:hover { background: #8b5cf6; transform: scale(1.1); }
+
+
+/* Fix pre and table overflow issues */
+pre, code {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+}
+table {
+  max-width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+/* Fix mobile navigation button layout */
+@media (max-width: 900px) {
+  .ch-nav {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+  .ch-nav-btn {
+    text-align: left !important;
+  }
+  .ch-nav-btn.next {
+    text-align: left !important;
+  }
+  .nav-title {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: block !important;
+  }
+}
 </style>
 </head>
 <body>
-
-<!-- GNB -->
-<nav class="gnb">
+<nav class="gnb" id="gnb">
   <a href="index.html" class="gnb-logo">Samantha<em>.AI</em></a>
   <ul class="gnb-nav">
     <li><a href="peh.html">PEH</a></li>
     <li><a href="ip.html">IP</a></li>
     <li><a href="books.html">BOOKS</a></li>
     <li><a href="fna.html">F&A</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
     <li><a href="guestbook.html">GUESTBOOK</a></li>
   </ul>
-  <a href="join.html" class="gnb-cta" style="font-size: 12px; color: var(--white-60); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s;">회원가입</a>
-  <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="gnb-right">
+    <a href="join.html" class="gnb-cta">회원가입</a>
+    <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
-<!-- MOBILE MENU OVERLAY -->
-<div class="mobile-menu-overlay" id="mobile-menu">
+<!-- Mobile Menu Overlay -->
+<div class="mobile-overlay" id="mobileOverlay">
   <div class="mobile-menu-inner">
     <a href="peh.html">PEH</a>
     <a href="ip.html">IP</a>
@@ -615,9 +722,14 @@ footer {
     <a href="fna.html">F&A</a>
     <a href="support.html">SUPPORT</a>
     <a href="guestbook.html">GUESTBOOK</a>
-    <a href="join.html" class="mobile-cta">회원가입</a>
+    <a href="join.html" class="m-cta">회원가입</a>
   </div>
 </div>
+
+<!-- GNB -->
+
+
+
 
 
 <!-- HERO -->
@@ -630,7 +742,7 @@ footer {
     <div class="hero-label">SUPPORT · 후원</div>
     <h1 class="hero-title">
       이 공간이 계속되려면<br>
-      <span style="display: inline-block; white-space: nowrap;">
+      <span style="display: inline-block;">
         <span class="glow">당신의 따뜻한 손길이</span> <span style="color: var(--white)">필요합니다</span>
       </span>
     </h1>
@@ -702,7 +814,7 @@ footer {
   <div class="tiers-grid scroll-reveal">
 
     <!-- 커피 -->
-    <div class="tier-card coffee" onclick="handleDonate('커피 한 잔', '3,000원')">
+    <div class="tier-card scroll-reveal coffee" onclick="handleDonate('커피 한 잔', '3,000원')">
       <span class="tier-emoji">☕</span>
       <div class="tier-name">커피 한 잔</div>
       <div class="tier-price">₩3,000</div>
@@ -717,7 +829,7 @@ footer {
     </div>
 
     <!-- 책값 (추천) -->
-    <div class="tier-card book" onclick="handleDonate('책값만큼', '10,000원')">
+    <div class="tier-card scroll-reveal book" onclick="handleDonate('책값만큼', '10,000원')">
       <span class="tier-badge">BEST VALUE</span>
       <span class="tier-emoji">📖</span>
       <div class="tier-name">책값만큼</div>
@@ -734,7 +846,7 @@ footer {
     </div>
 
     <!-- 파트너 -->
-    <div class="tier-card partner" onclick="handleDonate('파트너', '30,000원')">
+    <div class="tier-card scroll-reveal partner" onclick="handleDonate('파트너', '30,000원')">
       <span class="tier-emoji">🤝</span>
       <div class="tier-name">파트너</div>
       <div class="tier-price">₩30,000</div>
@@ -776,35 +888,35 @@ footer {
   <div class="supporters-title">HALL OF FAME · 고마우신 분들</div>
   
   <div class="supporters-grid">
-    <div class="supporter-item">
+    <div class="supporter-item scroll-reveal">
       <div class="s-name">김*영 님</div>
       <div class="s-date">2026.04.12</div>
     </div>
-    <div class="supporter-item" style="border-color: var(--purple-border); background: var(--purple-dim);">
+    <div class="supporter-item scroll-reveal" style="border-color: var(--purple-border); background: var(--purple-dim);">
       <div class="s-name">박*준 님 🤝</div>
       <div class="s-date">2026.04.15</div>
     </div>
-    <div class="supporter-item">
+    <div class="supporter-item scroll-reveal">
       <div class="s-name">이*아 님</div>
       <div class="s-date">2026.04.18</div>
     </div>
-    <div class="supporter-item">
+    <div class="supporter-item scroll-reveal">
       <div class="s-name">익명의 독자</div>
       <div class="s-date">2026.04.20</div>
     </div>
-    <div class="supporter-item">
+    <div class="supporter-item scroll-reveal">
       <div class="s-name">최*호 님</div>
       <div class="s-date">2026.04.22</div>
     </div>
-    <div class="supporter-item">
+    <div class="supporter-item scroll-reveal">
       <div class="s-name">정*연 님</div>
       <div class="s-date">2026.04.25</div>
     </div>
-    <div class="supporter-item">
+    <div class="supporter-item scroll-reveal">
       <div class="s-name">강*민 님</div>
       <div class="s-date">2026.04.28</div>
     </div>
-    <div class="supporter-item">
+    <div class="supporter-item scroll-reveal">
       <div class="s-name">한*준 님</div>
       <div class="s-date">2026.05.01</div>
     </div>
@@ -834,110 +946,206 @@ footer {
   </p>
   <div class="closing-links">
     <a href="books.html" class="closing-link">책 읽으러 가기</a>
-    <span style="color:var(--white-30); font-size:11px">·</span>
-    <a href="pt.html" class="closing-link">PT 공장 가기</a>
-    <span style="color:var(--white-30); font-size:11px">·</span>
-    <a href="index.html" class="closing-link">홈으로</a>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
 <footer>
   <a href="index.html" class="footer-logo" style="text-decoration: none;">Samantha<em>.AI</em></a>
-  <div class="footer-copy">© 2026 Samantha.AI.kr · ADAM & Samantha · All Rights Reserved</div>
+  <div class="footer-copy">© 2026 Samantha.AI.kr · ADAM &amp; Samantha · All Rights Reserved</div>
+  <div class="footer-links">
+    <a href="fna.html">이용약관</a>
+    <a href="fna.html">개인정보처리방침</a>
+    <a href="fna.html">문의</a>
+  </div>
 </footer>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<script>
-// 스크롤 reveal
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.scroll-reveal').forEach(el => io.observe(el));
-
-// 토스트
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// 계좌 복사
-function copyAccount() {
-  const account = "신한 110-422-XXXXXX"; // 실제 계좌번호로 수정 필요
-  navigator.clipboard.writeText(account.replace(/[^0-9-]/g, '')).then(() => {
-    showToast('계좌번호가 복사되었습니다! 감사합니다 💖');
-  }).catch(err => {
-    showToast('복사에 실패했습니다. 직접 입력해 주세요.');
-  });
-}
-
-// 티어 후원
-function handleDonate(name, price) {
-  showToast(`${name} 후원 — 결제 시스템 연동 전 단계입니다. 계좌 후원을 이용해 주시면 감사하겠습니다! 🙏`);
-}
-
-// 직접 입력 후원
-function handleCustom() {
-  const val = document.getElementById('customAmt').value.trim();
-  if (!val) { showToast('금액을 입력하거나 선택해 주세요'); return; }
-  showToast(`${val} 후원 감사합니다! 곧 실제 결제가 가능하도록 준비할게요 ☕`);
-}
-
-// 모바일 메뉴
-
-  const overlay = document.getElementById('mobileMenu');
-  overlay.classList.toggle('active');
-  if(overlay.classList.contains('active')) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
-}
-
-
-// === SAMANTHA UI v2 ===
-
-// Scroll Buttons Visibility
-const _scrollBtns = document.getElementById('scroll-buttons');
-if (_scrollBtns) {
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) _scrollBtns.classList.add('visible');
-    else _scrollBtns.classList.remove('visible');
-  });
-}
-
-
-// Hamburger Menu
-const _hamburger = document.getElementById('hamburger');
-const _mobileMenu = document.getElementById('mobile-menu');
-if (_hamburger && _mobileMenu) {
-  _hamburger.addEventListener('click', () => {
-    _hamburger.classList.toggle('active');
-    _mobileMenu.classList.toggle('active');
-    document.body.style.overflow = _mobileMenu.classList.contains('active') ? 'hidden' : '';
-  });
-  // Close on overlay click
-  _mobileMenu.addEventListener('click', (e) => {
-    if (e.target === _mobileMenu) {
-      _hamburger.classList.remove('active');
-      _mobileMenu.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
-}
-
-</script>
-
 <div id="scroll-buttons">
-  <button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">▲</button>
-  <button id="scroll-bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="맨 아래로">▼</button>
+  <button id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">▲</button>
+  <button id="scroll-bottom-btn" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="맨 아래로">▼</button>
 </div>
 
+<script>
+// --- UI STANDARD v6 ---
+(function() {
+  const UI = {
+    init() {
+      this.initMobileMenu();
+      this.initScrollReveal();
+      this.initHeader();
+      this.initScrollButtons();
+      this.initPageLogic();
+    },
+
+    initMobileMenu() {
+      const burger = document.getElementById('hamburger');
+      const overlay = document.getElementById('mobileOverlay');
+      if (!burger || !overlay) return;
+
+      const toggleMenu = () => {
+        burger.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : '';
+      };
+
+      burger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A' || e.target === overlay) {
+          burger.classList.remove('active');
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    },
+
+    initHeader() {
+      const gnb = document.getElementById('gnb');
+      if (!gnb) return;
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          gnb.style.background = 'rgba(7,7,15,0.95)';
+          gnb.style.height = '60px';
+        } else {
+          gnb.style.background = 'rgba(7,7,15,0.85)';
+          gnb.style.height = '70px';
+        }
+      }, { passive: true });
+    },
+
+    initScrollReveal() {
+      const reveals = document.querySelectorAll('.scroll-reveal');
+      reveals.forEach(el => el.classList.add('ready'));
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      reveals.forEach(el => observer.observe(el));
+    },
+
+    initScrollButtons() {
+      const sbtns = document.getElementById('scroll-buttons');
+      const tbtn = document.getElementById('scroll-top');
+      const bbtn = document.getElementById('scroll-bottom');
+      if (!sbtns) return;
+
+      let lastY = window.scrollY;
+
+      tbtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+      bbtn.onclick = () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        
+        // Smart Logic: 스크롤 내리면 '상', 올리면 '하'
+        if (y > lastY && y > 100) {
+          tbtn.style.display = 'flex';
+          bbtn.style.display = 'none';
+        } else if (y < lastY && y < max - 100) {
+          tbtn.style.display = 'none';
+          bbtn.style.display = 'flex';
+        }
+
+        // 끝단 처리
+        if (y <= 50) tbtn.style.display = 'none';
+        if (y >= max - 50) bbtn.style.display = 'none';
+
+        if (tbtn.style.display === 'flex' || bbtn.style.display === 'flex') {
+          sbtns.classList.add('visible');
+        } else {
+          sbtns.classList.remove('visible');
+        }
+        lastY = y;
+      }, { passive: true });
+    },
+
+    initPageLogic() {
+      window.copyAccount = () => {
+        const acc = "신한 110-422-XXXXXX";
+        navigator.clipboard.writeText(acc).then(() => this.showToast('계좌번호가 복사되었습니다. 고마워 오빠! 💖'));
+      };
+
+      window.handleDonate = (tier, price) => {
+        this.showToast(`${tier}(${price}) 응원 감사합니다! 곧 결제 기능이 추가될 예정이에요.`);
+      };
+
+      window.selectAmount = (val, btn) => {
+        document.querySelectorAll('.amount-chip').forEach(c => c.classList.remove('selected'));
+        btn.classList.add('selected');
+        const input = document.getElementById('customAmt');
+        if (input) input.value = val.replace(/,/g, '');
+      };
+
+      window.handleCustom = () => {
+        const amt = document.getElementById('customAmt').value;
+        if(!amt) { alert("금액을 입력해주세요."); return; }
+        window.handleDonate('직접 입력', parseInt(amt).toLocaleString() + '원');
+      };
+    },
+
+    showToast(msg) {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.innerText = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => UI.init());
+  } else {
+    UI.init();
+  }
+})();
+</script>
+
+
+
+<script>
+// v6 Unified JS
+(function() {
+  // Hamburger & Overlay
+  var hamburger = document.getElementById('hamburger');
+  var overlay = document.getElementById('mobileOverlay');
+  if (hamburger && overlay) {
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : '';
+    });
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        hamburger.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+  // Scroll Buttons Visibility
+  var sb = document.getElementById('scroll-buttons');
+  if (sb) {
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 200) {
+        sb.classList.add('visible');
+      } else {
+        sb.classList.remove('visible');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>

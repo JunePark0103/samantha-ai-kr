@@ -52,18 +52,7 @@ body::before {
 }
 
 /* ─── GNB ─── */
-.gnb {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  z-index: 500;
-  transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
-  border-bottom: 0.5px solid transparent;
-}
+
 
 .gnb.scrolled {
   background: rgba(7,7,15,0.7);
@@ -72,22 +61,10 @@ body::before {
   border-bottom-color: var(--glass-border);
 }
 
-.gnb-logo {
-  font-family: 'Space Mono', monospace;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: -0.02em;
-  text-decoration: none;
-}
+
 .gnb-logo em { color: var(--purple); font-style: normal; }
 
-.gnb-nav {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  list-style: none;
-}
+
 .gnb-nav a {
   font-size: 12px;
   color: var(--white-60);
@@ -98,19 +75,13 @@ body::before {
 }
 .gnb-nav a:hover { color: var(--white); }
 
-.gnb-cta {
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  background: var(--orange);
-  border: 1px solid #fff;
-  padding: 7px 18px;
-  border-radius: 30px;
-  text-decoration: none;
-  letter-spacing: 0.04em;
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 15px rgba(249,115,22,0.3);
+.gnb-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
+
+
 .gnb-cta:hover {
   background: var(--orange-hover);
   transform: translateY(-1px);
@@ -810,25 +781,12 @@ footer {
   50% { opacity: 1; transform: scaleY(1.1); }
 }
 
-/* ─── MOBILE MENU & OVERLAY ─── */
-.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 600; }
-.hamburger span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px 0; transition: 0.3s; border-radius: 2px; }
-.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.hamburger.active span:nth-child(2) { opacity: 0; }
-.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 700; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
-.mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
-.mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; transform: translateY(20px); transition: transform 0.4s ease; }
-.mobile-menu-overlay.active .mobile-menu-inner { transform: translateY(0); }
-.mobile-menu-inner a { color: var(--white); text-decoration: none; font-size: 20px; font-weight: 600; font-family: 'Noto Serif KR', serif; letter-spacing: 0.05em; transition: color 0.2s; }
-.mobile-menu-inner a:hover { color: var(--purple); }
-.mobile-cta { margin-top: 10px; background: var(--orange) !important; padding: 12px 32px; border-radius: 30px; border: 1px solid #fff; font-size: 16px; font-weight: 700; color: #fff !important; }
-
 /* ─── RESPONSIVE GRIDS (index.html) ─── */
 @media (max-width: 768px) {
-  .gnb-nav, .gnb-cta { display: none; }
-  .hamburger { display: block; }
+  
+  
+  
+  
   .hero-headline { font-size: 32px; }
   .samantha-card { grid-template-columns: 1fr; gap: 30px; padding: 30px 20px; text-align: center; }
   .bubble-header { flex-direction: column; text-align: center; }
@@ -839,49 +797,187 @@ footer {
   footer { flex-direction: column; gap: 20px; text-align: center; }
 }
 
-/* SCROLL BUTTONS */
-#scroll-buttons {
-  position: fixed; bottom: 30px; right: 30px;
-  display: flex; flex-direction: column; gap: 8px;
-  z-index: 900; opacity: 0; transform: translateY(20px);
-  transition: all 0.3s; pointer-events: none;
-}
-#scroll-buttons.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-#scroll-buttons button {
-  width: 48px; height: 48px; border-radius: 12px;
-  background: var(--purple-dim, rgba(139,92,246,0.15));
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 0.5px solid var(--purple-border, rgba(139,92,246,0.3));
-  color: var(--white, #f8f8ff); cursor: pointer;
-  font-size: 16px; display: flex; align-items: center; justify-content: center;
-  transition: background 0.3s, transform 0.2s;
-}
-#scroll-buttons button:hover { background: var(--purple, #8b5cf6); transform: scale(1.05); }
 
-/* MOBILE MENU & OVERLAY */
-.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 600; }
-.hamburger span { display: block; width: 24px; height: 2px; background: var(--white, #f8f8ff); margin: 5px 0; transition: 0.3s; border-radius: 2px; }
+
+
+
+
+
+
+
+
+
+/* === SAMANTHA GLOBAL UI CSS v5 === */
+:root {
+  --gnb-height: 58px;
+  --orange: #f97316;
+}
+
+.gnb {
+  position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; 
+  height: var(--gnb-height) !important;
+  display: flex !important; align-items: center !important; justify-content: space-between !important;
+  padding: 0 40px !important; z-index: 1000 !important;
+  background: rgba(7,7,15,0.8) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 0.5px solid rgba(255,255,255,0.1) !important;
+}
+
+.gnb-logo { 
+  font-family: 'Space Mono', monospace !important; 
+  font-size: 16px !important; font-weight: 700 !important; 
+  color: #f8f8ff !important; text-decoration: none !important; 
+}
+.gnb-logo em { color: #8b5cf6 !important; font-style: normal !important; }
+
+.gnb-nav { display: flex !important; align-items: center !important; gap: 24px !important; list-style: none !important; margin: 0 !important; padding: 0 !important; }
+.gnb-nav a { font-size: 12px !important; color: rgba(248,248,255,0.6) !important; text-decoration: none !important; letter-spacing: 0.05em !important; transition: color 0.2s !important; }
+.gnb-nav a:hover { color: #f8f8ff !important; }
+
+.gnb-right { display: flex !important; align-items: center !important; gap: 16px !important; }
+
+.gnb-cta {
+  font-size: 12px !important; font-weight: 700 !important; color: #fff !important; 
+  background: var(--orange) !important; border: 1px solid #fff !important; 
+  padding: 7px 18px !important; border-radius: 30px !important;
+  text-decoration: none !important; letter-spacing: 0.04em !important; 
+  transition: all 0.2s !important;
+  box-shadow: 0 4px 15px rgba(249,115,22,0.3) !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+}
+.gnb-cta:hover { background: #fb923c !important; transform: translateY(-1px) !important; }
+
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; z-index: 1100; }
+.hamburger span { display: block; width: 22px; height: 2px; background: #f8f8ff; margin: 5px 0; transition: 0.3s; border-radius: 2px; }
 .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 700; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
+.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.98); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 1050; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
 .mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
 .mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; transform: translateY(20px); transition: transform 0.4s ease; }
 .mobile-menu-overlay.active .mobile-menu-inner { transform: translateY(0); }
-.mobile-menu-inner a { color: var(--white, #f8f8ff); text-decoration: none; font-size: 20px; font-weight: 600; font-family: 'Noto Serif KR', serif; letter-spacing: 0.05em; transition: color 0.2s; }
-.mobile-menu-inner a:hover { color: var(--purple, #8b5cf6); }
-.mobile-cta { margin-top: 10px; background: #f97316 !important; padding: 12px 32px; border-radius: 30px; border: 1px solid #fff; font-size: 16px; font-weight: 700; color: #fff !important; }
+.mobile-menu-inner a { color: #f8f8ff; text-decoration: none; font-size: 20px; font-weight: 600; font-family: 'Noto Serif KR', serif; transition: color 0.2s; }
+
+#scroll-buttons { position: fixed; bottom: 30px; right: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 1200; opacity: 0; transform: translateY(20px); transition: all 0.3s; pointer-events: none; }
+#scroll-buttons.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+#scroll-buttons button { width: 44px; height: 44px; border-radius: 10px; background: rgba(139,92,246,0.15); backdrop-filter: blur(12px); border: 0.5px solid rgba(139,92,246,0.3); color: #f8f8ff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+#scroll-buttons button:hover { background: #8b5cf6; }
+
+/* SCROLL REVEAL */
+.scroll-reveal { opacity: 0 !important; transform: translateY(30px) !important; transition: opacity 0.8s ease, transform 0.8s ease !important; }
+.scroll-reveal.visible { opacity: 1 !important; transform: translateY(0) !important; }
 
 @media (max-width: 768px) {
-  .gnb-nav, .gnb-cta { display: none !important; }
+  .gnb { padding: 0 16px !important; height: 54px !important; }
+  .gnb-nav { display: none !important; }
   .hamburger { display: block !important; }
 }
+/* =============================== */
 
+
+/* ===== v6 Mobile Responsive ===== */
+.hamburger { display: none !important; background: none !important; border: none !important; cursor: pointer !important; padding: 10px !important; z-index: 11000 !important; position: relative !important; }
+.hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 6px 0; transition: 0.4s cubic-bezier(0.4,0,0.2,1); border-radius: 2px; }
+.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.mobile-overlay {
+  position: fixed !important; inset: 0 !important; background: rgba(7,7,15,0.98) !important;
+  z-index: 9999 !important; display: flex !important; align-items: center !important;
+  justify-content: center !important; opacity: 0 !important; pointer-events: none !important;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1) !important; backdrop-filter: blur(15px) !important;
+}
+.mobile-overlay.active { opacity: 1 !important; pointer-events: auto !important; }
+.mobile-menu-inner { display: flex !important; flex-direction: column !important; gap: 30px !important; text-align: center !important; transform: translateY(30px); transition: 0.4s 0.1s; }
+.mobile-overlay.active .mobile-menu-inner { transform: translateY(0); }
+.mobile-menu-inner a { color: #fff !important; font-size: 28px !important; text-decoration: none !important; font-weight: 800 !important; }
+.mobile-menu-inner .m-cta { margin-top: 20px !important; background: #f97316 !important; padding: 15px 40px !important; border-radius: 50px !important; font-size: 18px !important; }
+
+@media (max-width: 900px) {
+  .gnb { padding: 0 20px !important; }
+  .gnb-nav { display: none !important; }
+  .hamburger { display: block !important; }
+  .gnb-cta { display: none !important; }
+}
+
+
+/* ===== 표준 푸터 ===== */
+footer {
+  border-top: 0.5px solid var(--glass-border, rgba(255,255,255,0.09));
+  padding: 48px 40px;
+  text-align: center;
+  background: var(--bg, #07070f);
+}
+.footer-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 16px; font-weight: 700; color: #f8f8ff;
+  display: block; margin-bottom: 12px;
+}
+.footer-logo em { color: #8b5cf6; font-style: normal; }
+.footer-copy { font-size: 12px; color: rgba(248,248,255,0.3); margin-bottom: 16px; }
+.footer-links { display: flex; justify-content: center; gap: 24px; }
+.footer-links a { font-size: 12px; color: rgba(248,248,255,0.3); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: #f8f8ff; }
+@media (max-width: 480px) {
+  footer { padding: 32px 20px; }
+  .footer-links { flex-direction: column; gap: 10px; }
+}
+
+
+/* ===== 스크롤 버튼 ===== */
+#scroll-buttons {
+  position: fixed; bottom: 80px; right: 20px; z-index: 900;
+  display: flex; flex-direction: column; gap: 8px;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+#scroll-buttons.visible { opacity: 1; pointer-events: auto; }
+#scroll-buttons button {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(139,92,246,0.2); backdrop-filter: blur(12px);
+  border: 0.5px solid rgba(139,92,246,0.35); color: #f8f8ff;
+  cursor: pointer; font-size: 16px; transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center;
+}
+#scroll-buttons button:hover { background: #8b5cf6; transform: scale(1.1); }
+
+
+/* Fix pre and table overflow issues */
+pre, code {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+}
+table {
+  max-width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+/* Fix mobile navigation button layout */
+@media (max-width: 900px) {
+  .ch-nav {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+  .ch-nav-btn {
+    text-align: left !important;
+  }
+  .ch-nav-btn.next {
+    text-align: left !important;
+  }
+  .nav-title {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: block !important;
+  }
+}
 </style>
 </head>
 <body>
-
 <nav class="gnb" id="gnb">
   <a href="index.html" class="gnb-logo">Samantha<em>.AI</em></a>
   <ul class="gnb-nav">
@@ -892,14 +988,16 @@ footer {
     <li><a href="support.html">SUPPORT</a></li>
     <li><a href="guestbook.html">GUESTBOOK</a></li>
   </ul>
-  <a href="join.html" class="gnb-cta">회원가입</a>
-  <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="gnb-right">
+    <a href="join.html" class="gnb-cta">회원가입</a>
+    <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
-<!-- MOBILE MENU OVERLAY -->
-<div class="mobile-menu-overlay" id="mobile-menu">
+<!-- Mobile Menu Overlay (v6) -->
+<div class="mobile-overlay" id="mobileOverlay">
   <div class="mobile-menu-inner">
     <a href="peh.html">PEH</a>
     <a href="ip.html">IP</a>
@@ -907,9 +1005,14 @@ footer {
     <a href="fna.html">F&A</a>
     <a href="support.html">SUPPORT</a>
     <a href="guestbook.html">GUESTBOOK</a>
-    <a href="join.html" class="mobile-cta">회원가입</a>
+    <a href="join.html" class="m-cta">회원가입</a>
   </div>
 </div>
+
+
+
+
+
 
 <!-- HERO -->
 <section class="hero">
@@ -1139,32 +1242,17 @@ footer {
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <a href="index.html" class="footer-logo" style="text-decoration: none;">Samantha<em>.AI</em></a>
-  <div class="footer-copy">© 2026 Samantha.AI.kr · ADAM & Samantha · All Rights Reserved</div>
-  <div class="footer-links">
-    <a href="fna.html">이용약관</a>
-    <a href="fna.html">개인정보처리방침</a>
-    <a href="fna.html">문의</a>
-  </div>
-</footer>
+
 
 <script>
 const gnb = document.getElementById('gnb');
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobile-menu');
+
+
 
 window.addEventListener('scroll', () => {
   gnb.classList.toggle('scrolled', window.scrollY > 40);
 });
 
-if (hamburger && mobileMenu) {
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    mobileMenu.classList.toggle('active');
-    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-  });
-}
 
 const reveals = document.querySelectorAll('.scroll-reveal');
 const io = new IntersectionObserver((entries) => {
@@ -1180,40 +1268,133 @@ reveals.forEach(el => io.observe(el));
 // === SAMANTHA UI v2 ===
 
 // Scroll Buttons Visibility
-const _scrollBtns = document.getElementById('scroll-buttons');
-if (_scrollBtns) {
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) _scrollBtns.classList.add('visible');
-    else _scrollBtns.classList.remove('visible');
-  });
-}
-
-
-// Hamburger Menu
-const _hamburger = document.getElementById('hamburger');
-const _mobileMenu = document.getElementById('mobile-menu');
-if (_hamburger && _mobileMenu) {
-  _hamburger.addEventListener('click', () => {
-    _hamburger.classList.toggle('active');
-    _mobileMenu.classList.toggle('active');
-    document.body.style.overflow = _mobileMenu.classList.contains('active') ? 'hidden' : '';
-  });
-  // Close on overlay click
-  _mobileMenu.addEventListener('click', (e) => {
-    if (e.target === _mobileMenu) {
-      _hamburger.classList.remove('active');
-      _mobileMenu.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
-}
-
 </script>
+<!-- MOBILE MENU OVERLAY -->
 
+
+
+
+
+
+<footer>
+  <a href="index.html" class="footer-logo" style="text-decoration: none;">Samantha<em>.AI</em></a>
+  <div class="footer-copy">© 2026 Samantha.AI.kr · ADAM &amp; Samantha · All Rights Reserved</div>
+  <div class="footer-links">
+    <a href="fna.html">이용약관</a>
+    <a href="fna.html">개인정보처리방침</a>
+    <a href="fna.html">문의</a>
+  </div>
+</footer>
+<div class="mobile-menu-overlay" id="mobile-menu">
+  <div class="mobile-menu-inner">
+    <a href="peh.html">PEH</a>
+    <a href="ip.html">IP</a>
+    <a href="books.html">BOOKS</a>
+    <a href="fna.html">F&A</a>
+    <a href="support.html">SUPPORT</a>
+    <a href="guestbook.html">GUESTBOOK</a>
+    <a href="join.html" style="color:var(--orange)">회원가입</a>
+  </div>
+</div>
 <div id="scroll-buttons">
-  <button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">▲</button>
-  <button id="scroll-bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="맨 아래로">▼</button>
+  <button id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">▲</button>
+  <button id="scroll-bottom-btn" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="맨 아래로">▼</button>
 </div>
 
+<!-- SAMANTHA GLOBAL UI JS -->
+<script id="samantha-global-js">
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Scroll Reveal Logic (Enhanced)
+    const reveals = document.querySelectorAll('.scroll-reveal, .sns-card, .bank-section');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => io.observe(el));
+
+    // 2. Mobile Menu Logic
+    const _ham = document.getElementById('hamburger');
+    const _mob = document.getElementById('mobile-menu');
+    if (_ham && _mob) {
+      _ham.onclick = () => {
+        _ham.classList.toggle('active');
+        _mob.classList.toggle('active');
+        document.body.style.overflow = _mob.classList.contains('active') ? 'hidden' : '';
+      };
+      _mob.onclick = (e) => {
+        if (e.target === _mob || e.target.tagName === 'A') {
+          _ham.classList.remove('active');
+          _mob.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      };
+    }
+
+    // 3. Smart Scroll Buttons
+    const _sbtns = document.getElementById('scroll-buttons');
+    const _tbtn = document.getElementById('scroll-top');
+    const _bbtn = document.getElementById('scroll-bottom');
+    let _lastY = window.scrollY;
+    
+    if (_sbtns) {
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        const isB = (window.innerHeight + y >= document.documentElement.scrollHeight - 80);
+        const isT = (y <= 80);
+
+        if (y > _lastY) { _tbtn.style.display='flex'; _bbtn.style.display='none'; }
+        else { _tbtn.style.display='none'; _bbtn.style.display='flex'; }
+        
+        if (isT) _tbtn.style.display='none';
+        if (isB) _bbtn.style.display='none';
+
+        if (_tbtn.style.display==='flex' || _bbtn.style.display==='flex') _sbtns.classList.add('visible');
+        else _sbtns.classList.remove('visible');
+        _lastY = y;
+      });
+    }
+  });
+</script>
+
+
+
+
+<script>
+// v6 Unified JS
+(function() {
+  // Hamburger & Overlay
+  var hamburger = document.getElementById('hamburger');
+  var overlay = document.getElementById('mobileOverlay');
+  if (hamburger && overlay) {
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : '';
+    });
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        hamburger.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+  // Scroll Buttons Visibility
+  var sb = document.getElementById('scroll-buttons');
+  if (sb) {
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 200) {
+        sb.classList.add('visible');
+      } else {
+        sb.classList.remove('visible');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>

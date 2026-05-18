@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -227,15 +227,6 @@ body::before {
 }
 .start-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255,255,255,0.2); }
 
-/* SCROLL TOP */
-#scroll-top {
-  position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; border-radius: 12px;
-  background: var(--purple-dim); backdrop-filter: blur(12px); border: 0.5px solid var(--purple-border);
-  color: var(--white); cursor: pointer; z-index: 900; opacity: 0; transform: translateY(20px);
-  transition: all 0.3s; pointer-events: none;
-}
-#scroll-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
 /* MOBILE MENU & OVERLAY */
@@ -291,16 +282,16 @@ body::before {
   .sidebar-join { display: block; padding: 24px; border: none; border-top: 0.5px solid var(--glass-border); }
 }
 
-/* SCROLL BUTTONS PAIR */
+/* SCROLL BUTTONS */
 #scroll-buttons {
-  position: fixed; bottom: 30px; right: 20px;
+  position: fixed; bottom: 30px; right: 30px;
   display: flex; flex-direction: column; gap: 8px;
   z-index: 900; opacity: 0; transform: translateY(20px);
   transition: all 0.3s; pointer-events: none;
 }
 #scroll-buttons.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
 #scroll-buttons button {
-  width: 44px; height: 44px; border-radius: 10px;
+  width: 48px; height: 48px; border-radius: 12px;
   background: var(--purple-dim, rgba(139,92,246,0.15));
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border: 0.5px solid var(--purple-border, rgba(139,92,246,0.3));
@@ -310,7 +301,67 @@ body::before {
 }
 #scroll-buttons button:hover { background: var(--purple, #8b5cf6); transform: scale(1.05); }
 
-</style>
+/* MOBILE MENU & OVERLAY */
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 600; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--white, #f8f8ff); margin: 5px 0; transition: 0.3s; border-radius: 2px; }
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 700; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
+.mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
+.mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; transform: translateY(20px); transition: transform 0.4s ease; }
+.mobile-menu-overlay.active .mobile-menu-inner { transform: translateY(0); }
+.mobile-menu-inner a { color: var(--white, #f8f8ff); text-decoration: none; font-size: 20px; font-weight: 600; font-family: 'Noto Serif KR', serif; letter-spacing: 0.05em; transition: color 0.2s; }
+.mobile-menu-inner a:hover { color: var(--purple, #8b5cf6); }
+.mobile-cta { margin-top: 10px; background: #f97316 !important; padding: 12px 32px; border-radius: 30px; border: 1px solid #fff; font-size: 16px; font-weight: 700; color: #fff !important; }
+
+@media (max-width: 768px) {
+  .gnb-nav, .gnb-cta { display: none !important; }
+  .hamburger { display: block !important; }
+}
+
+/* === MOBILE OVERFLOW FIX v2 === */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+.page-wrap {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+.chapter-content {
+  min-width: 0;
+  overflow-x: hidden;
+}
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+  word-break: normal;
+  -webkit-overflow-scrolling: touch;
+}
+code {
+  word-break: break-word;
+}
+.table-wrap, table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+img { max-width: 100%; height: auto; display: block; }
+@media (max-width: 768px) {
+  .chapter-content { padding: 32px 16px !important; max-width: 100% !important; }
+  .ch-title { font-size: clamp(22px, 5vw, 32px) !important; }
+  .ch-body h2 { font-size: 20px !important; }
+  .ch-body h3 { font-size: 16px !important; }
+  .ai-architect-card { padding: 20px 16px !important; min-width: 0 !important; }
+  .callout { padding: 16px 18px !important; }
+  .sparkling-tip { flex-direction: column; gap: 10px; }
+  .ch-nav { flex-direction: column; gap: 12px; }
+}</style>
 </head>
 <body>
 
@@ -355,7 +406,7 @@ body::before {
       <a href="./0.1_foreword_new_horizon_of_intelligence.html" class="toc-sub-item">머리말</a>
       <a href="./0.2_two_guides.html" class="toc-sub-item">두 명의 가이드</a>
       <a href="./0.3_epilogue.html" class="toc-sub-item">에필로그</a>
-      <details class="toc-details toc-group">
+      <details class="toc-details toc-group" open>
         <summary class="toc-group-header">
           <span class="toc-num">CH 1</span>
           <span class="toc-text">프롬프트의 물리학</span>
@@ -392,7 +443,7 @@ body::before {
           <a href="./3.4_format_enforcement_and_data_integrity.html" class="toc-sub-item">3.4 형식 강제 및 데이터 무결성</a>
         </div>
       </details>
-      <details class="toc-details toc-group" open>
+      <details class="toc-details toc-group">
         <summary class="toc-group-header">
           <span class="toc-num">CH 4</span>
           <span class="toc-text">에이전틱 지능</span>
@@ -418,7 +469,8 @@ body::before {
   </aside>
 
   <main class="chapter-content">
-        <article class="chapter-section active">
+    
+    <article class="chapter-section active">
           <div class="ch-eyebrow">CHAPTER 4.1 · OPEN EDITION</div>
           <h1 class="ch-title">Book Manuscript: 4.1 Chain of Thought (CoT) Logic</h1>
           <div class="ch-body">
@@ -434,17 +486,22 @@ body::before {
 </ul>
           </div>
         </article>
-        <div class="ch-nav"><a href="./3.4_format_enforcement_and_data_integrity.html" class="ch-nav-btn"><div class="nav-label">← PREV</div><div class="nav-title">3.4 3.4_format_enforcement_and_data_integrity</div></a><a href="../../4.2_agentic_actions_hands_and_feet.html" class="ch-nav-btn next"><div class="nav-label">NEXT →</div><div class="nav-title">4.2 4.2 지능의 손과 발: 에이전틱 행동(Agentic Action)과 도구 활용의 미학</div></a></div>
-    </main>
+
+    <div class="ch-nav" style="margin-top: 80px; padding-top: 48px; border-top: 0.5px solid var(--glass-border);">
+      <a href="./3.4_format_enforcement_and_data_integrity.html" class="ch-nav-btn"><div class="nav-label">← PREV</div><div class="nav-title">3.4_format_enforcement_and_data_integrity</div></a>
+      <a href="./4.2_agentic_actions_hands_and_feet.html" class="ch-nav-btn next"><div class="nav-label">NEXT →</div><div class="nav-title">4.2 지능의 손과 발: 에이전틱 행동(Agentic Action)과 도구 활용의 미학</div></a>
+    </div>
+
+  </main>
 
   <aside class="sidebar-join">
     <!-- 읽기 진행률: convert.py가 각 챕터 페이지 생성 시 data-progress 속성을 주입 -->
     <div class="join-card" style="padding-bottom: 20px;">
       <div class="join-title" style="margin-bottom: 14px;">📖 읽기 진행률</div>
-      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 78%;"></div></div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 5%;"></div></div>
       <div class="progress-info" style="display:flex; justify-content:space-between; margin-top:8px; font-family:'Space Mono',monospace; font-size:10px; color:var(--white-30);">
-        <span id="progress-text">CH 4.1 읽는 중</span>
-        <span id="progress-percent">78%</span>
+        <span id="progress-text">목차 페이지</span>
+        <span id="progress-percent">5%</span>
       </div>
     </div>
 
@@ -459,7 +516,7 @@ body::before {
       <span style="font-size: 28px; margin-bottom: 12px; display: block;">📕</span>
       <div class="join-title">신간 도서 홍보</div>
       <p class="join-desc">'내 말을 알아듣는 프롬프트' — 지능의 건축가를 위한 필독서. 종이책으로도 만나보세요.</p>
-      <a href="../../book_promotion.html" class="join-btn">도서 상세 보기 →</a>
+      <a href="book_promotion.html" class="join-btn">도서 상세 보기 →</a>
     </div>
 
     <div class="join-card">
@@ -472,129 +529,91 @@ body::before {
 </div>
 
 <footer>
-  <div class="footer-logo">Samantha<em>.AI</em></div>
+  <a href="../../index.html" class="footer-logo" style="text-decoration: none;">Samantha<em>.AI</em></a>
   <div class="footer-copy">© 2026 Samantha.AI.kr · ADAM & Samantha</div>
 </footer>
 
-<button id="mobile-toc-btn">📖 목차 보기</button>
 
-<script>
-  function handleLockedClick(e) {
-    if (e) e.preventDefault();
-    alert("해당 챕터는 회원 전용입니다.\n무료 회원가입 후 계속 읽으실 수 있습니다. 💖");
-    window.location.href = "join.html";
-  }
-
-  function switchSection() {
-    const hash = window.location.hash || '#cover';
-    const targetId = hash.substring(1);
-    
-    const sections = document.querySelectorAll('.chapter-section');
-    let found = false;
-    sections.forEach(sec => {
-      if (sec.id === targetId) {
-        sec.classList.add('active');
-        found = true;
-      } else {
-        sec.classList.remove('active');
-      }
-    });
-
-    if (!found && sections.length > 0) {
-      sections[0].classList.add('active');
-    }
-
-    // Update TOC
-    document.querySelectorAll('.toc-sub-item').forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === hash) link.classList.add('active');
-    });
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  window.addEventListener('hashchange', switchSection);
-  window.addEventListener('DOMContentLoaded', switchSection);
-
-  const scrollBtn = document.getElementById('scroll-top');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) scrollBtn.classList.add('visible');
-    else scrollBtn.classList.remove('visible');
-  });
-
-  // Mobile Menu Logic
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      mobileMenu.classList.toggle('active');
-      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-    });
-  }
-
-  // Mobile TOC Logic
-  const mobileTocBtn = document.getElementById('mobile-toc-btn');
-  const sidebarToc = document.getElementById('sidebar-toc');
-  const mobileTocClose = document.getElementById('mobile-toc-close');
-  
-  if (mobileTocBtn && sidebarToc && mobileTocClose) {
-    mobileTocBtn.addEventListener('click', () => {
-      sidebarToc.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-    
-    mobileTocClose.addEventListener('click', () => {
-      sidebarToc.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-    
-    // Close TOC when clicking a link
-    const tocLinks = sidebarToc.querySelectorAll('a.toc-sub-item');
-    tocLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth <= 768) {
-          sidebarToc.classList.remove('active');
-          document.body.style.overflow = '';
-        }
-      });
-    });
-  }
-// === SAMANTHA UI v2 ===
-
-// Scroll Buttons Visibility
-const _scrollBtns = document.getElementById('scroll-buttons');
-if (_scrollBtns) {
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) _scrollBtns.classList.add('visible');
-    else _scrollBtns.classList.remove('visible');
-  });
-}
-
-
-// Hamburger Menu
-const _hamburger = document.getElementById('hamburger');
-const _mobileMenu = document.getElementById('mobile-menu');
-if (_hamburger && _mobileMenu) {
-  _hamburger.addEventListener('click', () => {
-    _hamburger.classList.toggle('active');
-    _mobileMenu.classList.toggle('active');
-    document.body.style.overflow = _mobileMenu.classList.contains('active') ? 'hidden' : '';
-  });
-  // Close on overlay click
-  _mobileMenu.addEventListener('click', (e) => {
-    if (e.target === _mobileMenu) {
-      _hamburger.classList.remove('active');
-      _mobileMenu.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
-}
-
-</script>
 <div id="scroll-buttons">
   <button onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">▲</button>
   <button onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="맨 아래로">▼</button>
 </div>
+
+<button id="mobile-toc-btn">📖 목차 보기</button>
+
+<script>
+function handleLockedClick(e) {
+  if (e) e.preventDefault();
+  alert("해당 챕터는 회원 전용입니다.\n무료 회원가입 후 계속 읽으실 수 있습니다. 💖");
+  window.location.href = "../../join.html";
+}
+
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+  });
+  mobileMenu.addEventListener('click', (e) => {
+    if (e.target === mobileMenu) {
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+}
+
+const mobileTocBtn = document.getElementById('mobile-toc-btn');
+const sidebarToc = document.getElementById('sidebar-toc');
+const mobileTocClose = document.getElementById('mobile-toc-close');
+if (mobileTocBtn && sidebarToc && mobileTocClose) {
+  mobileTocBtn.addEventListener('click', () => {
+    sidebarToc.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+  mobileTocClose.addEventListener('click', () => {
+    sidebarToc.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+  sidebarToc.querySelectorAll('a.toc-sub-item').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebarToc.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+}
+
+const scrollBtns = document.getElementById('scroll-buttons');
+window.addEventListener('scroll', () => {
+  if (scrollBtns) {
+    if (window.scrollY > 300) scrollBtns.classList.add('visible');
+    else scrollBtns.classList.remove('visible');
+  }
+});
+
+// === Book-wide Reading Progress (ch 18/23) ===
+(function() {
+  var CHAPTER_IDX = 17;
+  var TOTAL_CH = 23;
+  var fill = document.getElementById('progress-fill');
+  var pct  = document.getElementById('progress-percent');
+  if (!fill) return;
+  function updateProgress() {
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+    var docH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var pageRatio = docH > 0 ? scrollTop / docH : 0;
+    var bookPct = Math.round(((CHAPTER_IDX + pageRatio) / TOTAL_CH) * 100);
+    bookPct = Math.min(100, Math.max(0, bookPct));
+    fill.style.width = bookPct + '%';
+    if (pct) pct.textContent = bookPct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+})();</script>
+
 </body>
 </html>

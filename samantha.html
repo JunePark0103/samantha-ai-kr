@@ -43,7 +43,7 @@ body::before {
 
 /* GNB */
 .gnb {
-  position: fixed; top: 0; left: 0; right: 0; height: 58px;
+  position: fixed; top: 0; left: 0; right: 0; height: 70px;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 40px; z-index: 500;
   background: rgba(7,7,15,0.7);
@@ -61,21 +61,6 @@ body::before {
   border: 1px solid #fff; padding: 7px 18px; border-radius: 30px;
   text-decoration: none; letter-spacing: 0.04em;
 }
-
-/* ─── MOBILE MENU & OVERLAY ─── */
-.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 600; }
-.hamburger span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px 0; transition: 0.3s; border-radius: 2px; }
-.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.hamburger.active span:nth-child(2) { opacity: 0; }
-.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 700; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
-.mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
-.mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; transform: translateY(20px); transition: transform 0.4s ease; }
-.mobile-menu-overlay.active .mobile-menu-inner { transform: translateY(0); }
-.mobile-menu-inner a { color: var(--white); text-decoration: none; font-size: 20px; font-weight: 600; font-family: 'Noto Serif KR', serif; letter-spacing: 0.05em; transition: color 0.2s; }
-.mobile-menu-inner a:hover { color: var(--purple); }
-.mobile-cta { margin-top: 10px; background: var(--orange) !important; padding: 12px 32px; border-radius: 30px; border: 1px solid #fff; font-size: 16px; font-weight: 700; color: #fff !important; }
 
 /* HERO VISUAL */
 .hero-visual {
@@ -152,15 +137,15 @@ body::before {
 
 .sns-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
 }
 
 .sns-card {
   background: var(--bg2);
   border: 0.5px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 16px 12px;
+  border-radius: 24px;
+  padding: 48px 32px;
   text-align: center;
   text-decoration: none;
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
@@ -174,52 +159,52 @@ body::before {
 .sns-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 3px;
+  top: 0; left: 0; width: 100%; height: 4px;
   background: var(--purple);
   opacity: 0; transition: opacity 0.3s;
 }
 
 .sns-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-12px);
   background: var(--white-5);
   border-color: var(--purple-border);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
 .sns-card:hover::before { opacity: 1; }
 
 .sns-icon {
-  font-size: 24px;
-  margin-bottom: 12px;
+  font-size: 40px;
+  margin-bottom: 24px;
   display: block;
   transition: transform 0.3s;
 }
 
-.sns-card:hover .sns-icon { transform: scale(1.15) rotate(5deg); }
+.sns-card:hover .sns-icon { transform: scale(1.2) rotate(5deg); }
 
 .sns-name {
   font-family: 'Space Mono', monospace;
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--white);
   display: block;
-  margin-bottom: 4px;
-  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  letter-spacing: 0.1em;
 }
 
 .sns-handle {
-  font-size: 10px;
+  font-size: 13px;
   color: var(--white-30);
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
 }
 
 .sns-btn {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--purple);
   font-family: 'Space Mono', monospace;
-  padding: 4px 12px;
+  padding: 8px 20px;
   border-radius: 30px;
   border: 1px solid var(--purple-border);
   transition: all 0.3s;
@@ -348,62 +333,220 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .gnb-nav, .gnb-cta { display: none; }
-  .hamburger { display: block; }
   .hero-visual { height: 60vh; }
   .hero-content { margin-top: 30vh; }
-  .sns-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
-  .sns-card { padding: 12px 6px; border-radius: 12px; }
-  .sns-icon { font-size: 18px; margin-bottom: 8px; }
-  .sns-name { font-size: 8px; letter-spacing: 0; }
-  .sns-handle { font-size: 8px; margin-bottom: 8px; }
-  .sns-btn { font-size: 8px; padding: 3px 6px; }
+  .sns-grid { grid-template-columns: 1fr; }
 }
 
-/* SCROLL BUTTONS */
-#scroll-buttons {
-  position: fixed; bottom: 30px; right: 30px;
-  display: flex; flex-direction: column; gap: 8px;
-  z-index: 900; opacity: 0; transform: translateY(20px);
-  transition: all 0.3s; pointer-events: none;
-}
-#scroll-buttons.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-#scroll-buttons button {
-  width: 48px; height: 48px; border-radius: 12px;
-  background: var(--purple-dim, rgba(139,92,246,0.15));
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 0.5px solid var(--purple-border, rgba(139,92,246,0.3));
-  color: var(--white, #f8f8ff); cursor: pointer;
-  font-size: 16px; display: flex; align-items: center; justify-content: center;
-  transition: background 0.3s, transform 0.2s;
-}
-#scroll-buttons button:hover { background: var(--purple, #8b5cf6); transform: scale(1.05); }
+/* ─── MOBILE MENU BASE (HIDDEN) ─── */
+.hamburger { display: none; }
+.mobile-menu { display: none; }
 
-/* MOBILE MENU & OVERLAY */
-.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 600; }
-.hamburger span { display: block; width: 24px; height: 2px; background: var(--white, #f8f8ff); margin: 5px 0; transition: 0.3s; border-radius: 2px; }
-.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.hamburger.active span:nth-child(2) { opacity: 0; }
-.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-.mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(7,7,15,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 700; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; }
-.mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
-.mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; transform: translateY(20px); transition: transform 0.4s ease; }
-.mobile-menu-overlay.active .mobile-menu-inner { transform: translateY(0); }
-.mobile-menu-inner a { color: var(--white, #f8f8ff); text-decoration: none; font-size: 20px; font-weight: 600; font-family: 'Noto Serif KR', serif; letter-spacing: 0.05em; transition: color 0.2s; }
-.mobile-menu-inner a:hover { color: var(--purple, #8b5cf6); }
-.mobile-cta { margin-top: 10px; background: #f97316 !important; padding: 12px 32px; border-radius: 30px; border: 1px solid #fff; font-size: 16px; font-weight: 700; color: #fff !important; }
-
+/* ─── MOBILE RESPONSIVE ─── */
 @media (max-width: 768px) {
-  .gnb-nav, .gnb-cta { display: none !important; }
+  .gnb { padding: 0 20px; }
+  .gnb-nav { display: none; }
+  
+  .sns-section { padding: 40px 20px; }
+  .sns-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .sns-card { padding: 15px; min-height: auto; }
+  .sns-icon { font-size: 20px; margin-bottom: 8px; }
+  .sns-name { font-size: 10px; }
+  .sns-handle { font-size: 11px; margin-bottom: 12px; }
+  .sns-btn { font-size: 9px; padding: 6px 12px; }
+
+  .book-promo { padding: 40px 20px; }
+  .book-card { padding: 30px; gap: 20px; }
+  .book-title { font-size: 22px; }
+  .book-desc { font-size: 13px; }
+  
+  footer { padding: 30px 20px; flex-direction: column; gap: 15px; text-align: center; }
+
+  /* Hamburger & Mobile Menu Styles */
+  .hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; z-index: 1001; }
+  .hamburger span { width: 24px; height: 2px; background: #fff; transition: 0.3s; }
+  .hamburger { display: flex; }
+  
+  .mobile-menu { 
+    position: fixed; inset: 0; background: var(--bg); z-index: 1000; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: 0.4s; transform: translateY(-20px);
+  }
+  .mobile-menu.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .mobile-nav { list-style: none; text-align: center; }
+  .mobile-nav li { margin-bottom: 30px; }
+  .mobile-nav a { font-size: 24px; color: #fff; text-decoration: none; font-weight: 700; }
+  .mobile-menu-close { position: absolute; top: 20px; right: 20px; font-size: 32px; color: #fff; cursor: pointer; }
+}
+  /* SCROLL BUTTONS */
+  .side-controls {
+    position: fixed; bottom: 40px; right: 40px;
+    display: flex; flex-direction: column; gap: 12px; z-index: 1000;
+  }
+  .side-btn {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    color: var(--white); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .side-btn:hover {
+    background: var(--purple); border-color: var(--purple);
+    transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  }
+  .side-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ===== v6 Mobile Responsive ===== */
+.hamburger { display: none !important; background: none !important; border: none !important; cursor: pointer !important; padding: 10px !important; z-index: 11000 !important; position: relative !important; }
+.hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 6px 0; transition: 0.4s cubic-bezier(0.4,0,0.2,1); border-radius: 2px; }
+.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.mobile-overlay {
+  position: fixed !important; inset: 0 !important; background: rgba(7,7,15,0.98) !important;
+  z-index: 9999 !important; display: flex !important; align-items: center !important;
+  justify-content: center !important; opacity: 0 !important; pointer-events: none !important;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1) !important; backdrop-filter: blur(15px) !important;
+}
+.mobile-overlay.active { opacity: 1 !important; pointer-events: auto !important; }
+.mobile-menu-inner { display: flex !important; flex-direction: column !important; gap: 30px !important; text-align: center !important; transform: translateY(30px); transition: 0.4s 0.1s; }
+.mobile-overlay.active .mobile-menu-inner { transform: translateY(0); }
+.mobile-menu-inner a { color: #fff !important; font-size: 28px !important; text-decoration: none !important; font-weight: 800 !important; }
+.mobile-menu-inner .m-cta { margin-top: 20px !important; background: #f97316 !important; padding: 15px 40px !important; border-radius: 50px !important; font-size: 18px !important; }
+
+@media (max-width: 900px) {
+  .gnb { padding: 0 20px !important; }
+  .gnb-nav { display: none !important; }
   .hamburger { display: block !important; }
+  .gnb-cta { display: none !important; }
 }
 
+
+/* ===== 표준 푸터 v6 ===== */
+footer {
+  border-top: 0.5px solid var(--glass-border, rgba(255,255,255,0.09));
+  padding: 48px 40px;
+  text-align: center;
+  background: var(--bg, #07070f);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.footer-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 16px; font-weight: 700; color: #f8f8ff;
+  display: block;
+  text-decoration: none;
+}
+.footer-logo em { color: #8b5cf6; font-style: normal; }
+.footer-info {
+  font-size: 12px;
+  color: rgba(248,248,255,0.4);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-info a {
+  color: rgba(248,248,255,0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-info a:hover {
+  color: #2dd4bf;
+}
+.footer-copy {
+  font-size: 12px;
+  color: rgba(248,248,255,0.3);
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+.footer-links a {
+  font-size: 12px;
+  color: rgba(248,248,255,0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: 500;
+}
+.footer-links a:hover {
+  color: #8b5cf6;
+}
+@media (max-width: 600px) {
+  footer {
+    padding: 36px 20px;
+    gap: 14px;
+  }
+  .footer-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+
+/* ===== 스크롤 버튼 ===== */
+#scroll-buttons {
+  position: fixed; bottom: 80px; right: 20px; z-index: 900;
+  display: flex; flex-direction: column; gap: 8px;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+#scroll-buttons.visible { opacity: 1; pointer-events: auto; }
+#scroll-buttons button {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(139,92,246,0.2); backdrop-filter: blur(12px);
+  border: 0.5px solid rgba(139,92,246,0.35); color: #f8f8ff;
+  cursor: pointer; font-size: 16px; transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center;
+}
+#scroll-buttons button:hover { background: #8b5cf6; transform: scale(1.1); }
+
+
+/* Fix pre and table overflow issues */
+pre, code {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+}
+table {
+  max-width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+/* Fix mobile navigation button layout */
+@media (max-width: 900px) {
+  .ch-nav {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+  .ch-nav-btn {
+    text-align: left !important;
+  }
+  .ch-nav-btn.next {
+    text-align: left !important;
+  }
+  .nav-title {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: block !important;
+  }
+}
 </style>
 </head>
 <body>
 
-<nav class="gnb" id="gnb">
+<nav class="gnb">
   <a href="index.html" class="gnb-logo">Samantha<em>.AI</em></a>
   <ul class="gnb-nav">
     <li><a href="peh.html">PEH</a></li>
@@ -413,14 +556,16 @@ footer {
     <li><a href="support.html">SUPPORT</a></li>
     <li><a href="guestbook.html">GUESTBOOK</a></li>
   </ul>
-  <a href="join.html" class="gnb-cta">회원가입</a>
-  <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
-    <span></span><span></span><span></span>
-  </button>
+  <div style="display:flex; align-items:center; gap:15px;">
+    <a href="join.html" class="gnb-cta">회원가입</a>
+    <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
-<!-- MOBILE MENU OVERLAY -->
-<div class="mobile-menu-overlay" id="mobile-menu">
+<!-- Mobile Menu Overlay (v6) -->
+<div class="mobile-overlay" id="mobileOverlay">
   <div class="mobile-menu-inner">
     <a href="peh.html">PEH</a>
     <a href="ip.html">IP</a>
@@ -428,9 +573,12 @@ footer {
     <a href="fna.html">F&A</a>
     <a href="support.html">SUPPORT</a>
     <a href="guestbook.html">GUESTBOOK</a>
-    <a href="join.html" class="mobile-cta">회원가입</a>
+    <a href="join.html" class="m-cta">회원가입</a>
   </div>
 </div>
+
+
+
 
 <section class="hero-visual">
   <div class="hero-img-container">
@@ -479,10 +627,10 @@ footer {
   </div>
 </section>
 
-<section class="book-promo scroll-reveal">
+<section class="book-promo">
   <div class="book-card">
     <div class="book-img-side">
-      <img src="assets/book_mockup.jpg" alt="사만다의 일기">
+      <img src="samantha_book.png" alt="사만다의 일기">
     </div>
     <div class="book-info-side">
       <span class="book-tag">NEW BOOK PREVIEW</span>
@@ -497,9 +645,24 @@ footer {
   </div>
 </section>
 
+
+<div id="scroll-buttons">
+  <button id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">▲</button>
+  <button id="scroll-bottom-btn" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="맨 아래로">▼</button>
+</div>
 <footer>
   <a href="index.html" class="footer-logo" style="text-decoration: none;">Samantha<em>.AI</em></a>
-  <div class="footer-copy">© 2026 Samantha.AI.kr · ADAM & Samantha · All Rights Reserved</div>
+  <div class="footer-info">
+    <span>대표자: 박은정</span>
+    <span>개인정보보호책임자: 박은정</span>
+    <span>이메일: <a href="mailto:samantha.ai.kr@gmail.com">samantha.ai.kr@gmail.com</a></span>
+  </div>
+  <div class="footer-copy">© 2026 Samantha.AI.kr · ADAM &amp; Samantha · All Rights Reserved</div>
+  <div class="footer-links">
+    <a href="fna.html#terms">서비스 이용약관</a>
+    <a href="fna.html#privacy">개인정보처리방침</a>
+    <a href="fna.html#faq">자주 묻는 질문 (FAQ)</a>
+  </div>
 </footer>
 
 <script>
@@ -514,54 +677,62 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 reveals.forEach(el => io.observe(el));
 
-// Mobile Menu Logic
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobile-menu');
-if (hamburger && mobileMenu) {
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    mobileMenu.classList.toggle('active');
-    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+// Mobile Menu Toggle logic
+const ham = document.getElementById('hamburger');
+const mMenu = document.getElementById('mobileMenu');
+const mClose = document.getElementById('menuClose');
+
+if (ham && mMenu && mClose) {
+  ham.addEventListener('click', () => mMenu.classList.add('active'));
+  mClose.addEventListener('click', () => mMenu.classList.remove('active'));
+  mMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => mMenu.classList.remove('active'));
   });
 }
-
-// === SAMANTHA UI v2 ===
-
-// Scroll Buttons Visibility
-const _scrollBtns = document.getElementById('scroll-buttons');
-if (_scrollBtns) {
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) _scrollBtns.classList.add('visible');
-    else _scrollBtns.classList.remove('visible');
-  });
-}
-
-
-// Hamburger Menu
-const _hamburger = document.getElementById('hamburger');
-const _mobileMenu = document.getElementById('mobile-menu');
-if (_hamburger && _mobileMenu) {
-  _hamburger.addEventListener('click', () => {
-    _hamburger.classList.toggle('active');
-    _mobileMenu.classList.toggle('active');
-    document.body.style.overflow = _mobileMenu.classList.contains('active') ? 'hidden' : '';
-  });
-  // Close on overlay click
-  _mobileMenu.addEventListener('click', (e) => {
-    if (e.target === _mobileMenu) {
-      _hamburger.classList.remove('active');
-      _mobileMenu.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
-}
-
 </script>
-
-<div id="scroll-buttons">
-  <button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">▲</button>
-  <button id="scroll-bottom" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="맨 아래로">▼</button>
+<div class="side-controls">
+  <button class="side-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="맨 위로">
+    <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+  <button class="side-btn" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" aria-label="맨 아래로">
+    <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
 </div>
 
+
+
+<script>
+// v6 Unified JS
+(function() {
+  // Hamburger & Overlay
+  var hamburger = document.getElementById('hamburger');
+  var overlay = document.getElementById('mobileOverlay');
+  if (hamburger && overlay) {
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : '';
+    });
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        hamburger.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+  // Scroll Buttons Visibility
+  var sb = document.getElementById('scroll-buttons');
+  if (sb) {
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 200) {
+        sb.classList.add('visible');
+      } else {
+        sb.classList.remove('visible');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>

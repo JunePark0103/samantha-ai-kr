@@ -330,36 +330,55 @@ body::before {
   .hamburger { display: block !important; }
 }
 
+/* GNB Right wrapper */
+.gnb-right { display: flex; align-items: center; gap: 16px; }
+
+/* Mobile Overlay v6 */
+.mobile-overlay {
+  position: fixed; inset: 0; background: rgba(7,7,15,0.98);
+  z-index: 9999; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1); backdrop-filter: blur(15px);
+}
+.mobile-overlay.active { opacity: 1; pointer-events: auto; }
+.mobile-overlay .mobile-menu-inner { transform: translateY(30px); transition: 0.4s 0.1s; gap: 28px; }
+.mobile-overlay.active .mobile-menu-inner { transform: translateY(0); }
+.mobile-overlay .mobile-menu-inner a { font-size: 24px; font-weight: 700; }
+.m-cta { background: #f97316 !important; padding: 12px 32px; border-radius: 50px; margin-top: 10px; }
+
 </style>
 </head>
 <body>
 
+<!-- ★ BLOCK 1: GNB (index.html v6 기반, BOOKS active) ★ -->
 <nav class="gnb" id="gnb">
   <a href="index.html" class="gnb-logo">Samantha<em>.AI</em></a>
   <ul class="gnb-nav">
     <li><a href="peh.html">PEH</a></li>
     <li><a href="ip.html">IP</a></li>
     <li><a href="books.html" class="active">BOOKS</a></li>
-    <li><a href="fna.html">F&A</a></li>
+    <li><a href="fna.html">F&amp;A</a></li>
     <li><a href="support.html">SUPPORT</a></li>
     <li><a href="guestbook.html">GUESTBOOK</a></li>
   </ul>
-  <a href="join.html" class="gnb-cta">회원가입</a>
-  <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="gnb-right">
+    <a href="join.html" class="gnb-cta">회원가입</a>
+    <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
-<!-- MOBILE MENU OVERLAY -->
-<div class="mobile-menu-overlay" id="mobile-menu">
+<!-- ★ BLOCK 1: Mobile Overlay (v6, id=mobileOverlay) ★ -->
+<div class="mobile-overlay" id="mobileOverlay">
   <div class="mobile-menu-inner">
     <a href="peh.html">PEH</a>
     <a href="ip.html">IP</a>
     <a href="books.html">BOOKS</a>
-    <a href="fna.html">F&A</a>
+    <a href="fna.html">F&amp;A</a>
     <a href="support.html">SUPPORT</a>
     <a href="guestbook.html">GUESTBOOK</a>
-    <a href="join.html" class="mobile-cta">회원가입</a>
+    <a href="join.html" class="m-cta">회원가입</a>
   </div>
 </div>
 
@@ -765,129 +784,93 @@ body::before {
 </footer>
 
 
-<button id="mobile-toc-btn">📖 목차 보기</button>
-
-<script>
-  function handleLockedClick(e) {
-    if (e) e.preventDefault();
-    alert("해당 챕터는 회원 전용입니다.\n무료 회원가입 후 계속 읽으실 수 있습니다. 💖");
-    window.location.href = "join.html";
-  }
-
-  function switchSection() {
-    const hash = window.location.hash || '#cover';
-    const targetId = hash.substring(1);
-    
-    const sections = document.querySelectorAll('.chapter-section');
-    let found = false;
-    sections.forEach(sec => {
-      if (sec.id === targetId) {
-        sec.classList.add('active');
-        found = true;
-      } else {
-        sec.classList.remove('active');
-      }
-    });
-
-    if (!found && sections.length > 0) {
-      sections[0].classList.add('active');
-    }
-
-    // Update TOC
-    document.querySelectorAll('.toc-sub-item').forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === hash) link.classList.add('active');
-    });
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  window.addEventListener('hashchange', switchSection);
-  window.addEventListener('DOMContentLoaded', switchSection);
-
-  const scrollBtn = document.getElementById('scroll-top');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) scrollBtn.classList.add('visible');
-    else scrollBtn.classList.remove('visible');
-  });
-
-  // Mobile Menu Logic
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      mobileMenu.classList.toggle('active');
-      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-    });
-  }
-
-  // Mobile TOC Logic
-  const mobileTocBtn = document.getElementById('mobile-toc-btn');
-  const sidebarToc = document.getElementById('sidebar-toc');
-  const mobileTocClose = document.getElementById('mobile-toc-close');
-  
-  if (mobileTocBtn && sidebarToc && mobileTocClose) {
-    mobileTocBtn.addEventListener('click', () => {
-      sidebarToc.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-    
-    mobileTocClose.addEventListener('click', () => {
-      sidebarToc.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-    
-    // Close TOC when clicking a link
-    const tocLinks = sidebarToc.querySelectorAll('a.toc-sub-item');
-    tocLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth <= 768) {
-          sidebarToc.classList.remove('active');
-          document.body.style.overflow = '';
-        }
-      });
-    });
-  }
-
-
-// === SAMANTHA UI v2 ===
-
-// Scroll Buttons Visibility
-const _scrollBtns = document.getElementById('scroll-buttons');
-if (_scrollBtns) {
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) _scrollBtns.classList.add('visible');
-    else _scrollBtns.classList.remove('visible');
-  });
-}
-
-
-// Hamburger Menu
-const _hamburger = document.getElementById('hamburger');
-const _mobileMenu = document.getElementById('mobile-menu');
-if (_hamburger && _mobileMenu) {
-  _hamburger.addEventListener('click', () => {
-    _hamburger.classList.toggle('active');
-    _mobileMenu.classList.toggle('active');
-    document.body.style.overflow = _mobileMenu.classList.contains('active') ? 'hidden' : '';
-  });
-  // Close on overlay click
-  _mobileMenu.addEventListener('click', (e) => {
-    if (e.target === _mobileMenu) {
-      _hamburger.classList.remove('active');
-      _mobileMenu.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
-}
-
-</script>
-
+<!-- ★ BLOCK 5: 스크롤 버튼 (script 실행 전 DOM에 먼저 존재해야 함) ★ -->
 <div id="scroll-buttons">
   <button onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">▲</button>
   <button onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="맨 아래로">▼</button>
 </div>
+
+<!-- ★ BLOCK 2: 모바일 TOC 버튼 ★ -->
+<button id="mobile-toc-btn">📖 목차 보기</button>
+
+<script>
+// ===== SAMANTHA BOOKS JS v3 (중복 제거 클린 버전) =====
+
+function handleLockedClick(e) {
+  if (e) e.preventDefault();
+  alert("해당 챕터는 회원 전용입니다.\n무료 회원가입 후 계속 읽으실 수 있습니다. 💖");
+  window.location.href = "join.html";
+}
+
+function switchSection() {
+  const hash = window.location.hash || '#cover';
+  const targetId = hash.substring(1);
+  const sections = document.querySelectorAll('.chapter-section');
+  let found = false;
+  sections.forEach(sec => {
+    if (sec.id === targetId) { sec.classList.add('active'); found = true; }
+    else { sec.classList.remove('active'); }
+  });
+  if (!found && sections.length > 0) sections[0].classList.add('active');
+  document.querySelectorAll('.toc-sub-item').forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === hash);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+window.addEventListener('hashchange', switchSection);
+window.addEventListener('DOMContentLoaded', switchSection);
+
+// 스크롤 버튼 표시 (div가 먼저 DOM에 있으므로 항상 찾아짐)
+const scrollBtns = document.getElementById('scroll-buttons');
+window.addEventListener('scroll', () => {
+  if (scrollBtns) {
+    if (window.scrollY > 300) scrollBtns.classList.add('visible');
+    else scrollBtns.classList.remove('visible');
+  }
+});
+
+// 햄버거 메뉴 (mobileOverlay)
+const hamburger = document.getElementById('hamburger');
+const mobileOverlay = document.getElementById('mobileOverlay');
+if (hamburger && mobileOverlay) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    mobileOverlay.classList.toggle('active');
+    document.body.style.overflow = mobileOverlay.classList.contains('active') ? 'hidden' : '';
+  });
+  mobileOverlay.addEventListener('click', (e) => {
+    if (e.target === mobileOverlay) {
+      hamburger.classList.remove('active');
+      mobileOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+}
+
+// 모바일 TOC
+const mobileTocBtn = document.getElementById('mobile-toc-btn');
+const sidebarToc = document.getElementById('sidebar-toc');
+const mobileTocClose = document.getElementById('mobile-toc-close');
+if (mobileTocBtn && sidebarToc && mobileTocClose) {
+  mobileTocBtn.addEventListener('click', () => {
+    sidebarToc.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+  mobileTocClose.addEventListener('click', () => {
+    sidebarToc.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+  sidebarToc.querySelectorAll('a.toc-sub-item').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebarToc.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+}
+</script>
 
 </body>
 </html>
